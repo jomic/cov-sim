@@ -68,6 +68,11 @@ void remove_contact_type(edge_t *e, contact_type c);
 void add_restriction(restriction_t *r, contact_type c);
 
 /*
+	Remove a contact type from a restriction.
+*/
+void remove_restriction(restriction_t *r, contact_type c);
+
+/*
 	Get the probability of an edge transmitting an infection with every
 	contact type on the edge taken into account.
 */
