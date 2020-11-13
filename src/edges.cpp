@@ -43,6 +43,11 @@ void remove_restriction(restriction_t *r, contact_type c) {
 	*r |= static_cast<edge_t>(c);
 }
 
+restriction_t combine_restrictions(restriction_t *a, restriction_t *b) {
+	restriction_t r = *a & *b;
+	return r;
+}
+
 float infection_probability(edge_t *e) {
 	int n = contact_type_count(e);
 	float prob = 1 - pow(1 - g_prob, n);

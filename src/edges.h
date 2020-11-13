@@ -73,6 +73,11 @@ void add_restriction(restriction_t *r, contact_type c);
 void remove_restriction(restriction_t *r, contact_type c);
 
 /*
+	Combine two existing restrictions into a single one.
+*/
+restriction_t combine_restrictions(restriction_t *a, restriction_t *b);
+
+/*
 	Get the probability of an edge transmitting an infection with every
 	contact type on the edge taken into account.
 */
