@@ -56,7 +56,7 @@ float infection_probability(edge_t *e) {
 
 float infection_probability(edge_t *e, restriction_t *r) {
 	edge_t restricted_e = *e & *r;
-	int n = contact_type_count(r);
+	int n = contact_type_count(&restricted_e);
 	float prob = 1 - pow(1 - g_prob, n);
 	return prob;
 }
