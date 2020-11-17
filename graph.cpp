@@ -91,6 +91,10 @@ public:
     return neighbours;
   }
 
+  int node_count() {
+    return offsets.size();
+  }
+
   void print_graph() {
     cout << "Offsets: ";
     for (auto i : offsets) { cout << i << ", "; }
@@ -109,7 +113,11 @@ int main(int argc, char *argv[])
   g.input_from_file("ex_input_1.txt");
   g.print_graph();
   vector<int> n = g.neighbours(0);
-  for (auto i : n) { cout << i << endl; }
+  cout << "Neighbour of node 0: ";
+  for (auto i : n) { cout << i << ", "; }
+  cout << endl;
+  cout << "Number of nodes: " << g.node_count() << endl;
+  
   return 0;
 }
 
