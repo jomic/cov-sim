@@ -4,7 +4,7 @@
 #include "Individual.hpp"
 
 // TODO: Might be a better way to randomize
-Individual::void try_infecting_neighbour(int t, int id, Graph& edges) {
+void Individual::try_infecting_neighbour(int t, int id, Graph& edges) {
   Individual n = edges.get_node(id);
   if (n.is_susceptible(t)) {
     float roll = (float)rand() / (float)RAND_MAX;

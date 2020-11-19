@@ -1,5 +1,6 @@
 // CRS
 
+#include "Individual.hpp"
 #include "Graph.hpp"
 #include <vector>
 #include <string>
@@ -25,9 +26,6 @@ vector<string> split (string s, string delimiter) {
   return res;
 }
 
-
-Individual::Individual(int id, int s) : id(id), susceptibility(s) {}
-
 Relation::Relation(int d) : distance(d) {}
 
 void Graph::input_from_file(string file_name) {
@@ -45,7 +43,7 @@ void Graph::input_from_file(string file_name) {
         if (!first) {
           first = true;
           // note: hardcoded susceptibility
-          node_values.push_back(Individual(stoi(i), 1));
+          node_values.push_back(Individual(stoi(i)));
         } else {
           edges.push_back(stoi(i));
             
@@ -74,12 +72,12 @@ vector<int> Graph::neighbours(int id) {
   return neighbours;
 }
 
-int Graph::get_node_status(int id) {
-  return node_values[offsets[id]].status;
-}
-
 int Graph::node_count() {
   return offsets.size();
+}
+
+Individual Graph::get_node(int id) {
+  return node_values[id];
 }
 
 void Graph::print_graph() {
@@ -101,7 +99,6 @@ int main(int argc, char *argv[])
   for (auto i : n) { cout << i << ", "; }
   cout << endl;
   cout << "Number of nodes: " << g.node_count() << endl;
-  cout << "Status of node 0: " << g.get_node_status(0) << endl;
   
   return 0;
 }
