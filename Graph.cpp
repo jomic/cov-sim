@@ -88,19 +88,3 @@ void Graph::print_graph() {
   for (auto i : edges) { cout << i << ", "; }
   cout << endl;
 }
-
-int main(int argc, char *argv[])
-{
-  Graph g;
-  g.input_from_file("ex_input_1.txt");
-  g.print_graph();
-  vector<int> n = g.neighbours(0);
-  cout << "Neighbour of node 0: ";
-  for (auto i : n) { cout << i << ", "; }
-  cout << endl;
-  cout << "Number of nodes: " << g.node_count() << endl;
-  
-  return 0;
-}
-
-
