@@ -3,17 +3,9 @@
 
 #include <vector>
 #include <string>
+#include "Individual.hpp"
 
 using namespace std;
-
-class Individual {
-public:
-  int id;
-  int susceptibility;
-  int status = 0;
-
-  Individual(int id, int s);
-};
 
 class Relation {
 public:
@@ -33,9 +25,9 @@ public:
 
   vector<int> neighbours(int id);
 
-  int get_node_status(int id);
-
   int node_count();
+
+  Individual get_node(int id);
 
   void print_graph();
 };

@@ -1,5 +1,6 @@
 #pragma once
-#include "Graph.hpp"
+
+class Graph;
 
 class Individual {
 private:
