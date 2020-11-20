@@ -3,10 +3,11 @@
 #include "Graph.hpp"
 #include "Individual.hpp"
 #include "Results.hpp"
+#include <iostream>
 
 // TODO: Might be a better way to randomize
 void Individual::try_infecting_neighbour(int t, int id, Graph& edges) {
-  Individual n = edges.get_node(id);
+  Individual& n = edges.node_values[id];
   if (n.is_susceptible(t)) {
     float roll = (float)rand() / (float)RAND_MAX;
     if (roll < n.susceptibility)
@@ -18,7 +19,7 @@ Individual::Individual(int id) {
   s = true;
   i = false;
   r = false;
-  susceptibility = 0.01f;
+  susceptibility = 0.1f;
   infected_on = -1;
 }
 
@@ -31,6 +32,7 @@ bool Individual::is_susceptible(int t) {
 }
 
 void Individual::infect(int t) {
+  std::cout << "Getting infected on " << t << "\n";
   if (s) {
     s = false;
     i = true;
@@ -42,13 +44,13 @@ void Individual::try_infecting_neighbours(int t, Graph& edges) {
   if (!is_infected(t))
     return;
   std::vector<int> ns = edges.neighbours(id);
-  for (std::vector<int>::iterator it = ns.begin(); it != ns.end(); it++) {
-    try_infecting_neighbour(t, *it, edges);
+  for (int i = 0; i < ns.size(); i++) {
+    try_infecting_neighbour(t, ns[i], edges);
   }
 }
 
 void Individual::update_infection(int t, int d) {
-  if (i && d < t - infected_on) {
+  if (i && infected_on + d < t) {
     i = false;
     r = true;
   }
