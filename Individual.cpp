@@ -40,7 +40,7 @@ void Individual::infect(int t) {
 void Individual::try_infecting_neighbours(int t, Graph& edges) {
   if (!is_infected(t))
     return;
-  std::vector<int> ns = edges.get_neighbours(id);
+  std::vector<int> ns = edges.neighbours(id);
   for (std::vector<int>::iterator it = ns.begin(); it != ns.end(); it++) {
     try_infecting_neighbour(t, *it, edges);
   }
