@@ -13,7 +13,7 @@ void Simulator::iterate(Results& result, Graph& edges, settings_t& settings, int
   int d = settings.d;
   for (int i = 0; i < edges.node_values.size(); i++) {
     Individual &node = edges.node_values[i];
-    node.update_results(result);
+    node.update_results(t, result);
     if (node.is_infected(t)) {
       node.try_infecting_neighbours(t, edges);
       node.update_infection(t, d);

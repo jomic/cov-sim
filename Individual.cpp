@@ -5,15 +5,16 @@
 #include "Results.hpp"
 #include <iostream>
 
-// TODO: Might be a better way to randomize
-void Individual::try_infecting_neighbour(int t, int id, Graph& edges) {
-  Individual& n = edges.node_values[id];
+
+void Individual::try_infecting_neighbour(int t, int target_id, Graph& edges) {
+  Individual& n = edges.node_values[target_id];
   if (n.is_susceptible(t)) {
     float roll = (float)rand() / (float)RAND_MAX;
     if (roll < n.susceptibility)
       n.infect(t);
   }
 }
+
 Individual::Individual(int id) {
   this->id = id;
   s = true;
@@ -32,7 +33,6 @@ bool Individual::is_susceptible(int t) {
 }
 
 void Individual::infect(int t) {
-  std::cout << "Getting infected on " << t << "\n";
   if (s) {
     s = false;
     i = true;
@@ -56,8 +56,8 @@ void Individual::update_infection(int t, int d) {
   }
 }
 
-void Individual::update_results(Results& results) {
-  if (s)
+void Individual::update_results(int t, Results& results) {
+  if (s || (i && t == infected_on))
     results.add_susceptible();
   else if (i)
     results.add_infected();

@@ -15,7 +15,7 @@ private:
   void try_infecting_neighbour(int t, int id, Graph& edges);
 
 public:
-  Individual(int id); // TODO: I assume Graph should be a reference instead?
+  Individual(int id);
 
   /*
     Check if the individual can infect people at time t.
@@ -45,5 +45,5 @@ public:
   /*
     Update the results with the individual.
   */
-  void update_results(Results& results);
+  void update_results(int t, Results& results);
 };
