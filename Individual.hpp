@@ -1,6 +1,7 @@
 #pragma once
 
 class Graph;
+#include "Results.hpp"
 
 class Individual {
 private:
@@ -40,4 +41,9 @@ public:
     Update the individuals infection, given that an infection last for d time steps.
   */
   void update_infection(int t, int d);
+  
+  /*
+    Update the results with the individual.
+  */
+  void update_results(Results& results);
 };

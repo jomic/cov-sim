@@ -2,6 +2,7 @@
 #include <iterator>
 #include "Graph.hpp"
 #include "Individual.hpp"
+#include "Results.hpp"
 
 // TODO: Might be a better way to randomize
 void Individual::try_infecting_neighbour(int t, int id, Graph& edges) {
@@ -51,4 +52,13 @@ void Individual::update_infection(int t, int d) {
     i = false;
     r = true;
   }
+}
+
+void Individual::update_results(Results& results) {
+  if (s)
+    results.add_susceptible();
+  else if (i)
+    results.add_infected();
+  else if (r)
+    results.add_removed();
 }
