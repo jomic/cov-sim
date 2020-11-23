@@ -15,6 +15,7 @@ private:
   void try_infecting_neighbour(int t, int id, Graph& edges);
 
 public:
+  Individual(int id, float susceptibility);
   Individual(int id);
 
   /*

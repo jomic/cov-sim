@@ -3,7 +3,6 @@
 #include "Graph.hpp"
 #include "Individual.hpp"
 #include "Results.hpp"
-#include <iostream>
 
 
 void Individual::try_infecting_neighbour(int t, int target_id, Graph& edges) {
@@ -13,6 +12,15 @@ void Individual::try_infecting_neighbour(int t, int target_id, Graph& edges) {
     if (roll < n.susceptibility)
       n.infect(t);
   }
+}
+
+Individual::Individual(int id, float susceptibility) {
+  this->id = id;
+  this->susceptibility = susceptibility;
+  s = true;
+  i = false;
+  r = false;
+  infected_on = -1;  
 }
 
 Individual::Individual(int id) {
@@ -43,10 +51,9 @@ void Individual::infect(int t) {
 void Individual::try_infecting_neighbours(int t, Graph& edges) {
   if (!is_infected(t))
     return;
-  std::vector<int> ns = edges.neighbours(id);
-  for (int i = 0; i < ns.size(); i++) {
-    try_infecting_neighbour(t, ns[i], edges);
-  }
+  std::vector<int> n_ids = edges.neighbours(id);
+  for (auto n_id : n_ids)
+    try_infecting_neighbour(t, n_id, edges);
 }
 
 void Individual::update_infection(int t, int d) {
