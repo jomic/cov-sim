@@ -62,8 +62,9 @@ vector<int> Graph::neighbours(int id) {
   if (id + 1 < offsets.size()) {
     end = offsets[id + 1];
   } else {
-    end = offsets.size();
+    end = edges.size();
   }
+
 
   for (int i = start; i < end;  i++) {
     neighbours.push_back(edges[i]);
