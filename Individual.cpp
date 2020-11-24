@@ -14,23 +14,16 @@ void Individual::try_infecting_neighbour(int t, int target_id, Graph& edges) {
   }
 }
 
-Individual::Individual(int id, float susceptibility) {
-  this->id = id;
-  this->susceptibility = susceptibility;
+Individual::Individual(int id, float susceptibility)
+  : id(id), susceptibility(susceptibility) {
   s = true;
   i = false;
   r = false;
-  infected_on = -1;  
-}
-
-Individual::Individual(int id) {
-  this->id = id;
-  s = true;
-  i = false;
-  r = false;
-  susceptibility = 0.1f;
   infected_on = -1;
 }
+
+Individual::Individual(int id)
+  : Individual::Individual(id, 0.1f) {}
 
 bool Individual::is_infected(int t) {
   return i && t > infected_on;

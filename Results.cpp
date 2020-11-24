@@ -32,10 +32,10 @@ void Results::prepare_new_result() {
 }
 
 void Results::print() {
-  for (auto it = results.begin(); it != results.end(); ++it)
+  for (auto result : results)
     std::cout
       << "(S, I, R): "
-      << it->s << ",\t"
-      << it->i << ",\t"
-      << it->r << "\n";
+      << result.s << ",\t"
+      << result.i << ",\t"
+      << result.r << "\n";
 }
