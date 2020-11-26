@@ -23,6 +23,8 @@ public:
 
   void input_from_file(string file_name);
 
+  void matrix_graph(int size, int distance);
+
   vector<int> neighbours(int id);
 
   int node_count();

@@ -54,6 +54,45 @@ void Graph::input_from_file(string file_name) {
   }
 }
 
+int get_x(int i, int matrix_size) {
+  return i % matrix_size;
+}
+
+int get_y(int i, int matrix_size) {
+  return i / matrix_size;
+}
+
+int get_index(int x, int y, int matrix_size) {
+  return (matrix_size * y) + x;
+}
+
+void Graph::matrix_graph(int n, int d) {
+
+  for (int i = 0; i < (n * n); ++i) {
+    
+    int node_x = get_x(i, n);
+    int node_y = get_y(i, n);
+
+    int min_x = max(node_x - d, 0);
+    int min_y = max(node_y - d, 0);
+
+    int max_x = min(node_x + d + 1, n);
+    int max_y = min(node_y + d + 1, n);
+
+    offsets.push_back(edges.size());
+    node_values.push_back(Individual(i));
+        
+    for (int y = min_y; y < max_y; ++y) {
+      for (int x = min_x; x < max_x; ++x) {
+        int index = get_index(x, y, n);
+        if (index != i) {
+          edges.push_back(get_index(x, y, n));
+        }
+      }
+    }
+  }
+}
+
 // return neighbours of node id
 vector<int> Graph::neighbours(int id) {
   vector<int> neighbours;
