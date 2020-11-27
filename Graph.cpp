@@ -80,7 +80,7 @@ void Graph::matrix_graph(int n, int d) {
     int max_y = min(node_y + d + 1, n);
 
     offsets.push_back(edges.size());
-    node_values.push_back(Individual(i));
+    node_values.push_back(Individual(i, 0.25 / (((2 * d + 1)^2) - 1)));
         
     for (int y = min_y; y < max_y; ++y) {
       for (int x = min_x; x < max_x; ++x) {
