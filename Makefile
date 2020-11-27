@@ -8,3 +8,6 @@ graphtest: matrix_test.cpp Graph.cpp Simulator.cpp Results.cpp Individual.cpp
 clean:
 	$(RM) #*#
 	$(RM) *.o
+
+plot: graphtest
+	./graphtest

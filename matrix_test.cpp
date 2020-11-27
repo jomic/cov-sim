@@ -29,7 +29,6 @@ int main(int argc, char *argv[]) {
   settings.t_end = t;
 
   Results results = s.simulate(settings, g);
-  results.print();
-  //  g.print_graph();
+  results.save_to_file("data.txt");
   return 0;
 }
