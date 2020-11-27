@@ -1,6 +1,8 @@
 #include <vector>
 #include <iostream>
 #include "Results.hpp"
+#include <string>
+#include <fstream>
 
 void Results::add_susceptible(int n) {
   results.back().s += n;
@@ -38,4 +40,16 @@ void Results::print() {
       << result.s << ",\t"
       << result.i << ",\t"
       << result.r << "\n";
+}
+
+void Results::save_to_file(std::string file_name) {
+  std::ofstream f;
+  f.open(file_name);
+  for (auto result : results) {
+    f <<
+      result.s << " " <<
+      result.i << " " <<
+      result.r << "\n";
+  }
+  f.close();
 }

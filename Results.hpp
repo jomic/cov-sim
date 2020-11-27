@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <string>
 
 struct result_t {
   int s{0};
@@ -19,4 +20,5 @@ public:
   void add_removed();
   void prepare_new_result();
   void print();
+  void save_to_file(std::string file_name);
 };
