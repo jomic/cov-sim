@@ -90,14 +90,14 @@ void infecting(node_t *source, node_t *target, float betaD, int t) {
   }
 }
 
-void spreading(grid_t *grid, int i, int j, int d, float betaD, int t) {
-  // Determine the bounds of d:
-  int d_right = min(j + d + 1, grid->L);
-  int d_top = max(i - d, 0);
-  int d_left = max(j - d, 0);
-  int d_bottom = min(i + d + 1, grid->L);
+void spreading(grid_t *grid, int i, int j, int Dt, float betaD, int t) {
+  // Determine the bounds of Dt:
+  int d_right = min(j + Dt + 1, grid->L);
+  int d_top = max(i - Dt, 0);
+  int d_left = max(j - Dt, 0);
+  int d_bottom = min(i + Dt + 1, grid->L);
 
-  // Call function on each node within d:
+  // Call function on each node within Dt:
   node_t *source = &grid->nodes[grid->L*i + j];
   for (int k = d_top; k < d_bottom; k++) {
     for (int l = d_left; l < d_right; l++) {
@@ -117,14 +117,14 @@ void recovering(node_t *node, int gamma_inv, int t) {
 }
 
 void iterate_for(grid_t *grid, sir_t *sir, int gamma_inv, float betaD,
-    int d, int t, int node_i) {
+    int Dt, int t, int node_i) {
   int i = node_i / grid->L;
   int j = node_i % grid->L;
   node_t *node = &grid->nodes[node_i];
   if (node->i) {
     recovering(node, gamma_inv, t);
     if (node->i && node->timeOfInfect < t) {
-      spreading(grid, i, j, d, betaD, t);
+      spreading(grid, i, j, Dt, betaD, t);
     }
   }
   if (node -> i) sir->n_i++;
@@ -132,9 +132,9 @@ void iterate_for(grid_t *grid, sir_t *sir, int gamma_inv, float betaD,
 }
 
 void iterate(grid_t *grid, sir_t *sir, int gamma_inv, float betaD,
-    int d, int t) {
+    int Dt, int t) {
   for (int node_i = 0; node_i < grid->N; node_i++) {
-    iterate_for(grid, sir, gamma_inv, betaD, d, t, node_i);
+    iterate_for(grid, sir, gamma_inv, betaD, Dt, t, node_i);
   }
   sir->n_r = grid->N - sir->n_i - sir->n_s;
 }
@@ -155,8 +155,8 @@ sir_t *simulate(sir_t *sirs, grid_t *grid, int gamma_inv, float betaD, int D0,
     int T0, int T) {
   for (int t = 1; t <= T; t++) {
     const float lambda = 2.5;
-    int d = t < T0 ? D0 : round((float) D0*exp((T0 - t)/lambda));
-    iterate(grid,&sirs[t],gamma_inv, betaD, d, t);
+    int Dt = t < T0 ? D0 : round((float) D0*exp((T0 - t)/lambda));
+    iterate(grid,&sirs[t],gamma_inv, betaD, Dt, t);
     plot_sir(&sirs[t], grid->N, t);
   }
   return sirs;
@@ -171,7 +171,7 @@ void omp_cores() {
 }
 
 int main() {
-  int L = 7, gamma_inv = 14, D0 = 2, T0 = 50, T = 50;
+  int L = 7, gamma_inv = 14, D0 = 2, T0 = 10, T = 50;
   float betaC = 0.25, betaD = betaC/((2*D0+1)*(2*D0+1) - 1);
   // betaD = 0.25;
   omp_set_num_threads(2);
