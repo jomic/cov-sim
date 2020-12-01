@@ -3,15 +3,15 @@
 # Copyright (c) 2020 group CovSim2: Henrik Schulze,
 # Christopher Rydell, Jonatan Michalak, Amina Manafli, Wenhao Zhu.
 COMPILER=g++ -c
-CFLAGS= -Wall -g -fopenmp -o
+COMPILE_FLAGS= -Wall -g -fopenmp -o
 LINKER=g++
-LFLAGS= -fopenmp -o
+LINK_FLAGS= -fopenmp -o
 
 obj/%.o: src/%.cpp
-	$(COMPILER) $(CFLAGS) $@ $?
+	$(COMPILER) $(COMPILE_FLAGS) $@ $?
 
 bin/%: obj/%.o
-	$(LINKER) $(LFLAGS) $@ $?
+	$(LINKER) $(LINK_FLAGS) $@ $?
 
 # Run any program binary:
 %: bin/%
@@ -24,8 +24,7 @@ bin/%: obj/%.o
 targets: bin/trivial
 
 clean:
-	rm -fr bin/ obj/
-	mkdir -p bin
-	mkdir -p obj
+	rm -f bin/* obj/*.o
+	mkdir -p bin obj
 
 .PHONY: clean targets
