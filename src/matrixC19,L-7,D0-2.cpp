@@ -54,7 +54,7 @@ void infect_initial(sir_t *sir, grid_t *grid) {
   sir->n_i = 4;
   sir->n_s -= 4;
   // srand(time(0));
-  for (int i = 0; i < 4; i++) {infect(&grid->nodes[rand() % grid->N],0);}
+  for (int i = 0; i < 4; i++) {infect(&grid->nodes[rand()%grid->N],0);}
 }
 
 sir_t *init_sirs(grid_t *grid, int gamma_inv, float betaD, int D0,
@@ -151,13 +151,14 @@ void plot_sir(sir_t *sir, int N, int t) {
   cout << setw(spcs) << setfill(' ') << sir->n_r << "\n";
 }
 
-sir_t *simulate(sir_t *sirs, grid_t *grid, int gamma_inv, float betaD, int D0,
-    int T0, int T) {
+sir_t *simulate(sir_t *sirs, grid_t *grid, int gamma_inv, float betaD,
+    int D0, int T0, int T) {
   for (int t = 1; t <= T; t++) {
     const float lambda = 2.5;
     int Dt = t < T0 ? D0 : round((float) D0*exp((T0 - t)/lambda));
     iterate(grid,&sirs[t],gamma_inv, betaD, Dt, t);
     plot_sir(&sirs[t], grid->N, t);
+    if (grid->L<71 && t==30) {plot_grid(grid, grid->L);} // 30 = arbitrary
   }
   return sirs;
 }
@@ -171,7 +172,7 @@ void omp_cores() {
 }
 
 int main() {
-  int L = 7, gamma_inv = 14, D0 = 2, T0 = 10, T = 50;
+  int L = 7, gamma_inv = 14, D0 = 2, T0 = 50, T = 50;
   float betaC = 0.25, betaD = betaC/((2*D0+1)*(2*D0+1) - 1);
   // betaD = 0.25;
   omp_set_num_threads(2);
@@ -179,7 +180,7 @@ int main() {
 
   grid_t *grid = create_grid(L);
   sir_t *sirs = init_sirs(grid, gamma_inv, betaD, D0, T0, T);
-  if (L<71) plot_grid(grid, L);
+  if (L<71) {plot_grid(grid, L);}
   plot_sir(&sirs[0], grid->N, 0);
   sirs = simulate(sirs, grid, gamma_inv, betaD, D0, T0, T);
   // plot_sirs(sirs, grid, T);
