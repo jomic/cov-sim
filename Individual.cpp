@@ -3,19 +3,22 @@
 #include "Graph.hpp"
 #include "Individual.hpp"
 #include "Results.hpp"
+#include "Group.hpp"
 
+const group_t Individual::default_group;
 
 void Individual::try_infecting_neighbour(int t, int target_id, Graph& edges) {
   Individual& n = edges.node_values[target_id];
   if (n.is_susceptible(t)) {
     float roll = (float)rand() / (float)RAND_MAX;
-    if (roll < n.susceptibility)
+    float risk = group.p_i * n.group.s;
+    if (roll < risk)
       n.infect(t);
   }
 }
 
-Individual::Individual(int id, float susceptibility)
-  : id(id), susceptibility(susceptibility) {
+Individual::Individual(int id, const group_t& group)
+  : id(id), group(group) {
   s = true;
   i = false;
   r = false;
@@ -23,7 +26,7 @@ Individual::Individual(int id, float susceptibility)
 }
 
 Individual::Individual(int id)
-  : Individual::Individual(id, 0.1f) {}
+  : Individual::Individual(id, Individual::default_group) {}
 
 bool Individual::is_infected(int t) {
   return i && t > infected_on;
