@@ -2,6 +2,7 @@
 
 class Graph;
 #include "Results.hpp"
+#include "Group.hpp"
 
 class Individual {
 private:
@@ -9,15 +10,16 @@ private:
   bool s;
   bool i;
   bool r;
-  float susceptibility;
   int infected_on;
+  const group_t &group;
+  static const group_t default_group;
 
   void try_infecting_neighbour(int t, int id, Graph& edges);
 
 public:
-  Individual(int id, float susceptibility);
+  Individual(int id, const group_t& group);
   Individual(int id);
-
+  
   /*
     Check if the individual can infect people at time t.
   */
