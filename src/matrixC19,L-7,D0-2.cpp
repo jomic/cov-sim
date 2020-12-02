@@ -9,7 +9,7 @@
 using namespace std;
 
 struct node_t {
-  unsigned char s:1, i:1, r:1, timeOfInfect:8;
+  unsigned char s:1, i:1, r:1, infected_on:8;
 };
 
 struct grid_t {
@@ -18,14 +18,14 @@ struct grid_t {
 };
 
 struct result_t {
-  int n_s, n_i, n_r;
+int s, i, r;
 };
 
 void init_node(node_t *node) {
   node->s = true;
   node->i = false;
   node->r = false;
-  node->timeOfInfect = 255;
+  node->infected_on = 255;
 }
 
 // Create a grid for the infection to spread in:
@@ -47,12 +47,12 @@ void destroy_grid(grid_t *grid) {
 void infect(node_t *target, int t) {
   target->s = false;
   target->i = true;
-  target->timeOfInfect = t;
+  target->infected_on = t;
 }
 
 void infect_initial(int infected_at_start, result_t *result, grid_t *grid) {
-  result->n_i = infected_at_start;
-  result->n_s -= infected_at_start;
+  result->i = infected_at_start;
+  result->s -= infected_at_start;
   srand(time(NULL));
   for (int i = 0; i < infected_at_start; i++) {
     infect(&grid->nodes[rand()%grid->N],0);
@@ -62,9 +62,9 @@ void infect_initial(int infected_at_start, result_t *result, grid_t *grid) {
 result_t *init_results(int infected_at_start, grid_t *grid, int gamma_inv,
     float betaD, int D0, int T0, int T) {
   result_t *results = (result_t *) calloc(T + 1, sizeof(result_t));
-  results[0].n_i = 0;
-  results[0].n_s = grid->N;
-  results[0].n_r = 0;
+  results[0].i = 0;
+  results[0].s = grid->N;
+  results[0].r = 0;
   infect_initial(infected_at_start, &results[0], grid);
   return results;
 }
@@ -85,14 +85,14 @@ void plot_grid(grid_t *grid, int L) {
   cout << "\n\n";
 }
 
-void infecting(node_t *source, node_t *target, float betaD, int t) {
+void try_infecting(node_t *source, node_t *target, float betaD, int t) {
   if (source != target && target->s) {
     float roll = (float) rand() / (float) RAND_MAX;
     if (roll < betaD) {infect(target, t);}
   }
 }
 
-void spreading(grid_t *grid, int i, int j, int Dt, float betaD, int t) {
+void try_spreading(grid_t *grid, int i, int j, int Dt, float betaD, int t) {
   // Determine the bounds of Dt:
   int d_right = min(j + Dt + 1, grid->L);
   int d_top = max(i - Dt, 0);
@@ -104,7 +104,7 @@ void spreading(grid_t *grid, int i, int j, int Dt, float betaD, int t) {
   for (int k = d_top; k < d_bottom; k++) {
     for (int l = d_left; l < d_right; l++) {
       node_t *target = &grid->nodes[grid->L*k + l];
-      infecting(source, target, betaD, t);
+      try_infecting(source, target, betaD, t);
     }
   }
 }
@@ -115,7 +115,7 @@ void recover(node_t *node) {
 }
 
 void recovering(node_t *node, int gamma_inv, int t) {
-  if (node->timeOfInfect + gamma_inv < t) {recover(node);}
+  if (node->infected_on + gamma_inv < t) {recover(node);}
 }
 
 void iterate_for(grid_t *grid, result_t *result, int gamma_inv, float betaD,
@@ -125,12 +125,12 @@ void iterate_for(grid_t *grid, result_t *result, int gamma_inv, float betaD,
   node_t *node = &grid->nodes[node_i];
   if (node->i) {
     recovering(node, gamma_inv, t);
-    if (node->i && node->timeOfInfect < t) {
-      spreading(grid, i, j, Dt, betaD, t);
+    if (node->i && node->infected_on < t) {
+      try_spreading(grid, i, j, Dt, betaD, t);
     }
   }
-  if (node -> i) result->n_i++;
-  else if (node->s) {result->n_s++;}
+  if (node -> i) result->i++;
+  else if (node->s) {result->s++;}
 }
 
 void iterate(grid_t *grid, result_t *result, int gamma_inv, float betaD,
@@ -138,19 +138,19 @@ void iterate(grid_t *grid, result_t *result, int gamma_inv, float betaD,
   for (int node_i = 0; node_i < grid->N; node_i++) {
     iterate_for(grid, result, gamma_inv, betaD, Dt, t, node_i);
   }
-  result->n_r = grid->N - result->n_i - result->n_s;
+  result->r = grid->N - result->i - result->s;
 }
 
 void plot_result(result_t *result, int N, int t) {
   const int WDTH = 100, spcs = 8;
-  for (int i = 0; i < round(WDTH*result->n_i/N); i++) {cout << "I";}
-  int n_s_t = WDTH - round(WDTH*result->n_i/N) - round(WDTH*result->n_r/N);
+  for (int i = 0; i < round(WDTH*result->i/N); i++) {cout << "I";}
+  int n_s_t = WDTH - round(WDTH*result->i/N) - round(WDTH*result->r/N);
   for (int i = 0; i < n_s_t; i++) {cout << " ";}
-  for (int i = 0; i < round(WDTH*result->n_r/N); i++) {cout << "R";}
+  for (int i = 0; i < round(WDTH*result->r/N); i++) {cout << "R";}
   cout << "| i s r(" << setw(3) << setfill(' ') << t << "): ";
-  cout << setw(spcs) << setfill(' ') << result->n_i;
-  cout << setw(spcs) << setfill(' ') << result->n_s;
-  cout << setw(spcs) << setfill(' ') << result->n_r << "\n";
+  cout << setw(spcs) << setfill(' ') << result->i;
+  cout << setw(spcs) << setfill(' ') << result->s;
+  cout << setw(spcs) << setfill(' ') << result->r << "\n";
 }
 
 result_t *simulate(result_t *results, grid_t *grid, int gamma_inv, float betaD,
@@ -160,7 +160,7 @@ result_t *simulate(result_t *results, grid_t *grid, int gamma_inv, float betaD,
     int Dt = t < T0 ? D0 : round((float) D0*exp((T0 - t)/lambda));
     iterate(grid,&results[t],gamma_inv, betaD, Dt, t);
     plot_result(&results[t], grid->N, t);
-    if (grid->L<71 && t==20) {plot_grid(grid, grid->L);} // 30 = arbitrary
+    // if (grid->L<71 && t==20) {plot_grid(grid, grid->L);} // 30 = arbitrary
   }
   return results;
 }
@@ -174,10 +174,9 @@ void omp_cores() {
 }
 
 int main() {
-  int infected_at_start = 1, L = 7, gamma_inv = 14, D0 = 2, T0 = 80, T = 80;
+  int infected_at_start = 4, L = 7, gamma_inv = 14, D0 = 2, T0 = 60, T = 60;
   float betaC = 0.25, betaD = betaC/((2*D0+1)*(2*D0+1));
   // betaD = 0.25;
-  omp_set_num_threads(2);
   omp_cores();
 
   grid_t *grid = create_grid(L);
@@ -186,7 +185,7 @@ int main() {
   if (L<71) {plot_grid(grid, L);} // The grid BEFORE the simulation.
   plot_result(&results[0], grid->N, 0);
   results = simulate(results, grid, gamma_inv, betaD, D0, T0, T);
-  if (L<71) plot_grid(grid, L); // The grid AFTER the simulation.
+  // if (L<71) plot_grid(grid, L); // The grid AFTER the simulation.
   // plot_results(results, grid->N, T); // Plot results for ALL time steps.
 
   free(results);
