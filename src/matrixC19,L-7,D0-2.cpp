@@ -17,7 +17,7 @@ struct grid_t {
   node_t *nodes;
 };
 
-struct sir_t {
+struct result_t {
   int n_s, n_i, n_r;
 };
 
@@ -50,21 +50,23 @@ void infect(node_t *target, int t) {
   target->timeOfInfect = t;
 }
 
-void infect_initial(sir_t *sir, grid_t *grid) {
-  sir->n_i = 4;
-  sir->n_s -= 4;
-  // srand(time(0));
-  for (int i = 0; i < 4; i++) {infect(&grid->nodes[rand()%grid->N],0);}
+void infect_initial(int infected_at_start, result_t *result, grid_t *grid) {
+  result->n_i = infected_at_start;
+  result->n_s -= infected_at_start;
+  srand(time(NULL));
+  for (int i = 0; i < infected_at_start; i++) {
+    infect(&grid->nodes[rand()%grid->N],0);
+  }
 }
 
-sir_t *init_sirs(grid_t *grid, int gamma_inv, float betaD, int D0,
-    int T0, int T) {
-  sir_t *sirs = (sir_t *) calloc(T + 1, sizeof(sir_t));
-  sirs[0].n_i = 0;
-  sirs[0].n_s = grid->N;
-  sirs[0].n_r = 0;
-  infect_initial(&sirs[0],grid);
-  return sirs;
+result_t *init_results(int infected_at_start, grid_t *grid, int gamma_inv,
+    float betaD, int D0, int T0, int T) {
+  result_t *results = (result_t *) calloc(T + 1, sizeof(result_t));
+  results[0].n_i = 0;
+  results[0].n_s = grid->N;
+  results[0].n_r = 0;
+  infect_initial(infected_at_start, &results[0], grid);
+  return results;
 }
 
 void plot_grid(grid_t *grid, int L) {
@@ -116,7 +118,7 @@ void recovering(node_t *node, int gamma_inv, int t) {
   if (node->timeOfInfect + gamma_inv < t) {recover(node);}
 }
 
-void iterate_for(grid_t *grid, sir_t *sir, int gamma_inv, float betaD,
+void iterate_for(grid_t *grid, result_t *result, int gamma_inv, float betaD,
     int Dt, int t, int node_i) {
   int i = node_i / grid->L;
   int j = node_i % grid->L;
@@ -127,44 +129,44 @@ void iterate_for(grid_t *grid, sir_t *sir, int gamma_inv, float betaD,
       spreading(grid, i, j, Dt, betaD, t);
     }
   }
-  if (node -> i) sir->n_i++;
-  else if (node->s) {sir->n_s++;}
+  if (node -> i) result->n_i++;
+  else if (node->s) {result->n_s++;}
 }
 
-void iterate(grid_t *grid, sir_t *sir, int gamma_inv, float betaD,
+void iterate(grid_t *grid, result_t *result, int gamma_inv, float betaD,
     int Dt, int t) {
   for (int node_i = 0; node_i < grid->N; node_i++) {
-    iterate_for(grid, sir, gamma_inv, betaD, Dt, t, node_i);
+    iterate_for(grid, result, gamma_inv, betaD, Dt, t, node_i);
   }
-  sir->n_r = grid->N - sir->n_i - sir->n_s;
+  result->n_r = grid->N - result->n_i - result->n_s;
 }
 
-void plot_sir(sir_t *sir, int N, int t) {
+void plot_result(result_t *result, int N, int t) {
   const int WDTH = 100, spcs = 8;
-  for (int i = 0; i < round(WDTH*sir->n_i/N); i++) {cout << "I";}
-  int n_s_t = WDTH - round(WDTH*sir->n_i/N) - round(WDTH*sir->n_r/N);
+  for (int i = 0; i < round(WDTH*result->n_i/N); i++) {cout << "I";}
+  int n_s_t = WDTH - round(WDTH*result->n_i/N) - round(WDTH*result->n_r/N);
   for (int i = 0; i < n_s_t; i++) {cout << " ";}
-  for (int i = 0; i < round(WDTH*sir->n_r/N); i++) {cout << "R";}
+  for (int i = 0; i < round(WDTH*result->n_r/N); i++) {cout << "R";}
   cout << "| i s r(" << setw(3) << setfill(' ') << t << "): ";
-  cout << setw(spcs) << setfill(' ') << sir->n_i;
-  cout << setw(spcs) << setfill(' ') << sir->n_s;
-  cout << setw(spcs) << setfill(' ') << sir->n_r << "\n";
+  cout << setw(spcs) << setfill(' ') << result->n_i;
+  cout << setw(spcs) << setfill(' ') << result->n_s;
+  cout << setw(spcs) << setfill(' ') << result->n_r << "\n";
 }
 
-sir_t *simulate(sir_t *sirs, grid_t *grid, int gamma_inv, float betaD,
+result_t *simulate(result_t *results, grid_t *grid, int gamma_inv, float betaD,
     int D0, int T0, int T) {
   for (int t = 1; t <= T; t++) {
     const float lambda = 2.5;
     int Dt = t < T0 ? D0 : round((float) D0*exp((T0 - t)/lambda));
-    iterate(grid,&sirs[t],gamma_inv, betaD, Dt, t);
-    plot_sir(&sirs[t], grid->N, t);
-    if (grid->L<71 && t==30) {plot_grid(grid, grid->L);} // 30 = arbitrary
+    iterate(grid,&results[t],gamma_inv, betaD, Dt, t);
+    plot_result(&results[t], grid->N, t);
+    if (grid->L<71 && t==20) {plot_grid(grid, grid->L);} // 30 = arbitrary
   }
-  return sirs;
+  return results;
 }
 
-void plot_sirs(sir_t *sirs, grid_t *grid, int T) {
-  for (int t = 0; t <= T; t++) {plot_sir(&sirs[t], grid->N, t);}
+void plot_results(result_t *results, grid_t *grid, int T) {
+  for (int t = 0; t <= T; t++) {plot_result(&results[t], grid->N, t);}
 }
 
 void omp_cores() {
@@ -172,21 +174,22 @@ void omp_cores() {
 }
 
 int main() {
-  int L = 7, gamma_inv = 14, D0 = 2, T0 = 50, T = 50;
-  float betaC = 0.25, betaD = betaC/((2*D0+1)*(2*D0+1) - 1);
+  int infected_at_start = 4, L = 7, gamma_inv = 14, D0 = 2, T0 = 60, T = 60;
+  float betaC = 0.25, betaD = betaC/((2*D0+1)*(2*D0+1));
   // betaD = 0.25;
   omp_set_num_threads(2);
   omp_cores();
 
   grid_t *grid = create_grid(L);
-  sir_t *sirs = init_sirs(grid, gamma_inv, betaD, D0, T0, T);
+  result_t *results
+    = init_results(infected_at_start, grid, gamma_inv, betaD, D0, T0, T);
   if (L<71) {plot_grid(grid, L);}
-  plot_sir(&sirs[0], grid->N, 0);
-  sirs = simulate(sirs, grid, gamma_inv, betaD, D0, T0, T);
-  // plot_sirs(sirs, grid, T);
+  plot_result(&results[0], grid->N, 0);
+  results = simulate(results, grid, gamma_inv, betaD, D0, T0, T);
+  // plot_results(results, grid, T);
   if (L<71) plot_grid(grid, L);
 
-  free(sirs);
+  free(results);
   destroy_grid(grid);
   return EXIT_SUCCESS;
 }
