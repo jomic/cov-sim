@@ -165,8 +165,8 @@ result_t *simulate(result_t *results, grid_t *grid, int gamma_inv, float betaD,
   return results;
 }
 
-void plot_results(result_t *results, grid_t *grid, int T) {
-  for (int t = 0; t <= T; t++) {plot_result(&results[t], grid->N, t);}
+void plot_results(result_t *results, int N, int T) {
+  for (int t = 0; t <= T; t++) {plot_result(&results[t], N, t);}
 }
 
 void omp_cores() {
@@ -174,7 +174,7 @@ void omp_cores() {
 }
 
 int main() {
-  int infected_at_start = 4, L = 7, gamma_inv = 14, D0 = 2, T0 = 60, T = 60;
+  int infected_at_start = 1, L = 7, gamma_inv = 14, D0 = 2, T0 = 80, T = 80;
   float betaC = 0.25, betaD = betaC/((2*D0+1)*(2*D0+1));
   // betaD = 0.25;
   omp_set_num_threads(2);
@@ -183,11 +183,11 @@ int main() {
   grid_t *grid = create_grid(L);
   result_t *results
     = init_results(infected_at_start, grid, gamma_inv, betaD, D0, T0, T);
-  if (L<71) {plot_grid(grid, L);}
+  if (L<71) {plot_grid(grid, L);} // The grid BEFORE the simulation.
   plot_result(&results[0], grid->N, 0);
   results = simulate(results, grid, gamma_inv, betaD, D0, T0, T);
-  // plot_results(results, grid, T);
-  if (L<71) plot_grid(grid, L);
+  if (L<71) plot_grid(grid, L); // The grid AFTER the simulation.
+  // plot_results(results, grid->N, T); // Plot results for ALL time steps.
 
   free(results);
   destroy_grid(grid);
