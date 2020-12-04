@@ -6,7 +6,7 @@ struct result_t {
   int s{0};
   int i{0};
   int r{0};
-};
+  };
 
 class Results {
 private:
@@ -19,6 +19,6 @@ public:
   void add_removed(int n);
   void add_removed();
   void prepare_new_result();
-  void print();
+  void print(int N);
   void save_to_file(std::string file_name);
 };

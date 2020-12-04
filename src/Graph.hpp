@@ -3,7 +3,7 @@
 
 #include <vector>
 #include <string>
-#include "Individual.hpp"
+#include "Agent.hpp"
 
 using namespace std;
 
@@ -19,7 +19,7 @@ public:
   vector<int> offsets;
   vector<int> edges;
   vector<Relation> edge_values;
-  vector<Individual> node_values;
+  vector<Agent> node_values;
 
   void input_from_file(string file_name);
 
@@ -29,7 +29,7 @@ public:
 
   int node_count();
 
-  Individual get_node(int id);
+  Agent get_node(int id);
 
   void print_graph();
 };

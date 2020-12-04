@@ -2,24 +2,22 @@
 
 class Graph;
 #include "Results.hpp"
-#include "Group.hpp"
 
-class Individual {
+class Agent {
 private:
   int id;
   bool s;
   bool i;
   bool r;
+  float susceptibility;
   int infected_on;
-  const group_t &group;
-  static const group_t default_group;
 
   void try_infecting_neighbour(int t, int id, Graph& edges);
 
 public:
-  Individual(int id, const group_t& group);
-  Individual(int id);
-  
+  Agent(int id, float susceptibility);
+  Agent(int id);
+
   /*
     Check if the individual can infect people at time t.
   */
@@ -41,9 +39,9 @@ public:
   void try_infecting_neighbours(int t, Graph& edges);
 
   /*
-    Update the individuals infection, given that an infection last for d time steps.
+    Update the individuals infection, given that an infection last for days_sick time steps.
   */
-  void update_infection(int t, int d);
+  void update_infection(int t, int days_sick);
   
   /*
     Update the results with the individual.

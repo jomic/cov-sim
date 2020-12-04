@@ -19,8 +19,7 @@ int main(int argc, char *argv[]) {
     cout << "Usage: " << argv[0] << " L D0 t\n";
     return 1;
   }
-  
-  srand(time(NULL));
+
   Graph g;
   g.matrix_graph(L, D_zero);
 
