@@ -32,6 +32,6 @@ clean_binaries:
 	rm -f bin/*
 	mkdir -p bin obj
 
-.PHONY: clean_binaries clean_objects clean dependees
+.PHONY: clean_binaries clean_objects clean
 
 .PRECIOUS: bin/trivial bin/cov-sim bin/matrix_test
