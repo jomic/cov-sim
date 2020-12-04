@@ -39,8 +39,6 @@ void Results::prepare_new_result() {
 void Results::print(int N) {
     cout << "\n";
   int T = results.size();
-  // printf("T = %d\n", T);
-  // printf("N = %d\n", N);
   for (int t = 0; t < T; t++) {
     const int WDTH = 100, spcs = 8;
     for (int i = 0; i < round(WDTH*results[t].i/N); i++) {cout << "I";}

@@ -90,7 +90,7 @@ void Graph::matrix_graph(int n, int d) {
   }
 }
 
-// return neighbours of node id
+// Return neighbours of node id:
 vector<int> Graph::neighbours(int id) {
   vector<int> neighbours;
   int start = offsets[id];
