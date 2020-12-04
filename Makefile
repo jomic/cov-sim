@@ -6,28 +6,32 @@ COMPILER=g++ -c
 COMPILE_FLAGS= -Wall -g -fopenmp -o
 LINKER=g++
 LINK_FLAGS= -fopenmp -lstdc++fs -o
+DEPENDEES = obj/Agent.o obj/Graph.o obj/Results.o obj/Simulator.o
 
 obj/%.o: src/%.cpp
 	$(COMPILER) $? $(COMPILE_FLAGS) $@
 
-bin/%: obj/%.o obj/Agent.o obj/Graph.o obj/Results.o obj/Simulator.o
+bin/%: obj/%.o $(DEPENDEES)
 	$(LINKER) $? $(LINK_FLAGS) $@
 
 # Run any program binary:
 %: bin/%
 	time $?
 
-cov-sim: bin/cov-sim
-	time $?
-
 # Run any program with valgrind:
 %_memtest: bin/%
 	valgrind --leak-check=full --track-origins=yes --show-reachable=yes $?
 
-targets: bin/trivial
+clean: clean_binaries clean_objects
 
-clean:
-	rm -f bin/* obj/*.o
+clean_objects:
+	rm -f obj/*.o
 	mkdir -p bin obj
 
-.PHONY: clean targets
+clean_binaries:
+	rm -f bin/*
+	mkdir -p bin obj
+
+.PHONY: clean_binaries clean_objects clean dependees
+
+.PRECIOUS: bin/trivial bin/cov-sim bin/matrix_test

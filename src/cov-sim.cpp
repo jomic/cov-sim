@@ -13,12 +13,11 @@ int main() {
   edges.print_graph();
 
   // Initialize a seed for the randomizer:
-  srand(time(NULL));
+  srand(1);
+  // srand(time(NULL));
 
   Simulator s;
-  // // // settings_t settings;
 
   Results results = s.simulate(edges);
-  // // // Results results = s.simulate(settings, edges);
   results.print(8);
 }

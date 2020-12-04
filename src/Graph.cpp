@@ -1,13 +1,10 @@
-// CRS
-
+#include <fstream>
+#include <iostream>
+#include <string>
+#include <tuple>
+#include <vector>
 #include "Agent.hpp"
 #include "Graph.hpp"
-#include <vector>
-#include <string>
-#include <iostream>
-#include <fstream>
-#include <tuple>
-
 using namespace std;
 
 // https://stackoverflow.com/a/46931770
@@ -80,7 +77,7 @@ void Graph::matrix_graph(int n, int d) {
     int max_y = min(node_y + d + 1, n);
 
     offsets.push_back(edges.size());
-    node_values.push_back(Agent(i, 0.25 / (((2 * d + 1)^2) - 1)));
+    node_values.push_back(Agent(i, 0.25 / (2 * d + 1) / (2 * d + 1)));
         
     for (int y = min_y; y < max_y; ++y) {
       for (int x = min_x; x < max_x; ++x) {
