@@ -6,6 +6,7 @@
 #include <iostream>
 #include <math.h>
 #include <omp.h>
+#include <string>
 using namespace std;
 
 struct node_t {
@@ -50,39 +51,40 @@ void infect(node_t *target, int t) {
   target->infected_on = t;
 }
 
-void infect_initial(int infected_at_start, result_t *result, grid_t *grid) {
-  result->i = infected_at_start;
-  result->s -= infected_at_start;
-  srand(time(NULL));
-  for (int i = 0; i < infected_at_start; i++) {
+void infect_initial(int init_infected, result_t *result, grid_t *grid,
+    bool random_seed) {
+  result->i = init_infected;
+  result->s -= init_infected;
+  if (random_seed) {srand(time(NULL));}
+  for (int i = 0; i < init_infected; i++) {
     infect(&grid->nodes[rand()%grid->N],0);
   }
 }
 
-result_t *init_results(int infected_at_start, grid_t *grid, int days_sick,
-    float betaD, int D0, int T0, int T) {
+result_t *init_results(int init_infected, grid_t *grid, int T,
+    bool random_seed) {
   result_t *results = (result_t *) calloc(T + 1, sizeof(result_t));
   results[0].i = 0;
   results[0].s = grid->N;
   results[0].r = 0;
-  infect_initial(infected_at_start, &results[0], grid);
+  infect_initial(init_infected, &results[0], grid, random_seed);
   return results;
 }
 
 void plot_grid(grid_t *grid, int L) {
-  cout << "\n";
+  cout << endl;
   for (int i = 0; i < L+1; i++) {cout << " -";}
-  cout << "\n";
+  cout << endl;
   for (int i = 0; i < L; i++) {
     cout << "|";
     for (int j=0; j<L; j++) {
       node_t *individ = &grid->nodes[grid->L*i + j];
       cout << " " << (individ->s? " ": (individ->i? "I": "R"));
     }
-    cout << " |\n";
+    cout << " |" << endl;
   }
   for (int i = 0; i < L+1; i++) {cout << " -";}
-  cout << "\n\n";
+  cout << endl << endl;
 }
 
 void try_infecting(node_t *source, node_t *target, float betaD, int t) {
@@ -150,17 +152,17 @@ void plot_result(result_t *result, int N, int t) {
   cout << "| i s r(" << setw(3) << setfill(' ') << t << "): ";
   cout << setw(spcs) << setfill(' ') << result->i;
   cout << setw(spcs) << setfill(' ') << result->s;
-  cout << setw(spcs) << setfill(' ') << result->r << "\n";
+  cout << setw(spcs) << setfill(' ') << result->r << endl;
 }
 
-result_t *simulate(result_t *results, grid_t *grid, int days_sick, float betaD,
-    int D0, int T0, int T) {
+result_t *simulate(result_t *results, grid_t *grid, int days_sick,
+    float betaD, int D0, int T0, int T) {
   for (int t = 1; t <= T; t++) {
     const float lambda = 2.5;
     int Dt = t < T0 ? D0 : round((float) D0*exp((T0 - t)/lambda));
     iterate(grid,&results[t],days_sick, betaD, Dt, t);
     plot_result(&results[t], grid->N, t);
-    // if (grid->L<71 && t==20) {plot_grid(grid, grid->L);} // 30 = arbitrary
+    // if (grid->L<71 && t==20) {plot_grid(grid, grid->L);} // 20 = arbitrary
   }
   return results;
 }
@@ -170,26 +172,44 @@ void plot_results(result_t *results, int N, int T) {
 }
 
 void omp_cores() {
-  cout << "\n" << "omp_get_max_threads: " << omp_get_max_threads() << "\n";
+  cout << endl << "omp_get_max_threads: " << omp_get_max_threads() << endl;
 }
 
-int main() {
-  int infected_at_start = 4, L = 7, days_sick = 14, D0 = 2, T0 = 60, T = 60;
-  float betaC = 0.25, betaD = betaC/((2*D0+1)*(2*D0+1));
-  // betaD = 0.25;
+int main(int argc, char *argv[]) {
   omp_cores();
+  int init_infected = 4, L = 7, days_sick = 14, D0 = 2, T0 = 60, T = 60;
+  float betaC = 0.25;
+  bool random_seed = false;
+
+    printf("argc = %d\n", argc);
+
+  if (argc > 9) {
+    cout << "Usage: " << argv[0] << " L D0 t" << endl;
+    return 1;
+  } else if (argc == 9) {
+    init_infected = stoi(argv[1]);
+    printf("init_infected = %d", init_infected);
+    L             = stoi(argv[2]);
+    days_sick     = stoi(argv[3]);
+    D0            = stoi(argv[4]);
+    T0            = stoi(argv[5]);
+    T             = stoi(argv[6]);
+    betaC         = stof(argv[7]);
+    random_seed   = (string(argv[8]).compare("true") == 0)?true:false;
+  }
+  float betaD = betaC/((2*D0+1)*(2*D0+1));
 
   grid_t *grid = create_grid(L);
-  result_t *results
-    = init_results(infected_at_start, grid, days_sick, betaD, D0, T0, T);
+  result_t *results = init_results(init_infected, grid, T, random_seed);
   if (L<71) {plot_grid(grid, L);} // The grid BEFORE the simulation.
   plot_result(&results[0], grid->N, 0);
   results = simulate(results, grid, days_sick, betaD, D0, T0, T);
-  // if (L<71) plot_grid(grid, L); // The grid AFTER the simulation.
+  if (L<71) plot_grid(grid, L); // The grid AFTER the simulation.
   // plot_results(results, grid->N, T); // Plot results for ALL time steps.
 
   free(results);
   destroy_grid(grid);
   return EXIT_SUCCESS;
 }
-// make clean && make matrixC19,L-7,D0-2
+// make clean_binaries && make matrixC19
+// bin/matrixC19 2 5 14 1 50 50 0.4 true

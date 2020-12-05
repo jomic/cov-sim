@@ -5,13 +5,14 @@
 COMPILER=g++ -c
 COMPILE_FLAGS= -Wall -g -fopenmp -o
 LINKER=g++
-LINK_FLAGS= -fopenmp -o
+LINK_FLAGS= -fopenmp -lstdc++fs -o
+DEPENDEES = obj/Agent.o obj/Graph.o obj/Results.o obj/Simulator.o
 
 obj/%.o: src/%.cpp
-	$(COMPILER) $(COMPILE_FLAGS) $@ $?
+	$(COMPILER) $? $(COMPILE_FLAGS) $@
 
 bin/%: obj/%.o
-	$(LINKER) $(LINK_FLAGS) $@ $?
+	$(LINKER) $? $(LINK_FLAGS) $@
 
 # Run any program binary:
 %: bin/%
@@ -21,10 +22,22 @@ bin/%: obj/%.o
 %_memtest: bin/%
 	valgrind --leak-check=full --track-origins=yes --show-reachable=yes $?
 
-targets: bin/trivial
+bin/matrix_test: obj/matrix_test.o $(DEPENDEES)
+	$(LINKER) $? $(LINK_FLAGS) $@
 
-clean:
-	rm -f bin/* obj/*.o
+bin/cov-sim: obj/cov-sim.o $(DEPENDEES)
+	$(LINKER) $? $(LINK_FLAGS) $@
+
+clean: clean_binaries clean_objects
+
+clean_objects:
+	rm -f obj/*.o
 	mkdir -p bin obj
 
-.PHONY: clean targets
+clean_binaries:
+	rm -f bin/*
+	mkdir -p bin obj
+
+.PHONY: clean_binaries clean_objects clean
+
+.PRECIOUS: bin/trivial bin/matrixC19
