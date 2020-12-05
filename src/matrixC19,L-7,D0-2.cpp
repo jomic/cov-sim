@@ -59,7 +59,7 @@ void infect_initial(int infected_at_start, result_t *result, grid_t *grid) {
   }
 }
 
-result_t *init_results(int infected_at_start, grid_t *grid, int gamma_inv,
+result_t *init_results(int infected_at_start, grid_t *grid, int days_sick,
     float betaD, int D0, int T0, int T) {
   result_t *results = (result_t *) calloc(T + 1, sizeof(result_t));
   results[0].i = 0;
@@ -114,17 +114,17 @@ void recover(node_t *node) {
   node->r = true;
 }
 
-void recovering(node_t *node, int gamma_inv, int t) {
-  if (node->infected_on + gamma_inv < t) {recover(node);}
+void recovering(node_t *node, int days_sick, int t) {
+  if (node->infected_on + days_sick < t) {recover(node);}
 }
 
-void iterate_for(grid_t *grid, result_t *result, int gamma_inv, float betaD,
+void iterate_for(grid_t *grid, result_t *result, int days_sick, float betaD,
     int Dt, int t, int node_i) {
   int i = node_i / grid->L;
   int j = node_i % grid->L;
   node_t *node = &grid->nodes[node_i];
   if (node->i) {
-    recovering(node, gamma_inv, t);
+    recovering(node, days_sick, t);
     if (node->i && node->infected_on < t) {
       try_spreading(grid, i, j, Dt, betaD, t);
     }
@@ -133,10 +133,10 @@ void iterate_for(grid_t *grid, result_t *result, int gamma_inv, float betaD,
   else if (node->s) {result->s++;}
 }
 
-void iterate(grid_t *grid, result_t *result, int gamma_inv, float betaD,
+void iterate(grid_t *grid, result_t *result, int days_sick, float betaD,
     int Dt, int t) {
   for (int node_i = 0; node_i < grid->N; node_i++) {
-    iterate_for(grid, result, gamma_inv, betaD, Dt, t, node_i);
+    iterate_for(grid, result, days_sick, betaD, Dt, t, node_i);
   }
   result->r = grid->N - result->i - result->s;
 }
@@ -153,12 +153,12 @@ void plot_result(result_t *result, int N, int t) {
   cout << setw(spcs) << setfill(' ') << result->r << "\n";
 }
 
-result_t *simulate(result_t *results, grid_t *grid, int gamma_inv, float betaD,
+result_t *simulate(result_t *results, grid_t *grid, int days_sick, float betaD,
     int D0, int T0, int T) {
   for (int t = 1; t <= T; t++) {
     const float lambda = 2.5;
     int Dt = t < T0 ? D0 : round((float) D0*exp((T0 - t)/lambda));
-    iterate(grid,&results[t],gamma_inv, betaD, Dt, t);
+    iterate(grid,&results[t],days_sick, betaD, Dt, t);
     plot_result(&results[t], grid->N, t);
     // if (grid->L<71 && t==20) {plot_grid(grid, grid->L);} // 30 = arbitrary
   }
@@ -174,17 +174,17 @@ void omp_cores() {
 }
 
 int main() {
-  int infected_at_start = 4, L = 7, gamma_inv = 14, D0 = 2, T0 = 60, T = 60;
+  int infected_at_start = 4, L = 7, days_sick = 14, D0 = 2, T0 = 60, T = 60;
   float betaC = 0.25, betaD = betaC/((2*D0+1)*(2*D0+1));
   // betaD = 0.25;
   omp_cores();
 
   grid_t *grid = create_grid(L);
   result_t *results
-    = init_results(infected_at_start, grid, gamma_inv, betaD, D0, T0, T);
+    = init_results(infected_at_start, grid, days_sick, betaD, D0, T0, T);
   if (L<71) {plot_grid(grid, L);} // The grid BEFORE the simulation.
   plot_result(&results[0], grid->N, 0);
-  results = simulate(results, grid, gamma_inv, betaD, D0, T0, T);
+  results = simulate(results, grid, days_sick, betaD, D0, T0, T);
   // if (L<71) plot_grid(grid, L); // The grid AFTER the simulation.
   // plot_results(results, grid->N, T); // Plot results for ALL time steps.
 
