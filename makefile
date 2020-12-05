@@ -14,6 +14,9 @@ obj/%.o: src/%.cpp
 bin/%: obj/%.o $(DEPENDEES)
 	$(LINKER) $? $(LINK_FLAGS) $@
 
+bin/%: obj/%.o
+	$(LINKER) $? $(LINK_FLAGS) $@
+
 # Run any program binary:
 %: bin/%
 	time $?
@@ -34,4 +37,4 @@ clean_binaries:
 
 .PHONY: clean_binaries clean_objects clean
 
-.PRECIOUS: bin/trivial bin/cov-sim bin/matrix_test
+.PRECIOUS: bin/trivial bin/cov-sim bin/matrix_test bin/matrixC19
