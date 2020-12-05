@@ -8,6 +8,9 @@
 *.exe
 bin/*
 
+# Object files:
+obj/*
+
 # Node Modules:
 node_modules
 
