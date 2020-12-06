@@ -77,8 +77,12 @@ void Individual::update_infection(int t) {
 void Individual::update_results(int t, Results& results) {
   if (s || (i && t == infected_on))
     results.add_susceptible();
+  else if (a)
+    results.add_asymptomatic();
   else if (i)
     results.add_infected();
+  else if (v)
+    results.add_vaccinated();
   else if (r)
     results.add_removed();
 }
