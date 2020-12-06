@@ -15,19 +15,23 @@ def main():
     data = read_data()
 
     s = list( map(itemgetter(0), data ))
-    i = list( map(itemgetter(1), data ))
-    r = list( map(itemgetter(2), data ))
+    a = list( map(itemgetter(1), data ))
+    i = list( map(itemgetter(2), data ))
+    v = list( map(itemgetter(3), data ))
+    r = list( map(itemgetter(4), data ))
 
     t = [i for i in range(len(data))]
     
     fig, ax = plt.subplots()
     ax.plot(t, s, color='b')
+    ax.plot(t, a, color='b')
     ax.plot(t, i, color='r')
+    ax.plot(t, v, color='b')
     ax.plot(t, r, color='g')
     ax.set_xlabel('t (days)')  # Add an x-label to the axes.
     ax.set_ylabel('population')  # Add a y-label to the axes.
-    ax.set_title("SIR Model")  # Add a title to the axes.
-    ax.legend(['Susceptible', 'Infectious', 'Removed'])  # Add a legend.
+    ax.set_title("SAIVR Model")  # Add a title to the axes.
+    ax.legend(['Susceptible', 'Asymptomatic', 'Infectious', 'Vaccinated','Removed'])  # Add a legend.
     plt.show()
 
 if __name__ == "__main__":
