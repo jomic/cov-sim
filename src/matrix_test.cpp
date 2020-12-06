@@ -10,7 +10,7 @@ int main(int argc, char *argv[]) {
   int D_zero = 5;
   // // // int t = 50;
 
-  if (argc == 4) {
+  if (argc == 3) {
     L = stoi(argv[1]);
     D_zero = stoi(argv[2]);
     // t = stoi(argv[3]);
@@ -18,6 +18,9 @@ int main(int argc, char *argv[]) {
     cout << "Usage: " << argv[0] << " L D0 t\n";
     return 1;
   }
+
+
+
 
   srand(1);
   // srand(time(NULL));

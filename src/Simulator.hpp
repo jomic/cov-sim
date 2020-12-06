@@ -4,18 +4,38 @@
 
 class Simulator {
 private:
-  int initial_infections{1}; // How many are infected initially
-  int days_sick{14};         // How long is one person sick
-  int t_end{60};             // How many steps should the simulation iterate
+/**
+  @initial_infections number of initially infected agents.
+  @L                  the square root of the population.
+  @days_sick          how long is one person sick.
+  @D0                 the square root of the population.
+  @T0                 the time step when a lockdown is put forth.
+  @t_end              number of time steps the simulation iterates.
+  @betaC              probability that Covid-19 transmits when two people meet.
+  @random_seed        true if the seed is random, else false.
+*/ // Parameters set to their default values:
+  int initial_infections = 4;
+  int L = 7;
+  int days_sick = 14;
+  int D0 = 2;
+  int T0 = 60;
+  int t_end = 60;
+  float betaC = 0.25;
+  bool random_seed = false;
+
+  /**
+    Infects n agents at time t=0.
+   */
   void infect_initial(Graph& edges, int n);
+
 public:
   /**
-    Carry out a single iteration at time t.
+    Performs a single iteration at time t.
    */
   void iterate(Results& results, Graph& edges, int t);
 
   /**
-    Run a simulation for a given set of settings with some specified graph.
+    Runs a simulation for given settings for the specified graph `edges`.
    */
   Results simulate(Graph& edges);
 };
