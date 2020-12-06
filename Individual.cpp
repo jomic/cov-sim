@@ -36,7 +36,7 @@ Individual::Individual(int id)
   : Individual::Individual(id, Individual::default_group) {}
 
 bool Individual::is_infected(int t) {
-  return i && t > infected_on;
+  return (i || a) && t > infected_on;
 }
 
 bool Individual::is_susceptible(int t) {
