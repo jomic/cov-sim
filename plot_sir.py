@@ -24,9 +24,9 @@ def main():
     
     fig, ax = plt.subplots()
     ax.plot(t, s, color='b')
-    ax.plot(t, a, color='b')
+    ax.plot(t, a, color='yellow')
     ax.plot(t, i, color='r')
-    ax.plot(t, v, color='b')
+    ax.plot(t, v, color='magenta')
     ax.plot(t, r, color='g')
     ax.set_xlabel('t (days)')  # Add an x-label to the axes.
     ax.set_ylabel('population')  # Add a y-label to the axes.
