@@ -8,7 +8,9 @@ class Individual {
 private:
   int id;
   bool s;
+  bool a;
   bool i;
+  bool v;
   bool r;
   int infected_on;
   const group_t &group;
@@ -43,7 +45,7 @@ public:
   /*
     Update the individuals infection, given that an infection last for d time steps.
   */
-  void update_infection(int t, int d);
+  void update_infection(int t);
   
   /*
     Update the results with the individual.

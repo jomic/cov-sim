@@ -9,5 +9,6 @@ struct group_t {
   float p_v{0.9f};   // Vaccine effectiveness
   int d_v{28};       // Vaccine duration
   int d_i{14};       // Infection duration
-  int d_ai{14};      // Infection duration (asymptopmatic)  
+  int d_ai{14};      // Infection duration (asymptopmatic)
+  float a_p{0.1f};   // Chance to be asymptomatic
 };
