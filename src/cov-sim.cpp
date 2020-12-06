@@ -1,9 +1,9 @@
-#include <iostream>
 #include <experimental/filesystem>
+#include <iostream>
 #include <unistd.h>
-#include "Simulator.hpp"
-#include "Results.hpp"
 #include "Graph.hpp"
+#include "Results.hpp"
+#include "Simulator.hpp"
 using namespace std;
 
 int main() {

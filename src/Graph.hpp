@@ -1,6 +1,6 @@
 #pragma once
-#include <vector>
 #include <string>
+#include <vector>
 #include "Agent.hpp"
 
 using namespace std;

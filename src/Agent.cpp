@@ -1,7 +1,7 @@
 #include <iterator>
 #include <vector>
-#include "Graph.hpp"
 #include "Agent.hpp"
+#include "Graph.hpp"
 #include "Results.hpp"
 
 void Agent::try_infecting_neighbour(int t, int target_id, Graph& edges) {

@@ -1,6 +1,6 @@
 #pragma once
-#include "Results.hpp"
 #include "Graph.hpp"
+#include "Results.hpp"
 
 class Simulator {
 private:
@@ -12,7 +12,7 @@ public:
   /**
     Carry out a single iteration at time t.
    */
-  void iterate(Results& result, Graph& edges, int t);
+  void iterate(Results& results, Graph& edges, int t);
 
   /**
     Run a simulation for a given set of settings with some specified graph.

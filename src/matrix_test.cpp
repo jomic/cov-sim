@@ -1,7 +1,7 @@
 #include <iostream>
 #include "Graph.hpp"
-#include "Simulator.hpp"
 #include "Results.hpp"
+#include "Simulator.hpp"
 using namespace std;
 
 int main(int argc, char *argv[]) {

@@ -1,6 +1,6 @@
-#include "Simulator.hpp"
-#include "Results.hpp"
 #include "Graph.hpp"
+#include "Results.hpp"
+#include "Simulator.hpp"
 
 void Simulator::infect_initial(Graph& edges, int n) {
   // TODO: Right now just takes the first n
@@ -9,9 +9,9 @@ void Simulator::infect_initial(Graph& edges, int n) {
   }
 }
 
-void Simulator::iterate(Results& result, Graph& edges, int t) {
+void Simulator::iterate(Results& results, Graph& edges, int t) {
   for (Agent &node : edges.node_values) {
-    node.update_results(t, result);
+    node.update_results(t, results);
     if (node.is_infected(t)) {
       node.try_infecting_neighbours(t, edges);
       node.update_infection(t, days_sick);
@@ -20,11 +20,11 @@ void Simulator::iterate(Results& result, Graph& edges, int t) {
 }
 
 Results Simulator::simulate(Graph& edges) {
-  Results result;
+  Results results;
   infect_initial(edges, initial_infections);
   for (int t = 1; t <= t_end; t++) {
-    result.prepare_new_result();
-    iterate(result, edges, t);
+    results.prepare_new_result();
+    iterate(results, edges, t);
   }
-  return result;
+  return results;
 }
