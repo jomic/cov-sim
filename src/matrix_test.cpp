@@ -28,6 +28,7 @@ int main(int argc, char *argv[]) {
 
   Simulator s;
   Results results = s.simulate(g);
-  results.save_to_file("../data.txt");
+  results.save_to_file("data.txt");
+  results.print(L*L);
   return 0;
 }
