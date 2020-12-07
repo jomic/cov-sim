@@ -1,4 +1,4 @@
-# Imperative and Object-Oriented Programming Methodology
+# Project in Computer Systems
 # Uppsala University - 2020 Autumn
 # Copyright (c) 2020 group CovSim2: Henrik Schulze,
 # Christopher Rydell, Jonatan Michalak, Amina Manafli, Wenhao Zhu.
@@ -9,9 +9,11 @@ LINK_FLAGS= -fopenmp -lstdc++fs -o
 DEPENDEES = obj/Agent.o obj/Graph.o obj/Results.o obj/Simulator.o
 
 obj/%.o: src/%.cpp
+	mkdir -p $(@D)
 	$(COMPILER) $? $(COMPILE_FLAGS) $@
 
 bin/%: obj/%.o $(DEPENDEES)
+	mkdir -p $(@D)
 	$(LINKER) $? $(LINK_FLAGS) $@
 
 # Run any program binary:
@@ -26,11 +28,9 @@ clean: clean_binaries clean_objects
 
 clean_objects:
 	rm -f obj/*.o
-	mkdir -p bin obj
 
 clean_binaries:
 	rm -f bin/*
-	mkdir -p bin obj
 
 .PHONY: clean_binaries clean_objects clean
 

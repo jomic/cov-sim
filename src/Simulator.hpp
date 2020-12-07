@@ -14,7 +14,7 @@ private:
   @betaC              probability that Covid-19 transmits when two people meet.
   @random_seed        true if the seed is random, else false.
 */ // Parameters set to their default values:
-  int initial_infections = 4;
+  int initial_infections = 3;
   int L = 7;
   int days_sick = 14;
   int D0 = 2;

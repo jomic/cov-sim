@@ -22,6 +22,7 @@ int main(int argc, char *argv[]) {
 
 
 
+
   srand(1);
   // srand(time(NULL));
   Graph g;

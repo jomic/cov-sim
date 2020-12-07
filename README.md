@@ -5,8 +5,8 @@ For the time being, there are **two** source files containing a `main` function,
 
 Before compile and run, do `make clean`. Then compile and run with default values by doing either of:
 
-- `rm -f bin/cov-sim && make cov-sim`
-- `rm -f bin/matrix_test && make matrix_test`
+- `tools/compileAndRun cov-sim`
+- `tools/compileAndRun matrix_test`
 
 Once an executable binary file runs without errors and you don't want to make any more changes to the source code, simply run it as: `bin/cov-sim` or `bin/matrix_test` with or withour parameters.
 
