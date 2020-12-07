@@ -1,0 +1,21 @@
+# DS_Store:
+*.DS_Store
+
+#Emacs-backup
+*~
+
+# Executables:
+*.exe
+bin/*
+
+# Object files:
+obj/*
+
+# Node Modules:
+node_modules
+
+# WebStorm:
+.idea
+
+# Zip:
+*.zip
