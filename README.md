@@ -3,7 +3,7 @@ Covid simulator using Microscopic Agent-Based Model.
 
 For the time being, there are **two** source files containing a `main` function, namely `cov-sim.cpp` and `matrix_test.cpp`.
 
-Before compile and run, do `make clean`. Then compile and run with default values by doing either of:
+Compile and run with default values by doing either of:
 
 - `tools/compileAndRun cov-sim`
 - `tools/compileAndRun matrix_test`
