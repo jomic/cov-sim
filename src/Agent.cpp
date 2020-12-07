@@ -1,4 +1,3 @@
-#include <iterator>
 #include <vector>
 #include "Agent.hpp"
 #include "Graph.hpp"
@@ -74,7 +73,7 @@ void Agent::update_infection(int t) {
 }
 
 void Agent::update_results(int t, Results& results) {
-  if (s || (i && t == infected_on))
+  if (s || ((i || a) && t == infected_on))
     results.add_susceptible();
   else if (a)
     results.add_asymptomatic();
