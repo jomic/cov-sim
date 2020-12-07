@@ -4,7 +4,7 @@ class Graph;
 #include "Results.hpp"
 #include "Group.hpp"
 
-class Individual {
+class Agent {
 private:
   int id;
   bool s;
@@ -19,8 +19,8 @@ private:
   void try_infecting_neighbour(int t, int id, Graph& edges);
 
 public:
-  Individual(int id, const group_t& group);
-  Individual(int id);
+  Agent(int id, const group_t& group);
+  Agent(int id);
   
   /*
     Check if the individual can infect people at time t.

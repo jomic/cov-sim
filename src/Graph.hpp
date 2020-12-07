@@ -1,9 +1,7 @@
-#ifndef GRAPH_HPP
-#define GRAPH_HPP
-
-#include <vector>
+#pragma once
 #include <string>
-#include "Individual.hpp"
+#include <vector>
+#include "Agent.hpp"
 
 using namespace std;
 
@@ -19,7 +17,7 @@ public:
   vector<int> offsets;
   vector<int> edges;
   vector<Relation> edge_values;
-  vector<Individual> node_values;
+  vector<Agent> node_values;
 
   /* Read node information from file.
      Format of file should be:
@@ -45,11 +43,9 @@ public:
   /* Returns amount of nodes */
   int node_count();
 
-  /* Returns the node *id* */
-  Individual get_node(int id);
+  Agent get_node(int id);
+
 
   /* Prints information about the graph */
   void print_graph();
 };
-
-#endif

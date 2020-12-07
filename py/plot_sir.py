@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 from operator import itemgetter
 
 def read_data():
-    f = open("data.txt", "r")
+    f = open("src/data.txt", "r")
     data_points = f.readlines()
 
     new_data = []

@@ -1,13 +1,10 @@
-// CRS
-
-#include "Individual.hpp"
-#include "Graph.hpp"
-#include <vector>
-#include <string>
-#include <iostream>
 #include <fstream>
+#include <iostream>
+#include <string>
 #include <tuple>
-
+#include <vector>
+#include "Agent.hpp"
+#include "Graph.hpp"
 using namespace std;
 
 // https://stackoverflow.com/a/46931770
@@ -42,8 +39,7 @@ void Graph::input_from_file(string file_name) {
       for (auto i : v) {
         if (!first) {
           first = true;
-          // note: hardcoded susceptibility
-          node_values.push_back(Individual(stoi(i)));
+          node_values.push_back(Agent(stoi(i)));
         } else {
           edges.push_back(stoi(i));
             
@@ -80,7 +76,7 @@ void Graph::matrix_graph(int n, int d) {
     int max_y = min(node_y + d + 1, n);
 
     offsets.push_back(edges.size());
-    node_values.push_back(Individual(i/*, 0.25 / (((2 * d + 1)^2) - 1)*/));
+    node_values.push_back(Agent(i));
         
     for (int y = min_y; y < max_y; ++y) {
       for (int x = min_x; x < max_x; ++x) {
@@ -93,12 +89,12 @@ void Graph::matrix_graph(int n, int d) {
   }
 }
 
-// return neighbours of node id
+// Return neighbours of node id:
 vector<int> Graph::neighbours(int id) {
   vector<int> neighbours;
   int start = offsets[id];
   int end;
-  if (id + 1 < offsets.size()) {
+  if (id + 1 < (int)offsets.size()) {
     end = offsets[id + 1];
   } else {
     end = edges.size();
@@ -116,7 +112,7 @@ int Graph::node_count() {
   return offsets.size();
 }
 
-Individual Graph::get_node(int id) {
+Agent Graph::get_node(int id) {
   return node_values[id];
 }
 
