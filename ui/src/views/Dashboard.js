@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
 import classes from "./Dashboard.module.css";
-import LineGraph from '../components/LineGraph';
 import { managerData, nationalAverageData, yearLabels } from "../data/mockData";
 import { Line } from 'react-chartjs-2';
-import chartStyle from '../components/LineGraph.module.css';
+
 
 export default class Dashboard extends Component {
     state = {
         data: managerData,
         average: nationalAverageData,
         labels: yearLabels,
-        newData: [65, 59, 80, 81, 56, 55, 40],
     }
 
     graphRef = React.createRef();
@@ -33,16 +31,16 @@ export default class Dashboard extends Component {
             labels: this.state.labels,
             datasets: [
               {
-                label: 'My First dataset',
+                label: 'Test Dataset 1',
                 fill: false,
                 lineTension: 0.2,
                 backgroundColor: 'rgba(75,192,192,0.4)',
-                borderColor: 'rgba(75,192,192,1)',
+                borderColor: '#590995',
                 borderCapStyle: 'butt',
                 borderDash: [],
                 borderDashOffset: 0.0,
                 borderJoinStyle: 'miter',
-                pointBorderColor: 'rgba(75,192,192,1)',
+                pointBorderColor: '#590995',
                 pointBackgroundColor: '#fff',
                 pointBorderWidth: 1,
                 pointHoverRadius: 5,
@@ -60,19 +58,11 @@ export default class Dashboard extends Component {
                 <header>
                     <h1>Dashboard</h1>
                 </header>
-                <LineGraph
-                    data={data}
-                   // average={average}
-                    labels={labels} 
-                    ref={this.graphRef}
-                />
-                <div className={chartStyle.graphContainer}>
+                <div className={classes.graphContainer}>
                     <Line
                         data={newData}
                     />
                 </div>
-
-
                 <button onClick={this.addChartData}>Add Data</button>
 
             </div>
