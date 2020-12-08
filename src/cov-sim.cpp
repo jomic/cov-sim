@@ -4,6 +4,7 @@
 #include "Graph.hpp"
 #include "Results.hpp"
 #include "Simulator.hpp"
+#include "Initializer.hpp"
 using namespace std;
 
 int main() {
@@ -16,15 +17,8 @@ int main() {
   srand(1);
   // srand(time(NULL));
 
-
-
-
-
-
-
-
-
   Simulator s;
+  initialize_simulator_from_stream(cin, s);
 
   Results results = s.simulate(edges);
   results.print(8);

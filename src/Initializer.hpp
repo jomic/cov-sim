@@ -1,8 +1,9 @@
 #pragma once
+
+class Simulator;
 #include <vector>
 #include <iostream>
 #include "Group.hpp"
-#include "Simulator.hpp"
 
 /*
   Fill a vector with groups based on information from json file
