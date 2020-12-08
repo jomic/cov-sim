@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 #include "Results.hpp"
-#include "Initializer.hpp"
+#include "IOStreamHandler.hpp"
 using namespace std;
 
 void Results::add_susceptible(int n) {

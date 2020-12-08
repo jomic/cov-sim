@@ -2,7 +2,7 @@
 #include <iostream>
 #include "Graph.hpp"
 #include "Results.hpp"
-#include "Initializer.hpp"
+#include "IOStreamHandler.hpp"
 
 class Simulator {
 private:
