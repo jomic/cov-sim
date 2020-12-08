@@ -117,10 +117,10 @@ Agent Graph::get_node(int id) {
 }
 
 void Graph::print_graph() {
-  cout << "Offsets: ";
-  for (auto i : offsets) { cout << i << ", "; }
-  cout << endl;
-  cout << "Edges: ";
-  for (auto i : edges) { cout << i << ", "; }
-  cout << endl;
+  clog << "Offsets: ";
+  for (auto i : offsets) { clog << i << ", "; }
+  clog << endl;
+  clog << "Edges: ";
+  for (auto i : edges) { clog << i << ", "; }
+  clog << endl;
 }
