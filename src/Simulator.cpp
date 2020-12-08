@@ -36,6 +36,16 @@ void Simulator::iterate(Results& results, Graph& edges, int t) {
 
 Results Simulator::simulate(Graph& edges) {
   Results results;
+  
+  /*
+    Just for now: settings are based on document names,
+    so the variables used in the simulator are assigned 
+    these values here until we decide which names to use.
+  */
+  initial_infections = N;
+  t_end = T;
+  
+  
   infect_initial(edges, initial_infections);
   for (int t = 1; t <= t_end; t++) {
     results.prepare_new_result();

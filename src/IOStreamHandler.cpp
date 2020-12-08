@@ -56,7 +56,9 @@ void initialize_simulator_from_stream(istream& stream, Simulator& sim) {
     cerr << "Something went wrong when parsing the JSON settings." << endl;
     return;
   }
-  
+
+  if (s["select_all"].is_bool())
+    sim.select_all = s["select_all"];
   if (s["T"].is_number())
     sim.T = s["T"];
   if (s["N"].is_number())
