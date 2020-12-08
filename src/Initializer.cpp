@@ -9,49 +9,49 @@ using json = nlohmann::json;
 
 
 void get_groups_from_stream(istream& stream, vector<group_t>& groups) {
-  json settings;
-  stream >> settings;
+  json s;
+  stream >> s;
 
-  if (settings["groups"].is_array()) {
-    for (auto group : settings["groups"]) {
+  if (s["groups"].is_array()) {
+    for (auto group : s["groups"]) {
       group_t g;
-      if (settings["n_i"].is_number())
-	g.n_i = settings["n_i"];
-      if (settings["n_ai"].is_number())
-	g.n_ai = settings["n_ai"];
-      if (settings["s"].is_number())
-	g.s = settings["s"];
-      if (settings["p_i"].is_number())
-	g.p_i = settings["p_i"];
-      if (settings["p_ai"].is_number())
-	g.p_ai = settings["p_ai"];
-      if (settings["p_v"].is_number())
-	g.p_v = settings["p_v"];
-      if (settings["d_v"].is_number())
-	g.d_v = settings["d_v"];
-      if (settings["d_i"].is_number())
-	g.d_i = settings["d_i"];
-      if (settings["d_ai"].is_number())
-	g.d_ai = settings["d_ai"];
-      if (settings["a_p"].is_number())
-	g.a_p = settings["a_p"];
+      if (s["n_i"].is_number())
+	g.n_i = s["n_i"];
+      if (s["n_ai"].is_number())
+	g.n_ai = s["n_ai"];
+      if (s["s"].is_number())
+	g.s = s["s"];
+      if (s["p_i"].is_number())
+	g.p_i = s["p_i"];
+      if (s["p_ai"].is_number())
+	g.p_ai = s["p_ai"];
+      if (s["p_v"].is_number())
+	g.p_v = s["p_v"];
+      if (s["d_v"].is_number())
+	g.d_v = s["d_v"];
+      if (s["d_i"].is_number())
+	g.d_i = s["d_i"];
+      if (s["d_ai"].is_number())
+	g.d_ai = s["d_ai"];
+      if (s["a_p"].is_number())
+	g.a_p = s["a_p"];
       groups.push_back(g);
     }
   }
 }
 
-void initialize_simulator_from_stream(istream& stream, Simulator& s) {
-  json settings;
-  stream >> settings;
+void initialize_simulator_from_stream(istream& stream, Simulator& sim) {
+  json s;
+  stream >> s;
 
-  if (settings["T"].is_number())
-    s.T = settings["T"];
-  if (settings["N"].is_number())
-    s.N = settings["N"];
-  if (settings["T_v"].is_number())
-    s.T_v = settings["T_v"];
-  if (settings["n_v"].is_number())
-    s.n_v = settings["n_v"];
+  if (s["T"].is_number())
+    sim.T = s["T"];
+  if (s["N"].is_number())
+    sim.N = s["N"];
+  if (s["T_v"].is_number())
+    sim.T_v = s["T_v"];
+  if (s["n_v"].is_number())
+    sim.n_v = s["n_v"];
 }
 
 void reset_stream(istream& stream) {
