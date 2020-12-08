@@ -82,7 +82,7 @@ json result_to_json(result_t& result) {
 
 void write_result_to_output_stream(ostream& stream, result_t& result) {
   json output = result_to_json(result);
-  stream << output;
+  stream << output << endl;
 }
 
 void write_results_to_output_stream(ostream& stream, vector<result_t>& results) {
@@ -93,7 +93,8 @@ void write_results_to_output_stream(ostream& stream, vector<result_t>& results) 
     json entry = result_to_json(result);
     output["results"].push_back(entry);
   }
-  stream << output;
+  // TODO: Why is there no newline?
+  stream << output << endl;
 }
 
 void reset_stream(istream& stream) {
