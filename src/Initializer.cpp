@@ -10,7 +10,13 @@ using json = nlohmann::json;
 
 void get_groups_from_stream(istream& stream, vector<group_t>& groups) {
   json s;
-  stream >> s;
+  try {
+    stream >> s;    
+  }
+  catch (const exception& e){
+    cerr << "Something went wrong when parsing the JSON settings." << endl;
+    return;
+  }
 
   if (s["groups"].is_array()) {
     for (auto group : s["groups"]) {
@@ -42,8 +48,14 @@ void get_groups_from_stream(istream& stream, vector<group_t>& groups) {
 
 void initialize_simulator_from_stream(istream& stream, Simulator& sim) {
   json s;
-  stream >> s;
-
+  try {
+    stream >> s;    
+  }
+  catch (const exception& e){
+    cerr << "Something went wrong when parsing the JSON settings." << endl;
+    return;
+  }
+  
   if (s["T"].is_number())
     sim.T = s["T"];
   if (s["N"].is_number())
