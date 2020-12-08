@@ -2,6 +2,7 @@
 #include <iostream>
 #include "Group.hpp"
 #include "Simulator.hpp"
+#include "Results.hpp"
 #include "../include/json.hpp"
 
 using namespace std;
@@ -64,6 +65,33 @@ void initialize_simulator_from_stream(istream& stream, Simulator& sim) {
     sim.T_v = s["T_v"];
   if (s["n_v"].is_number())
     sim.n_v = s["n_v"];
+}
+
+json result_to_json(result_t& result) {
+  json j = {
+    {"s", result.s},
+    {"a", result.a},
+    {"i", result.i},
+    {"v", result.v},
+    {"r", result.r}
+  };
+  return j;
+}
+
+void write_result_to_output_stream(ostream& stream, result_t& result) {
+  json output = result_to_json(result);
+  stream << output;
+}
+
+void write_results_to_output_stream(ostream& stream, vector<result_t>& results) {
+  json output = {
+    {"results", {}}
+  };
+  for (auto result : results) {
+    json entry = result_to_json(result);
+    output["results"].push_back(entry);
+  }
+  stream << output;
 }
 
 void reset_stream(istream& stream) {

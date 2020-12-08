@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <iostream>
 
 struct result_t {
   int s{0};
@@ -8,7 +9,7 @@ struct result_t {
   int i{0};
   int v{0};
   int r{0};
-  };
+};
 
 class Results {
 private:
@@ -27,4 +28,5 @@ public:
   void prepare_new_result();
   void print(int N);
   void save_to_file(std::string file_name);
+  void write_to_output_stream(std::ostream& stream);
 };

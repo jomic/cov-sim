@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include "Results.hpp"
+#include "Initializer.hpp"
 using namespace std;
 
 void Results::add_susceptible(int n) {
@@ -70,8 +71,8 @@ void Results::print(int N) {
   }
 }
 
-void Results::save_to_file(std::string file_name) {
-  std::ofstream f;
+void Results::save_to_file(string file_name) {
+  ofstream f;
   f.open(file_name);
   for (auto result : results) {
     f <<
@@ -82,4 +83,8 @@ void Results::save_to_file(std::string file_name) {
       result.r << "\n";
   }
   f.close();
+}
+
+void Results::write_to_output_stream(ostream& stream) {
+  write_results_to_output_stream(stream, results);
 }
