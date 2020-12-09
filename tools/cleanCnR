@@ -1,0 +1,6 @@
+#!/bin/bash
+# Project in Computer Systems
+# Uppsala University - 2020 Autumn
+# Copyright (c) 2020 group CovSim2: Henrik Schulze,
+# Christopher Rydell, Jonatan Michalak, Amina Manafli, Wenhao Zhu.
+rm -f obj/* && rm -f bin/$1 && make $1
