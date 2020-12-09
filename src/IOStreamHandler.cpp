@@ -57,7 +57,7 @@ void initialize_simulator_from_stream(istream& stream, Simulator& sim) {
     return;
   }
 
-  if (s["select_all"].is_bool())
+  if (s["select_all"].is_boolean())
     sim.select_all = s["select_all"];
   if (s["T"].is_number())
     sim.T = s["T"];
@@ -93,7 +93,6 @@ void write_results_to_output_stream(ostream& stream, vector<result_t>& results) 
     json entry = result_to_json(result);
     output["results"].push_back(entry);
   }
-  // TODO: Why is there no newline?
   stream << output << endl;
 }
 

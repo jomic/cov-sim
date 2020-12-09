@@ -6,7 +6,7 @@ COMPILER=g++ -c
 COMPILE_FLAGS= -Wall -g -fopenmp -o
 LINKER=g++
 LINK_FLAGS= -fopenmp -lstdc++fs -o
-DEPENDEES = obj/Agent.o obj/Graph.o obj/Results.o obj/Simulator.o obj/Initializer.o
+DEPENDEES = obj/Agent.o obj/Graph.o obj/Results.o obj/Simulator.o obj/IOStreamHandler.o
 
 obj/%.o: src/%.cpp
 	mkdir -p $(@D)
