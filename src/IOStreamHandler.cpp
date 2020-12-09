@@ -70,6 +70,18 @@ void initialize_simulator_from_stream(istream& stream, Simulator& sim) {
     sim.n_v = s["n_v"];
 }
 
+void initialize_graph(json& s, Graph& g) {
+  if (s["type"] == "matrix"
+      && s["size"].is_number()
+      && s["distance"].is_number())
+    g.matrix_graph(s["size"], s["distance"]);
+  else if (s["type"] == "file"
+	   && s["file_name"].is_string())
+    g.input_from_file(s["file_name"]);
+  else
+    g.default_graph();
+}
+
 void initialize_graph_from_stream(istream& stream, Graph& g, vector<group_t>& groups) {
   json s;
   try {
@@ -80,12 +92,10 @@ void initialize_graph_from_stream(istream& stream, Graph& g, vector<group_t>& gr
     return;
   }
 
-  if(s["graph"].is_object()) {
-    json graph_s = s["graph"];
-    if (graph_s["type"] == "matrix") {
-      g.matrix_graph(20, 2);
-    }
-  }
+  if (s["graph"].is_object() && s["graph"]["type"].is_string())
+    initialize_graph(s["graph"], g);
+  else
+    g.default_graph();
 }
 
 

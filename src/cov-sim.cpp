@@ -26,6 +26,9 @@ int main(int argc, char** argv) {
     reset_stream(cin);
     initialize_graph_from_stream(cin, edges, groups);
   }
+  else {
+    edges.default_graph();
+  }
   
   clog << "Number of groups: " << groups.size() << endl;
   // edges.input_from_file("ex_input_1.txt");

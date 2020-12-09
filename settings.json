@@ -30,6 +30,8 @@
 	}
     ],
     "graph": {
-	"type": "matrix"
+	"type": "matrix",
+	"size": 7,
+	"distance": 2
     }
 }
