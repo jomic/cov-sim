@@ -3,6 +3,7 @@
 #include <string>
 #include <tuple>
 #include <vector>
+#include <memory>
 #include "Agent.hpp"
 #include "Graph.hpp"
 #include "Group.hpp"
@@ -94,9 +95,9 @@ void Graph::default_graph() {
   matrix_graph(20, 1);
 }
 
-void Graph::assign_groups(vector<group_t>& groups) {
+void Graph::assign_groups(vector<shared_ptr<group_t>>& groups) {
   if (groups.size() > 0) {
-    for (auto agent : node_values) {
+    for (Agent& agent : node_values) {
       int i = rand() % groups.size();
       agent.assign_group(groups[i]);
     }

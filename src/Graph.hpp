@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <memory>
 #include "Agent.hpp"
 #include "Group.hpp"
 
@@ -50,7 +51,7 @@ public:
     a vector of available groups, with a uniform 
     distribution.
    */
-  void assign_groups(vector<group_t>& groups);
+  void assign_groups(vector<shared_ptr<group_t>>& groups);
 
   /* Returns list of neighbours of node *id* */
   vector<int> neighbours(int id);

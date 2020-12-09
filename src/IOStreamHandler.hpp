@@ -2,6 +2,7 @@
 
 class Simulator;
 #include <vector>
+#include <memory>
 #include <iostream>
 #include "Group.hpp"
 #include "Graph.hpp"
@@ -9,7 +10,7 @@ class Simulator;
 /*
   Fill a vector with groups based on information from json stream
  */
-void get_groups_from_stream(std::istream& stream, std::vector<group_t>& groups);
+void get_groups_from_stream(std::istream& stream, std::vector<std::shared_ptr<group_t>>& groups);
 
 /*
   Set simulator parameters based on information from json stream
@@ -19,7 +20,7 @@ void initialize_simulator_from_stream(std::istream& stream, Simulator& s);
 /*
   Make the appropriate calls to a graph for generating a network
  */
-void initialize_graph_from_stream(std::istream& stream, Graph& g, std::vector<group_t>& groups);
+void initialize_graph_from_stream(std::istream& stream, Graph& g);
 
 /*
   Write a single result to an output stream as json

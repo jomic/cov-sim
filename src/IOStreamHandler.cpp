@@ -10,7 +10,7 @@ using namespace std;
 using json = nlohmann::json;
 
 
-void get_groups_from_stream(istream& stream, vector<group_t>& groups) {
+void get_groups_from_stream(istream& stream, vector<shared_ptr<group_t>>& groups) {
   json s;
   try {
     stream >> s;    
@@ -22,27 +22,27 @@ void get_groups_from_stream(istream& stream, vector<group_t>& groups) {
 
   if (s["groups"].is_array()) {
     for (auto group : s["groups"]) {
-      group_t g;
+      shared_ptr<group_t> g(new group_t);
       if (group["n_i"].is_number())
-	g.n_i = group["n_i"];
+	g->n_i = group["n_i"];
       if (group["n_ai"].is_number())
-	g.n_ai = group["n_ai"];
+	g->n_ai = group["n_ai"];
       if (group["s"].is_number())
-	g.s = group["s"];
+	g->s = group["s"];
       if (group["p_i"].is_number())
-	g.p_i = group["p_i"];
+	g->p_i = group["p_i"];
       if (group["p_ai"].is_number())
-	g.p_ai = group["p_ai"];
+	g->p_ai = group["p_ai"];
       if (group["p_v"].is_number())
-	g.p_v = group["p_v"];
+	g->p_v = group["p_v"];
       if (group["d_v"].is_number())
-	g.d_v = group["d_v"];
+	g->d_v = group["d_v"];
       if (group["d_i"].is_number())
-	g.d_i = group["d_i"];
+	g->d_i = group["d_i"];
       if (group["d_ai"].is_number())
-	g.d_ai = group["d_ai"];
+	g->d_ai = group["d_ai"];
       if (group["a_p"].is_number())
-	g.a_p = group["a_p"];
+	g->a_p = group["a_p"];
       groups.push_back(g);
     }
   }
@@ -82,7 +82,7 @@ void initialize_graph(json& s, Graph& g) {
     g.default_graph();
 }
 
-void initialize_graph_from_stream(istream& stream, Graph& g, vector<group_t>& groups) {
+void initialize_graph_from_stream(istream& stream, Graph& g) {
   json s;
   try {
     stream >> s;

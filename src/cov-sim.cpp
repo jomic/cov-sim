@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <memory>
 #include "Graph.hpp"
 #include "Results.hpp"
 #include "Simulator.hpp"
@@ -14,7 +15,7 @@ int main(int argc, char** argv) {
   srand(1);
   // srand(time(NULL));
 
-  vector<group_t> groups;
+  vector<shared_ptr<group_t>> groups;
   Simulator s;
   Graph edges;
 
@@ -24,7 +25,7 @@ int main(int argc, char** argv) {
     reset_stream(cin);
     initialize_simulator_from_stream(cin, s);
     reset_stream(cin);
-    initialize_graph_from_stream(cin, edges, groups);
+    initialize_graph_from_stream(cin, edges);
   }
   else {
     edges.default_graph();
