@@ -16,14 +16,6 @@ int main() {
   srand(1);
   // srand(time(NULL));
 
-
-
-
-
-
-
-
-
   Simulator s;
 
   Results results = s.simulate(edges);

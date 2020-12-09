@@ -19,21 +19,12 @@ int main(int argc, char *argv[]) {
     return 1;
   }
 
-
-
-
-
   srand(1);
-  // srand(time(NULL));
   Graph g;
   g.matrix_graph(L, D_zero);
 
   Simulator s;
-  // // // settings_t settings;
-  // // // settings.t_end = t;
-
   Results results = s.simulate(g);
-  // // // Results results = s.simulate(settings, g);
   results.save_to_file("data.txt");
   results.print(L*L);
   return 0;
