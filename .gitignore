@@ -11,6 +11,9 @@ bin/*
 # Object files:
 obj/*
 
+# Output file:
+data.txt
+
 # Node Modules:
 node_modules
 
