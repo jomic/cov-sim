@@ -16,7 +16,7 @@ int main(int argc, char** argv) {
   
   // Handle flags
   int c;
-  while ((c = getopt(argc, argv, "sorp")) != -1) {
+  while ((c = getopt(argc, argv, "iorp")) != -1) {
     switch (c) {
     case 'i':
       input_settings = true;
