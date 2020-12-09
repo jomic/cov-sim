@@ -29,10 +29,11 @@ int main(int argc, char** argv) {
   else {
     edges.default_graph();
   }
+
+  // Assign groups to the agents in the graph
+  edges.assign_groups(groups);
   
-  clog << "Number of groups: " << groups.size() << endl;
-  // edges.input_from_file("ex_input_1.txt");
-  edges.print_graph();
+  // edges.print_graph();
   Results results = s.simulate(edges);
   results.write_to_output_stream(cout);
 }
