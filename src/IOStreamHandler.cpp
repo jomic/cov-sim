@@ -1,6 +1,7 @@
 #include <vector>
 #include <iostream>
 #include "Group.hpp"
+#include "Graph.hpp"
 #include "Simulator.hpp"
 #include "Results.hpp"
 #include "../include/json.hpp"
@@ -68,6 +69,25 @@ void initialize_simulator_from_stream(istream& stream, Simulator& sim) {
   if (s["n_v"].is_number())
     sim.n_v = s["n_v"];
 }
+
+void initialize_graph_from_stream(istream& stream, Graph& g, vector<group_t>& groups) {
+  json s;
+  try {
+    stream >> s;
+  }
+  catch (const exception& e){
+    cerr << "Something went wrong when parsing the JSON settings." << endl;
+    return;
+  }
+
+  if(s["graph"].is_object()) {
+    json graph_s = s["graph"];
+    if (graph_s["type"] == "matrix") {
+      g.matrix_graph(20, 2);
+    }
+  }
+}
+
 
 json result_to_json(result_t& result) {
   json j = {
