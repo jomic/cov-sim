@@ -6,6 +6,7 @@
 #include <iostream>
 #include <math.h>
 #include <omp.h>
+#include <set>
 #include <string>
 using namespace std;
 
@@ -51,13 +52,26 @@ void infect(node_t *target, int t) {
   target->infected_on = t;
 }
 
+set<int> unique_rand_numbers(int n, int max) {
+  set<int> numbers;
+  if (n >= max) {
+    cout << "random_numbers: n cant be larger than total\n";
+    return numbers;
+  }
+  while ((int)numbers.size() < n) {
+      numbers.insert(rand() % max);
+    }
+  return numbers;
+}
+
 void infect_initial(int init_infected, result_t *result, grid_t *grid,
     bool random_seed) {
   result->i = init_infected;
   result->s -= init_infected;
   if (random_seed) {srand(time(NULL));}
-  for (int i = 0; i < init_infected; i++) {
-    infect(&grid->nodes[rand()%grid->N],0);
+  set<int> random_nmbrs = unique_rand_numbers(init_infected, grid->N);
+  for (auto i : random_nmbrs) {
+    infect(&grid->nodes[i],0);
   }
 }
 
@@ -181,8 +195,6 @@ int main(int argc, char *argv[]) {
   float betaC = 0.25;
   bool random_seed = false;
 
-    printf("argc = %d\n", argc);
-
   if (argc > 9) {
     cout << "Usage: " << argv[0] << " L D0 t" << endl;
     return 1;
@@ -197,7 +209,7 @@ int main(int argc, char *argv[]) {
     betaC         = stof(argv[7]);
     random_seed   = (string(argv[8]).compare("true") == 0)?true:false;
   }
-  float betaD = betaC/((2*D0+1)*(2*D0+1));
+  float betaD = betaC/((2*D0+1)*(2*D0+1) - 1);
 
   grid_t *grid = create_grid(L);
   result_t *results = init_results(init_infected, grid, T, random_seed);
