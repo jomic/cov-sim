@@ -1,4 +1,5 @@
 {
+    "select_all": true,
     "N": 2,
     "T": 50,
     "T_v": 10,
