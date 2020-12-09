@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include "Agent.hpp"
+#include "Group.hpp"
 
 using namespace std;
 
@@ -43,6 +44,13 @@ public:
     specified. Implemented as a matrix graph.
    */
   void default_graph();
+
+  /*
+    Assign groups to already-existing agents from 
+    a vector of available groups, with a uniform 
+    distribution.
+   */
+  void assign_groups(vector<group_t>& groups);
 
   /* Returns list of neighbours of node *id* */
   vector<int> neighbours(int id);
