@@ -15,12 +15,28 @@ void Results::add_susceptible() {
   add_susceptible(1);
 }
 
+void Results::add_asymptomatic(int n) {
+  results.back().a += n;
+}
+
+void Results::add_asymptomatic() {
+  add_asymptomatic(1);
+}
+
 void Results::add_infected(int n) {
   results.back().i += n;
 }
   
 void Results::add_infected() {
   add_infected(1);
+}
+
+void Results::add_vaccinated(int n) {
+  results.back().v += n;
+}
+
+void Results::add_vaccinated() {
+  add_vaccinated(1);
 }
 
 void Results::add_removed(int n) {
@@ -45,9 +61,11 @@ void Results::print(int N) {
     int n_s_t = WDTH - round(WDTH*results[t].i/N) - round(WDTH*results[t].r/N);
     for (int i = 0; i < n_s_t; i++) {cout << " ";}
     for (int i = 0; i < round(WDTH*results[t].r/N); i++) {cout << "R";}
-    cout << "| i s r(" << setw(3) << setfill(' ') << t << "): ";
-    cout << setw(spcs) << setfill(' ') << results[t].i;
+    cout << "| s a i v r(" << setw(3) << setfill(' ') << t << "): ";
     cout << setw(spcs) << setfill(' ') << results[t].s;
+    cout << setw(spcs) << setfill(' ') << results[t].a;
+    cout << setw(spcs) << setfill(' ') << results[t].i;
+    cout << setw(spcs) << setfill(' ') << results[t].v;
     cout << setw(spcs) << setfill(' ') << results[t].r << "\n";
   }
 }
@@ -58,7 +76,9 @@ void Results::save_to_file(std::string file_name) {
   for (auto result : results) {
     f <<
       result.s << " " <<
+      result.a << " " <<
       result.i << " " <<
+      result.v << " " <<
       result.r << "\n";
   }
   f.close();

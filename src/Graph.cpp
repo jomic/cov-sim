@@ -39,7 +39,6 @@ void Graph::input_from_file(string file_name) {
       for (auto i : v) {
         if (!first) {
           first = true;
-          // note: hardcoded susceptibility
           node_values.push_back(Agent(stoi(i)));
         } else {
           edges.push_back(stoi(i));
@@ -77,7 +76,7 @@ void Graph::matrix_graph(int n, int d) {
     int max_y = min(node_y + d + 1, n);
 
     offsets.push_back(edges.size());
-    node_values.push_back(Agent(i, 0.25 / (2 * d + 1) / (2 * d + 1)));
+    node_values.push_back(Agent(i));
         
     for (int y = min_y; y < max_y; ++y) {
       for (int x = min_x; x < max_x; ++x) {

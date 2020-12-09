@@ -1,10 +1,25 @@
 #include "Graph.hpp"
 #include "Results.hpp"
 #include "Simulator.hpp"
+#include <vector>
+#include <set>
+#include <iostream>
+
+std::set<int> unique_random_numbers(int n, int max) {
+  std::set<int> numbers;
+  if (n > max) {
+    std::cout << "random_numbers: n cant be larger than total\n";
+    return numbers;
+  }
+  while ((int)numbers.size() < n) {
+      numbers.insert(rand() % max);
+    }
+  return numbers;
+}
 
 void Simulator::infect_initial(Graph& edges, int n) {
-  // TODO: Right now just takes the first n
-  for (int i = 0; i < (int)edges.node_values.size() && i < n; i++) {
+  std::set<int> rand_index = unique_random_numbers(n, edges.node_count());
+  for (auto i : rand_index) {
     edges.node_values[i].infect(0);
   }
 }
@@ -14,7 +29,7 @@ void Simulator::iterate(Results& results, Graph& edges, int t) {
     node.update_results(t, results);
     if (node.is_infected(t)) {
       node.try_infecting_neighbours(t, edges);
-      node.update_infection(t, days_sick);
+      node.update_infection(t);
     }
   }
 }
