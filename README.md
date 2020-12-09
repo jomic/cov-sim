@@ -15,7 +15,8 @@ If you want to make a clean compilation (removing **all** binary executables and
 
 - `make clean && make cov-sim`
 
-and like-wise for `matrix_test` and `matrixC19`. If you want to leave **all the other** executable binaries intact, but want to remove (and recreate) all the object files, then do:
+and like-wise for `matrix_test` and `matrixC19`.
+If you want to leave **all the other** executable binaries intact, but want to remove (and recreate) all the object files, then do:
 
 - `tools/cleanCnR <main-file>`
 
