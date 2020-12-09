@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <memory>
+#include <unistd.h>
 #include "Graph.hpp"
 #include "Results.hpp"
 #include "Simulator.hpp"
@@ -8,12 +9,35 @@
 using namespace std;
 
 int main(int argc, char** argv) {
-  // TODO: Flags maybe? Right now just checks if any arg exists
-  bool input_settings = argc > 1;
+  bool input_settings = false;
+  bool output_results = false;
+  bool randomize_seed = false;
+  bool print_graph = false;
+  
+  // Handle flags
+  int c;
+  while ((c = getopt(argc, argv, "sorp")) != -1) {
+    switch (c) {
+    case 'i':
+      input_settings = true;
+      break;
+    case 'o':
+      output_results = true;
+      break;
+    case 'r':
+      randomize_seed = true;
+      break;
+    case 'p':
+      print_graph = true;
+      break;
+    }
+  }
   
   // Initialize a seed for the randomizer:
-  srand(1);
-  // srand(time(NULL));
+  if (randomize_seed)
+    srand(time(NULL));
+  else
+    srand(1);
 
   vector<shared_ptr<group_t>> groups;
   Simulator s;
@@ -33,8 +57,13 @@ int main(int argc, char** argv) {
 
   // Assign groups to the agents in the graph
   edges.assign_groups(groups);
-  
-  // edges.print_graph();
+
+  // Run the simulation
   Results results = s.simulate(edges);
-  results.write_to_output_stream(cout);
+
+  // Output results
+  if (print_graph)
+    results.print(10000);
+  if (output_results)
+    results.write_to_output_stream(cout);
 }
