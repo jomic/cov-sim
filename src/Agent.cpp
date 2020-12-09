@@ -3,7 +3,7 @@
 #include "Graph.hpp"
 #include "Results.hpp"
 
-const group_t Agent::default_group;
+group_t Agent::default_group;
 
 void Agent::try_infecting_neighbour(int t, int target_id, Graph& edges) {
   Agent& n = edges.node_values[target_id];
@@ -20,7 +20,7 @@ void Agent::try_infecting_neighbour(int t, int target_id, Graph& edges) {
   }
 }
 
-Agent::Agent(int id, const group_t& group)
+Agent::Agent(int id, group_t& group)
   : id(id), group(group) {
   s = true;
   a = false;
@@ -32,6 +32,10 @@ Agent::Agent(int id, const group_t& group)
 
 Agent::Agent(int id)
   : Agent::Agent(id, Agent::default_group) {}
+
+void Agent::assign_group(group_t& new_group) {
+  group = new_group;
+}
 
 bool Agent::is_infected(int t) {
   return (i || a) && t > infected_on;
@@ -60,6 +64,17 @@ void Agent::try_infecting_neighbours(int t, Graph& edges) {
   std::vector<int> n_ids = edges.neighbours(id);
   for (auto n_id : n_ids)
     try_infecting_neighbour(t, n_id, edges);
+}
+
+void Agent::try_infecting_n_neighbours(int t, Graph& edges) {
+  if (!is_infected(t))
+    return;
+  std::vector<int> n_ids = edges.neighbours(id);
+  int attempts = i ? group.n_i : group.n_ai;
+  for (int i = 0; i < attempts; i++) {
+    int target = rand() % n_ids.size();
+    try_infecting_neighbour(t, n_ids[target], edges);
+  }
 }
 
 void Agent::update_infection(int t) {
