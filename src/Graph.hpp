@@ -37,6 +37,13 @@ public:
   */
   void matrix_graph(int size, int distance);
 
+  /*
+    Initializes a default graph with no specific 
+    parameters, useful if nothing else has been 
+    specified. Implemented as a matrix graph.
+   */
+  void default_graph();
+
   /* Returns list of neighbours of node *id* */
   vector<int> neighbours(int id);
 

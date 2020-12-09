@@ -89,6 +89,10 @@ void Graph::matrix_graph(int n, int d) {
   }
 }
 
+void Graph::default_graph() {
+  matrix_graph(20, 1);
+}
+
 // Return neighbours of node id:
 vector<int> Graph::neighbours(int id) {
   vector<int> neighbours;
