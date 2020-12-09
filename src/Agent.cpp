@@ -32,15 +32,7 @@ Agent::Agent(int id, std::shared_ptr<group_t> group)
 }
 
 Agent::Agent(int id)
-  : id(id) {
-  s = true;
-  a = false;
-  i = false;
-  v = false;
-  r = false;
-  infected_on = -1;
-  group = std::make_shared<group_t>(default_group);
-}
+  : Agent::Agent(id, std::make_shared<group_t>(default_group)) {}
 
 void Agent::assign_group(std::shared_ptr<group_t>& new_group) {
   group = new_group;
