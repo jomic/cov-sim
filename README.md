@@ -16,7 +16,16 @@ This is work in progress!
 
 # Settings
 
-The `cov-sim` exacutable can be run using a json-formatted settings stream as input. This executable can also output the results of the simulation as json. This can be shown e.g. by running `bin/cov-sim 1 < settings.json > output.json`. Note that the `cov-sim` executable will run with default settings if it has no command line arguments, and will run with the standard input if any command line argument exists (we should make this work with something like a flag instead).
+The `cov-sim` exacutable can be run using a json-formatted settings stream as input. This executable can also output the results of the simulation as json. There are a couple of option flags available when running it:
+
+- `-i` Use json-formatted settings from the standard input stream (otherwise a de- fault is used)
+- `-o` Output json-formatted results to the standard output stream
+- `-r` Use a non-deterministic seed for the simulation
+- `-p` Print the results as a plot in the terminal
+
+For example, to run the program with settings from `settings.json`, output in `results.json`, a random seed, and a plot in the terminal, you can run:
+
+`bin/cov-sim -iorp < settings.json > output.json`
 
 The settings file is structured as follows. Note that any value can be omitted, in which case it will be set to a default value.
 
