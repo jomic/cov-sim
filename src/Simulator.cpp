@@ -11,7 +11,7 @@ std::set<int> unique_random_numbers(int n, int max) {
     std::cout << "random_numbers: n cant be larger than total\n";
     return numbers;
   }
-  while (numbers.size() < n) {
+  while ((int)numbers.size() < n) {
       numbers.insert(rand() % max);
     }
   return numbers;
