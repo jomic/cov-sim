@@ -19,6 +19,7 @@ bin/%: obj/%.o $(DEPENDEES)
 # Run any program binary:
 %: bin/%
 	time $?
+	@echo ${OS}
 
 # Run any program with valgrind:
 %_memtest: bin/%
