@@ -3,8 +3,10 @@
 #include <string>
 #include <tuple>
 #include <vector>
+#include <memory>
 #include "Agent.hpp"
 #include "Graph.hpp"
+#include "Group.hpp"
 using namespace std;
 
 // https://stackoverflow.com/a/46931770
@@ -90,7 +92,16 @@ void Graph::matrix_graph(int n, int d) {
 }
 
 void Graph::default_graph() {
-  matrix_graph(7, 1);
+  matrix_graph(20, 1);
+}
+
+void Graph::assign_groups(vector<shared_ptr<group_t>>& groups) {
+  if (groups.size() > 0) {
+    for (Agent& agent : node_values) {
+      int i = rand() % groups.size();
+      agent.assign_group(groups[i]);
+    }
+  }
 }
 
 // Return neighbours of node id:

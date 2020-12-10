@@ -1,8 +1,8 @@
 #pragma once
 #include <iostream>
 #include "Graph.hpp"
-#include "IOjson.hpp"
 #include "Results.hpp"
+#include "IOStreamHandler.hpp"
 
 class Simulator {
 private:
@@ -19,7 +19,7 @@ private:
   int initial_infections = 4;
   int L = 7;
   int days_sick = 14;
-  int D0 = 1;
+  int D0 = 2;
   int T0 = 60;
   int t_end = 60;
   float betaC = 0.25;

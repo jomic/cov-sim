@@ -1,15 +1,16 @@
-#include <iostream>
 #include <vector>
-#include "Graph.hpp"
+#include <iostream>
 #include "Group.hpp"
-#include "Results.hpp"
+#include "Graph.hpp"
 #include "Simulator.hpp"
+#include "Results.hpp"
 #include "../include/json.hpp"
+
 using namespace std;
 using json = nlohmann::json;
 
 
-void get_groups_from_stream(istream& stream, vector<group_t>& groups) {
+void get_groups_from_stream(istream& stream, vector<shared_ptr<group_t>>& groups) {
   json s;
   try {
     stream >> s;    
@@ -21,27 +22,27 @@ void get_groups_from_stream(istream& stream, vector<group_t>& groups) {
 
   if (s["groups"].is_array()) {
     for (auto group : s["groups"]) {
-      group_t g;
-      if (s["n_i"].is_number())
-	g.n_i = s["n_i"];
-      if (s["n_ai"].is_number())
-	g.n_ai = s["n_ai"];
-      if (s["s"].is_number())
-	g.s = s["s"];
-      if (s["p_i"].is_number())
-	g.p_i = s["p_i"];
-      if (s["p_ai"].is_number())
-	g.p_ai = s["p_ai"];
-      if (s["p_v"].is_number())
-	g.p_v = s["p_v"];
-      if (s["d_v"].is_number())
-	g.d_v = s["d_v"];
-      if (s["d_i"].is_number())
-	g.d_i = s["d_i"];
-      if (s["d_ai"].is_number())
-	g.d_ai = s["d_ai"];
-      if (s["a_p"].is_number())
-	g.a_p = s["a_p"];
+      shared_ptr<group_t> g(new group_t);
+      if (group["n_i"].is_number())
+	g->n_i = group["n_i"];
+      if (group["n_ai"].is_number())
+	g->n_ai = group["n_ai"];
+      if (group["s"].is_number())
+	g->s = group["s"];
+      if (group["p_i"].is_number())
+	g->p_i = group["p_i"];
+      if (group["p_ai"].is_number())
+	g->p_ai = group["p_ai"];
+      if (group["p_v"].is_number())
+	g->p_v = group["p_v"];
+      if (group["d_v"].is_number())
+	g->d_v = group["d_v"];
+      if (group["d_i"].is_number())
+	g->d_i = group["d_i"];
+      if (group["d_ai"].is_number())
+	g->d_ai = group["d_ai"];
+      if (group["a_p"].is_number())
+	g->a_p = group["a_p"];
       groups.push_back(g);
     }
   }
@@ -81,7 +82,7 @@ void initialize_graph(json& s, Graph& g) {
     g.default_graph();
 }
 
-void initialize_graph_from_stream(istream& stream, Graph& g, vector<group_t>& groups) {
+void initialize_graph_from_stream(istream& stream, Graph& g) {
   json s;
   try {
     stream >> s;
