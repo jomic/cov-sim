@@ -1,6 +1,7 @@
 #pragma once
 
 class Graph;
+#include <memory>
 #include "Results.hpp"
 #include "Group.hpp"
 
@@ -13,14 +14,19 @@ private:
   bool v;
   bool r;
   int infected_on;
-  const group_t &group;
-  static const group_t default_group;
+  std::shared_ptr<group_t> group;
+  static group_t default_group;
 
   void try_infecting_neighbour(int t, int id, Graph& edges);
 
 public:
-  Agent(int id, const group_t& group);
+  Agent(int id, std::shared_ptr<group_t> group);
   Agent(int id);
+
+  /*
+    Assign a new group to the agent.
+   */
+  void assign_group(std::shared_ptr<group_t>& new_group);
   
   /*
     Check if the individual can infect people at time t.
@@ -42,6 +48,11 @@ public:
   */
   void try_infecting_neighbours(int t, Graph& edges);
 
+  /*
+    Make the individual try to infect some of its neighbours at time t, n based on its group params.
+  */
+  void try_infecting_n_neighbours(int t, Graph& edges);
+  
   /*
     Update the individuals infection, given that an infection last for d time steps.
   */

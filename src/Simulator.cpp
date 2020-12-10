@@ -28,7 +28,10 @@ void Simulator::iterate(Results& results, Graph& edges, int t) {
   for (Agent &node : edges.node_values) {
     node.update_results(t, results);
     if (node.is_infected(t)) {
-      node.try_infecting_neighbours(t, edges);
+      if (select_all)
+	node.try_infecting_neighbours(t, edges);
+      else
+	node.try_infecting_n_neighbours(t, edges);
       node.update_infection(t);
     }
   }
@@ -36,6 +39,16 @@ void Simulator::iterate(Results& results, Graph& edges, int t) {
 
 Results Simulator::simulate(Graph& edges) {
   Results results;
+  
+  /*
+    Just for now: settings are based on document names,
+    so the variables used in the simulator are assigned 
+    these values here until we decide which names to use.
+  */
+  initial_infections = N;
+  t_end = T;
+  
+  
   infect_initial(edges, initial_infections);
   for (int t = 1; t <= t_end; t++) {
     results.prepare_new_result();

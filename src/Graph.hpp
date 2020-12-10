@@ -1,7 +1,9 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <memory>
 #include "Agent.hpp"
+#include "Group.hpp"
 
 using namespace std;
 
@@ -36,6 +38,20 @@ public:
      distance *distance*.
   */
   void matrix_graph(int size, int distance);
+
+  /*
+    Initializes a default graph with no specific 
+    parameters, useful if nothing else has been 
+    specified. Implemented as a matrix graph.
+   */
+  void default_graph();
+
+  /*
+    Assign groups to already-existing agents from 
+    a vector of available groups, with a uniform 
+    distribution.
+   */
+  void assign_groups(vector<shared_ptr<group_t>>& groups);
 
   /* Returns list of neighbours of node *id* */
   vector<int> neighbours(int id);
