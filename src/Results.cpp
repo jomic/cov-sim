@@ -4,8 +4,8 @@
 #include <math.h>
 #include <string>
 #include <vector>
+#include "IOjson.hpp"
 #include "Results.hpp"
-#include "IOStreamHandler.hpp"
 using namespace std;
 
 void Results::add_susceptible(int n) {
@@ -54,20 +54,20 @@ void Results::prepare_new_result() {
 }
 
 void Results::print(int N) {
-    clog << "\n";
+    cout << "\n";
   int T = results.size();
   for (int t = 0; t < T; t++) {
     const int WDTH = 100, spcs = 8;
-    for (int i = 0; i < round(WDTH*results[t].i/N); i++) {clog << "I";}
+    for (int i = 0; i < round(WDTH*results[t].i/N); i++) {cout << "I";}
     int n_s_t = WDTH - round(WDTH*results[t].i/N) - round(WDTH*results[t].r/N);
-    for (int i = 0; i < n_s_t; i++) {clog << " ";}
-    for (int i = 0; i < round(WDTH*results[t].r/N); i++) {clog << "R";}
-    clog << "| s a i v r(" << setw(3) << setfill(' ') << t << "): ";
-    clog << setw(spcs) << setfill(' ') << results[t].s;
-    clog << setw(spcs) << setfill(' ') << results[t].a;
-    clog << setw(spcs) << setfill(' ') << results[t].i;
-    clog << setw(spcs) << setfill(' ') << results[t].v;
-    clog << setw(spcs) << setfill(' ') << results[t].r << "\n";
+    for (int i = 0; i < n_s_t; i++) {cout << " ";}
+    for (int i = 0; i < round(WDTH*results[t].r/N); i++) {cout << "R";}
+    cout << "| s a i v r(" << setw(3) << setfill(' ') << t << "): ";
+    cout << setw(spcs) << setfill(' ') << results[t].s;
+    cout << setw(spcs) << setfill(' ') << results[t].a;
+    cout << setw(spcs) << setfill(' ') << results[t].i;
+    cout << setw(spcs) << setfill(' ') << results[t].v;
+    cout << setw(spcs) << setfill(' ') << results[t].r << "\n";
   }
 }
 

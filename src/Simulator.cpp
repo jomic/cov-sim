@@ -1,9 +1,9 @@
+#include <iostream>
+#include <set>
+#include <vector>
 #include "Graph.hpp"
 #include "Results.hpp"
 #include "Simulator.hpp"
-#include <vector>
-#include <set>
-#include <iostream>
 
 std::set<int> unique_random_numbers(int n, int max) {
   std::set<int> numbers;
@@ -28,10 +28,7 @@ void Simulator::iterate(Results& results, Graph& edges, int t) {
   for (Agent &node : edges.node_values) {
     node.update_results(t, results);
     if (node.is_infected(t)) {
-      if (select_all)
-	node.try_infecting_neighbours(t, edges);
-      else
-	node.try_infecting_n_neighbours(t, edges);
+      node.try_infecting_neighbours(t, edges);
       node.update_infection(t);
     }
   }
@@ -40,7 +37,7 @@ void Simulator::iterate(Results& results, Graph& edges, int t) {
 Results Simulator::simulate(Graph& edges) {
   Results results;
   
-  /*
+  /**
     Just for now: settings are based on document names,
     so the variables used in the simulator are assigned 
     these values here until we decide which names to use.
