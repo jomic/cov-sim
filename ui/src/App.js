@@ -2,7 +2,7 @@ import './App.css';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import ForceGraph2D from 'react-force-graph-2d';
 import Dashboard from './views/Dashboard';
-
+import Layout from "./views/MainLayout";
 function App() {
 
   function genRandomTree(N = 300, reverse = false) {
@@ -46,7 +46,7 @@ function App() {
 
   return (
     <div className="App">
-      <section className="Main" >
+      {/* <section className="Main" >
         <h3>Test Data (with states)</h3>
         <ForceGraph2D 
           graphData={testData} 
@@ -67,7 +67,8 @@ function App() {
           onEngineStop={() => fgRef.current.zoomToFit(400)}
         />
         <Dashboard />
-      </section>
+      </section> */}
+      <Layout />
     </div>
   );
 }

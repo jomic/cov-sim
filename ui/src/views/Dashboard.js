@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import classes from "./Dashboard.module.css";
 import { managerData, nationalAverageData, yearLabels } from "../data/mockData";
 import { Line } from 'react-chartjs-2';
+import { Button, Space } from 'antd';
 
 
 export default class Dashboard extends Component {
@@ -16,7 +17,7 @@ export default class Dashboard extends Component {
     addChartData = () => {
         // this.graphRef.current.addData();
         const newData = [...this.state.data, 4000];
-        const newLabels = [...this.state.labels, "something"];
+        const newLabels = [...this.state.labels, this.state.labels.length];
         this.setState({
             data: newData,
             labels: newLabels,
@@ -55,16 +56,14 @@ export default class Dashboard extends Component {
         }
         return (
             <div className={classes.container}>
-                <header>
-                    <h1>Dashboard</h1>
-                </header>
-                <div className={classes.graphContainer}>
-                    <Line
-                        data={newData}
-                    />
-                </div>
-                <button onClick={this.addChartData}>Add Data</button>
-
+                <Space direction="vertical">
+                    <div className={classes.graphContainer}>
+                        <Line
+                            data={newData}
+                        />
+                    </div>
+                    <Button onClick={this.addChartData}>Add Data 1</Button>
+                </Space>
             </div>
         )
     }
