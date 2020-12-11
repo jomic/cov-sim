@@ -40,8 +40,10 @@ int main(int argc, char** argv) {
     srand(1);
 
   vector<shared_ptr<group_t>> groups;
-  Simulator s;
   Graph edges;
+  NothingStrategy vs;
+  Simulator s(vs);
+
 
   // Load groups and settings from stream
   if (input_settings) {

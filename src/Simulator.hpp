@@ -3,6 +3,8 @@
 #include "Graph.hpp"
 #include "Results.hpp"
 #include "IOStreamHandler.hpp"
+#include "VaccinationStrategy.hpp"
+#include "VaccinationStrategies.hpp"
 
 class Simulator {
 private:
@@ -29,8 +31,11 @@ private:
   bool select_all{true}; // Whether or not agents try to infect all neighbours
   unsigned int T{50};             // Simulation duration
   unsigned int N{4};              // Initial infected
+  // Unused
   unsigned int T_v{10};           // Vaccination start time
   unsigned int n_v{10};           // Vaccines available per timestep
+
+  VaccinationStrategy *vac_strat;
   
   /**
     Infects n agents at time t=0.
@@ -38,6 +43,8 @@ private:
   void infect_initial(Graph& edges, int n);
 
 public:
+  Simulator(VaccinationStrategy& vs);
+  
   /**
     Performs a single iteration at time t.
    */

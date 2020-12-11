@@ -4,6 +4,7 @@
 #include <vector>
 #include <set>
 #include <iostream>
+#include "VaccinationStrategies.hpp"
 
 std::set<int> unique_random_numbers(int n, int max) {
   std::set<int> numbers;
@@ -17,6 +18,10 @@ std::set<int> unique_random_numbers(int n, int max) {
   return numbers;
 }
 
+Simulator::Simulator(VaccinationStrategy& vs) {
+  vac_strat = &vs;
+}
+
 void Simulator::infect_initial(Graph& edges, int n) {
   std::set<int> rand_index = unique_random_numbers(n, edges.node_count());
   for (auto i : rand_index) {
@@ -25,6 +30,9 @@ void Simulator::infect_initial(Graph& edges, int n) {
 }
 
 void Simulator::iterate(Results& results, Graph& edges, int t) {
+
+  vac_strat->vaccinate(edges);
+  
   for (Agent &node : edges.node_values) {
     node.update_results(t, results);
     if (node.is_infected(t)) {
