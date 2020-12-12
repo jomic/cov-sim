@@ -40,6 +40,13 @@ public:
   void matrix_graph(int size, int distance);
 
   /*
+    Generate a Newman-Watts small world network
+    from a 1d lattice with length l, neighbourhood 
+    radius k, and shortcut probability p
+   */
+  void nw_small_world(int l, int k, float p);
+  
+  /*
     Initializes a default graph with no specific 
     parameters, useful if nothing else has been 
     specified. Implemented as a matrix graph.
