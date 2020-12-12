@@ -139,3 +139,45 @@ void Graph::print_graph() {
   for (auto i : edges) { clog << i << ", "; }
   clog << endl;
 }
+
+void Graph::write_generatable_graph(ostream& stream) {
+  bool first = true;
+  for (auto offset : offsets) {
+    if (first)
+      first = false;
+    else
+      stream << " ";
+    stream << offset;
+  }
+  stream << endl;
+
+  first = true;
+  for (auto edge : edges) {
+    if (first)
+      first = false;
+    else
+      stream << " ";
+    stream << edge;
+  }
+}
+
+void Graph::read_generatable_graph(istream& stream) {
+  int id = 0;
+  int id_offset = node_values.size();
+  int offset = edges.size();
+  string line;
+
+  // Add the offsets
+  getline(stream, line);
+  vector<string> entries = split(line, " ");
+  for (auto& entry : entries) {
+    offsets.push_back(stoi(entry) + offset);
+    node_values.push_back(Agent(id++ + id_offset));
+  }
+
+  // Add the edges
+  getline(stream, line);
+  entries = split(line, " ");
+  for (auto& entry : entries)
+    edges.push_back(stoi(entry) + id_offset);
+}

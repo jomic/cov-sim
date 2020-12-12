@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <iostream>
 #include "Agent.hpp"
 #include "Group.hpp"
 
@@ -71,4 +72,10 @@ public:
 
   /* Prints information about the graph */
   void print_graph();
+
+  /* Print a graph that can be read for generation later on */
+  void write_generatable_graph(ostream& stream);
+
+  /* Read a graph written with write_generatable_graph() */
+  void read_generatable_graph(istream& stream);
 };

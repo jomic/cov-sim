@@ -44,7 +44,7 @@ void Graph::nw_small_world(int l, int k, float p) {
   int id_offset = node_values.size();
   int id = 0;
   for (auto& adjacency : adjacencies) {
-    node_values.push_back(Agent(id + id_offset));
+    node_values.push_back(Agent(id++ + id_offset));
     offsets.push_back(offset);
     offset += adjacency->size();
     for (auto edge : *adjacency)
