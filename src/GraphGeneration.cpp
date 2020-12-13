@@ -50,4 +50,7 @@ void Graph::nw_small_world(int l, int k, float p) {
     for (auto edge : *adjacency)
       edges.push_back(edge + id_offset);
   }
+
+  // Add an offset for the region
+  region_agent_offsets.push_back(id_offset);
 }

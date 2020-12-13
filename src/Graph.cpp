@@ -141,7 +141,18 @@ void Graph::print_graph() {
 }
 
 void Graph::write_generatable_graph(ostream& stream) {
+  // Write the region offsets
   bool first = true;
+  for (auto region_offset : region_agent_offsets) {
+    if (first)
+      first = false;
+    else stream << " ";
+    stream << region_offset;
+  }
+  stream << endl;
+
+  // Write the offsets
+  first = true;
   for (auto offset : offsets) {
     if (first)
       first = false;
@@ -151,6 +162,7 @@ void Graph::write_generatable_graph(ostream& stream) {
   }
   stream << endl;
 
+  // Write the edges
   first = true;
   for (auto edge : edges) {
     if (first)
@@ -167,9 +179,15 @@ void Graph::read_generatable_graph(istream& stream) {
   int offset = edges.size();
   string line;
 
-  // Add the offsets
+  // Add the region offsets
   getline(stream, line);
   vector<string> entries = split(line, " ");
+  for (auto& entry : entries)
+    region_agent_offsets.push_back(stoi(entry) + id_offset);
+
+  // Add the offsets
+  getline(stream, line);
+  entries = split(line, " ");
   for (auto& entry : entries) {
     offsets.push_back(stoi(entry) + offset);
     node_values.push_back(Agent(id++ + id_offset));

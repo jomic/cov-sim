@@ -22,6 +22,8 @@ public:
   vector<Relation> edge_values;
   vector<Agent> node_values;
 
+  vector<int> region_agent_offsets;
+
   /* Read node information from file.
      Format of file should be:
      NODE_ID CONNECTED_TO_1 CONNECTED_TO_2 ...
