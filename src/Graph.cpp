@@ -140,62 +140,60 @@ void Graph::print_graph() {
   clog << endl;
 }
 
-void Graph::write_generatable_graph(ostream& stream) {
-  // Write the region offsets
+void write_vector_to_stream_line(ostream& stream, vector<int>& vec) {
   bool first = true;
-  for (auto region_offset : region_agent_offsets) {
-    if (first)
-      first = false;
-    else stream << " ";
-    stream << region_offset;
-  }
-  stream << endl;
-
-  // Write the offsets
-  first = true;
-  for (auto offset : offsets) {
+  for (auto& entry : vec) {
     if (first)
       first = false;
     else
       stream << " ";
-    stream << offset;
+    stream << entry;
   }
   stream << endl;
+}
 
-  // Write the edges
-  first = true;
-  for (auto edge : edges) {
-    if (first)
-      first = false;
-    else
-      stream << " ";
-    stream << edge;
-  }
+void Graph::write_generatable_graph(ostream& stream) {
+  write_vector_to_stream_line(stream, region_agent_offsets);
+  write_vector_to_stream_line(stream, offsets);
+  write_vector_to_stream_line(stream, edges);
 }
 
 void Graph::read_generatable_graph(istream& stream) {
   int id = 0;
-  int id_offset = node_values.size();
-  int offset = edges.size();
+  int n_existing_agents = node_values.size();
+  int n_existing_connections = edges.size();
   string line;
 
   // Add the region offsets
   getline(stream, line);
   vector<string> entries = split(line, " ");
   for (auto& entry : entries)
-    region_agent_offsets.push_back(stoi(entry) + id_offset);
+    region_agent_offsets.push_back(stoi(entry) + n_existing_agents);
 
   // Add the offsets
   getline(stream, line);
   entries = split(line, " ");
   for (auto& entry : entries) {
-    offsets.push_back(stoi(entry) + offset);
-    node_values.push_back(Agent(id++ + id_offset));
+    offsets.push_back(stoi(entry) + n_existing_connections);
+    node_values.push_back(Agent(id++ + n_existing_agents));
   }
 
   // Add the edges
   getline(stream, line);
   entries = split(line, " ");
   for (auto& entry : entries)
-    edges.push_back(stoi(entry) + id_offset);
+    edges.push_back(stoi(entry) + n_existing_agents);
+}
+
+void Graph::set_region_connections_from_stream(istream& stream) {
+  int n_existing_regions = region_connection_offsets.size();
+  string line;
+  vector<string> entries;
+  
+  while (getline(stream, line)) {
+    entries = split(line, " ");
+    region_connection_offsets.push_back(region_connections.size());
+    for (auto& entry : entries)
+      region_connections.push_back(stoi(entry) + n_existing_regions);
+  }
 }

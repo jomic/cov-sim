@@ -40,17 +40,15 @@ void Graph::nw_small_world(int l, int k, float p) {
     sort(adjacencies[i]->begin(), adjacencies[i]->end());
 
   // Store all adjacencies in the compressed row vectors
-  int offset = edges.size();
-  int id_offset = node_values.size();
   int id = 0;
+  int n_existing_agents = node_values.size();
+  int n_existing_connections = edges.size();
+  region_agent_offsets.push_back(n_existing_agents);
   for (auto& adjacency : adjacencies) {
-    node_values.push_back(Agent(id++ + id_offset));
-    offsets.push_back(offset);
-    offset += adjacency->size();
+    node_values.push_back(Agent(id++ + n_existing_agents));
+    offsets.push_back(n_existing_connections);
+    n_existing_connections += adjacency->size();
     for (auto edge : *adjacency)
-      edges.push_back(edge + id_offset);
+      edges.push_back(edge + n_existing_agents);
   }
-
-  // Add an offset for the region
-  region_agent_offsets.push_back(id_offset);
 }

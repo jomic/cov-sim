@@ -23,6 +23,9 @@ public:
   vector<Agent> node_values;
 
   vector<int> region_agent_offsets;
+  vector<int> region_connection_offsets;
+  vector<int> region_connections;
+  
 
   /* Read node information from file.
      Format of file should be:
@@ -80,4 +83,7 @@ public:
 
   /* Read a graph written with write_generatable_graph() */
   void read_generatable_graph(istream& stream);
+
+  /* Set the connections between regions */
+  void set_region_connections_from_stream(istream& stream);
 };
