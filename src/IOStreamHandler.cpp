@@ -1,5 +1,6 @@
 #include <vector>
 #include <iostream>
+#include <fstream>
 #include "Group.hpp"
 #include "Graph.hpp"
 #include "Simulator.hpp"
@@ -78,6 +79,13 @@ void initialize_graph(json& s, Graph& g) {
   else if (s["type"] == "file"
 	   && s["file_name"].is_string())
     g.input_from_file(s["file_name"]);
+  else if (s["type"] == "file_2"
+	   && s["file_name"].is_string()) {
+    ifstream file;
+    file.open(s["file_name"]);
+    g.read_generatable_graph(file);
+    file.close();
+  }
   else
     g.default_graph();
 }
