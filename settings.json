@@ -1,7 +1,7 @@
 {
     "select_all": false,
-    "N": 5,
-    "T": 100,
+    "N": 10,
+    "T": 80,
     "T_v": 10,
     "n_v": 3,
     "groups": [
@@ -16,23 +16,10 @@
 	    "d_i": 14,
 	    "d_ai": 12,
 	    "a_p": 0.0
-	},
-	{
-	    "n_i": 3,
-	    "n_ai": 5,
-	    "s": 0.5,
-	    "p_i": 0.2,
-	    "p_ai": 0.3,
-	    "p_v": 0.9,
-	    "d_v": 20,
-	    "d_i": 14,
-	    "d_ai": 12,
-	    "a_p": 0.1
 	}
     ],
     "graph": {
-	"type": "matrix",
-	"size": 100,
-	"distance": 5
+	"type": "file_2",
+	"file_name": "graph.txt"
     }
 }
