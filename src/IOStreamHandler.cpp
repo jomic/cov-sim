@@ -102,6 +102,14 @@ void initialize_graph_from_stream(istream& stream, Graph& g) {
 
   if (s["graph"].is_object() && s["graph"]["type"].is_string())
     initialize_graph(s["graph"], g);
+  else if (s["graph"].is_array()) {
+    for (auto graph : s["graph"]) {
+      if (graph["type"].is_string())
+	initialize_graph(graph, g);
+      else
+	g.default_graph();
+    }
+  }
   else
     g.default_graph();
 }
