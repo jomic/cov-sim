@@ -39,6 +39,11 @@ public:
   bool is_susceptible(int t);
 
   /*
+    Check if the individual is travelling at the time t.
+   */
+  bool is_travelling(int t);
+
+  /*
     Infect the individual at time t.
   */
   void infect(int t);
@@ -52,6 +57,11 @@ public:
     Make the individual try to infect some of its neighbours at time t, n based on its group params.
   */
   void try_infecting_n_neighbours(int t, Graph& edges);
+
+  /*
+    Make the individual try to infect n people in a neighbouring region, based on group params.
+   */
+  void try_infecting_on_travel(int t, Graph& edges);
   
   /*
     Update the individuals infection, given that an infection last for d time steps.

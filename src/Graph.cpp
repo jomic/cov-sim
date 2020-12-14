@@ -140,7 +140,7 @@ void Graph::print_graph() {
   clog << endl;
 }
 
-void write_vector_to_stream_line(ostream& stream, vector<int>& vec) {
+void write_vector_to_stream_line(ostream& stream, vector<int>& vec, bool newline) {
   bool first = true;
   for (auto& entry : vec) {
     if (first)
@@ -149,13 +149,14 @@ void write_vector_to_stream_line(ostream& stream, vector<int>& vec) {
       stream << " ";
     stream << entry;
   }
-  stream << endl;
+  if (newline)
+    stream << endl;
 }
 
 void Graph::write_generatable_graph(ostream& stream) {
-  write_vector_to_stream_line(stream, region_agent_offsets);
-  write_vector_to_stream_line(stream, offsets);
-  write_vector_to_stream_line(stream, edges);
+  write_vector_to_stream_line(stream, region_agent_offsets, true);
+  write_vector_to_stream_line(stream, offsets, true);
+  write_vector_to_stream_line(stream, edges, false);
 }
 
 void Graph::read_generatable_graph(istream& stream) {
@@ -164,12 +165,17 @@ void Graph::read_generatable_graph(istream& stream) {
   int n_existing_connections = edges.size();
   string line;
 
+  clog << "First\n";
   // Add the region offsets
   getline(stream, line);
   vector<string> entries = split(line, " ");
-  for (auto& entry : entries)
+  for (auto& entry : entries) {
+    clog << "ENTRY(" << entry << ")" << endl;
     region_agent_offsets.push_back(stoi(entry) + n_existing_agents);
+    
+  }
 
+  clog << "Second\n";
   // Add the offsets
   getline(stream, line);
   entries = split(line, " ");
@@ -178,6 +184,7 @@ void Graph::read_generatable_graph(istream& stream) {
     node_values.push_back(Agent(id++ + n_existing_agents));
   }
 
+  clog << "Third\n";
   // Add the edges
   getline(stream, line);
   entries = split(line, " ");

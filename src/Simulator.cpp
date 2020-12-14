@@ -28,10 +28,15 @@ void Simulator::iterate(Results& results, Graph& edges, int t) {
   for (Agent &node : edges.node_values) {
     node.update_results(t, results);
     if (node.is_infected(t)) {
-      if (select_all)
-	node.try_infecting_neighbours(t, edges);
-      else
-	node.try_infecting_n_neighbours(t, edges);
+      if (node.is_travelling(t)) {
+	node.try_infecting_on_travel(t, edges);
+      }
+      else {
+	if (select_all)
+	  node.try_infecting_neighbours(t, edges);
+	else
+	  node.try_infecting_n_neighbours(t, edges);	
+      }
       node.update_infection(t);
     }
   }
