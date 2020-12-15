@@ -2,21 +2,11 @@
 #include "Results.hpp"
 #include "Simulator.hpp"
 #include <vector>
-#include <set>
 #include <iostream>
 #include "VaccinationStrategies.hpp"
+#include "Utilities.hpp"
 
-std::set<int> unique_random_numbers(int n, int max) {
-  std::set<int> numbers;
-  if (n > max) {
-    std::cout << "random_numbers: n cant be larger than total\n";
-    return numbers;
-  }
-  while ((int)numbers.size() < n) {
-      numbers.insert(rand() % max);
-    }
-  return numbers;
-}
+
 
 Simulator::Simulator(VaccinationStrategy& vs) {
   vac_strat = &vs;
