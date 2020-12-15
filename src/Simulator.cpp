@@ -25,7 +25,13 @@ void Simulator::infect_initial(Graph& edges, int n) {
 }
 
 void Simulator::iterate(Results& results, Graph& edges, int t) {
+  int current_id = 0;
+  int current_region = -1;
   for (Agent &node : edges.node_values) {
+    if (edges.get_agent_region(current_id++) != current_region) {
+      current_region++;
+      results.prepare_new_region();
+    }
     node.update_results(t, results);
     if (node.is_infected(t)) {
       if (node.is_travelling(t)) {
@@ -42,7 +48,7 @@ void Simulator::iterate(Results& results, Graph& edges, int t) {
   }
 }
 
-Results Simulator::simulate(Graph& edges) {
+Results Simulator::simulate(Graph& edges, bool print_each_result) {
   Results results;
   
   /*
@@ -58,6 +64,12 @@ Results Simulator::simulate(Graph& edges) {
   for (int t = 1; t <= t_end; t++) {
     results.prepare_new_result();
     iterate(results, edges, t);
+    if (print_each_result)
+      results.write_last_to_output_stream(std::cout);
   }
   return results;
+}
+
+Results Simulator::simulate(Graph& edges) {
+  return simulate(edges, false);
 }

@@ -158,8 +158,24 @@ json result_to_json(result_t& result) {
   return j;
 }
 
+json region_result_to_json(vector<result_t>& region_result) {
+  json j = {
+    {"region_results", {}}
+  };
+  for (auto result : region_result) {
+    json entry = result_to_json(result);
+    j["region_results"].push_back(entry);
+  }
+  return j;
+}
+
 void write_result_to_output_stream(ostream& stream, result_t& result) {
   json output = result_to_json(result);
+  stream << output << endl;
+}
+
+void write_result_to_output_stream(ostream& stream, vector<result_t>& region_result) {
+  json output = region_result_to_json(region_result);
   stream << output << endl;
 }
 
@@ -169,6 +185,17 @@ void write_results_to_output_stream(ostream& stream, vector<result_t>& results) 
   };
   for (auto result : results) {
     json entry = result_to_json(result);
+    output["results"].push_back(entry);
+  }
+  stream << output << endl;
+}
+
+void write_results_to_output_stream(ostream& stream, vector<vector<result_t>>& region_results) {
+  json output = {
+    {"results", {}}
+  };
+  for (auto& result : region_results) {
+    json entry = region_result_to_json(result);
     output["results"].push_back(entry);
   }
   stream << output << endl;

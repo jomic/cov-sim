@@ -60,11 +60,9 @@ int main(int argc, char** argv) {
   edges.assign_groups(groups);
 
   // Run the simulation
-  Results results = s.simulate(edges);
+  Results results = s.simulate(edges, output_results);
 
   // Output results
   if (print_graph)
     results.print(10000);
-  if (output_results)
-    results.write_to_output_stream(cout);
 }

@@ -14,6 +14,7 @@ struct result_t {
 class Results {
 private:
   std::vector<result_t> results;
+  std::vector<std::vector<result_t>> results_by_region;
 public:
   void add_susceptible(int n);
   void add_susceptible();
@@ -25,8 +26,10 @@ public:
   void add_vaccinated();
   void add_removed(int n);
   void add_removed();
+  void prepare_new_region();
   void prepare_new_result();
   void print(int N);
   void save_to_file(std::string file_name);
   void write_to_output_stream(std::ostream& stream);
+  void write_last_to_output_stream(std::ostream& stream);
 };

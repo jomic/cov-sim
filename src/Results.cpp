@@ -10,6 +10,7 @@ using namespace std;
 
 void Results::add_susceptible(int n) {
   results.back().s += n;
+  results_by_region.back().back().s += n;
 }
 
 void Results::add_susceptible() {
@@ -18,6 +19,7 @@ void Results::add_susceptible() {
 
 void Results::add_asymptomatic(int n) {
   results.back().a += n;
+  results_by_region.back().back().a += n;
 }
 
 void Results::add_asymptomatic() {
@@ -26,6 +28,7 @@ void Results::add_asymptomatic() {
 
 void Results::add_infected(int n) {
   results.back().i += n;
+  results_by_region.back().back().i += n;
 }
   
 void Results::add_infected() {
@@ -34,6 +37,7 @@ void Results::add_infected() {
 
 void Results::add_vaccinated(int n) {
   results.back().v += n;
+  results_by_region.back().back().v += n;
 }
 
 void Results::add_vaccinated() {
@@ -42,15 +46,23 @@ void Results::add_vaccinated() {
 
 void Results::add_removed(int n) {
   results.back().r += n;
+  results_by_region.back().back().r += n;
 }
   
 void Results::add_removed() {
   add_removed(1);
 }
 
+void Results::prepare_new_region() {
+  result_t new_result;
+  results_by_region.back().push_back(new_result);
+}
+
 void Results::prepare_new_result() {
   result_t new_result;
   results.push_back(new_result);
+  vector<result_t> new_region_results;
+  results_by_region.push_back(new_region_results);
 }
 
 void Results::print(int N) {
@@ -86,5 +98,9 @@ void Results::save_to_file(string file_name) {
 }
 
 void Results::write_to_output_stream(ostream& stream) {
-  write_results_to_output_stream(stream, results);
+  write_results_to_output_stream(stream, results_by_region);
+}
+
+void Results::write_last_to_output_stream(ostream& stream) {
+  write_result_to_output_stream(stream, results_by_region.back());
 }
