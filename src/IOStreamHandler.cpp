@@ -97,6 +97,29 @@ void initialize_graph(json& s, Graph& g) {
     g.default_graph();
 }
 
+void initialize_region_connections(json& s, Graph& g) {
+  if (s["region_connections"].is_array()) {
+    vector<vector<int>> connections;
+    for (auto connection_list : s["region_connections"]) {
+      vector<int> c;
+      for (auto entry : connection_list)
+	if (entry.is_number())
+	  c.push_back(entry);
+      connections.push_back(c);
+    }
+    g.set_region_connections(connections);
+  }
+  else if (s["region_connections"].is_string()) {
+    ifstream file;
+    file.open(s["region_connections"]);
+    g.set_region_connections(file);
+    file.close();
+  }
+  else {
+    g.default_region_connections();
+  }  
+}
+
 void initialize_graph_from_stream(istream& stream, Graph& g) {
   json s;
   try {
@@ -121,25 +144,7 @@ void initialize_graph_from_stream(istream& stream, Graph& g) {
   else
     g.default_graph();
 
-  // Initialize the connections between regions
-  if (s["region_connections"].is_array()) {
-    vector<vector<int>> connections;
-    for (auto connection_list : s["region_connections"]) {
-      vector<int> c;
-      for (auto entry : connection_list) {
-	if (entry.is_number()) {
-	  c.push_back(entry);	  
-	}
-      }
-      connections.push_back(c);
-    }
-    g.set_region_connections(connections);
-  }
-  else {
-    g.default_region_connections();
-  }
-  
-  // TODO: Read connections from file
+  initialize_region_connections(s, g);
 }
 
 
