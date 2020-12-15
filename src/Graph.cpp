@@ -228,6 +228,9 @@ void Graph::set_region_connections(istream& stream) {
     for (auto& entry : entries)
       region_connections.push_back(stoi(entry));
   }
+  
+  if (region_connection_offsets.size() != region_agent_offsets.size())
+    cerr << "WARNING -- Inconsistent region count." << endl;
 }
 
 void Graph::set_region_connections(vector<vector<int>>& connections) {
@@ -236,6 +239,9 @@ void Graph::set_region_connections(vector<vector<int>>& connections) {
     for (auto connection : connection_list)
       region_connections.push_back(connection);
   }
+  
+  if (region_connection_offsets.size() != region_agent_offsets.size())
+    cerr << "WARNING -- Inconsistent region count." << endl;
 }
 
 void Graph::default_region_connections() {
