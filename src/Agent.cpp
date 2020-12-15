@@ -47,7 +47,7 @@ bool Agent::is_susceptible(int t) {
 }
 
 bool Agent::is_travelling(int t) {
-  return group->p_t < (float) rand() / (float) RAND_MAX;
+  return group->p_t > (float) rand() / (float) RAND_MAX;
 }
 
 void Agent::infect(int t) {
