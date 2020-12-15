@@ -53,6 +53,7 @@ int main(int argc, char** argv) {
   }
   else {
     edges.default_graph();
+    edges.default_region_connections();
   }
 
   // Assign groups to the agents in the graph

@@ -34,6 +34,8 @@ void get_groups_from_stream(istream& stream, vector<shared_ptr<group_t>>& groups
 	g->p_i = group["p_i"];
       if (group["p_ai"].is_number())
 	g->p_ai = group["p_ai"];
+      if (group["p_t"].is_number())
+	g->p_t = group["p_t"];
       if (group["p_v"].is_number())
 	g->p_v = group["p_v"];
       if (group["d_v"].is_number())
@@ -100,6 +102,7 @@ void initialize_graph_from_stream(istream& stream, Graph& g) {
     return;
   }
 
+  // Initialize connections between agents
   if (s["graph"].is_object() && s["graph"]["type"].is_string())
     initialize_graph(s["graph"], g);
   else if (s["graph"].is_array()) {
@@ -112,6 +115,26 @@ void initialize_graph_from_stream(istream& stream, Graph& g) {
   }
   else
     g.default_graph();
+
+  // Initialize the connections between regions
+  if (s["region_connections"].is_array()) {
+    vector<vector<int>> connections;
+    for (auto connection_list : s["region_connections"]) {
+      vector<int> c;
+      for (auto entry : connection_list) {
+	if (entry.is_number()) {
+	  c.push_back(entry);	  
+	}
+      }
+      connections.push_back(c);
+    }
+    g.set_region_connections(connections);
+  }
+  else {
+    g.default_region_connections();
+  }
+  
+  // TODO: Read connections from file
 }
 
 

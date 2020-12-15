@@ -88,39 +88,28 @@ void Agent::try_infecting_on_travel(int t, Graph& edges) {
   // Get possible targets
   // Select target
 
-  // Find which region you're in
-  int region = 0;
-  for (auto offset : edges.region_agent_offsets) {
-    if (offset < id)
-      region++;
+  int region = edges.get_agent_region(id);
+  std::vector<int> candidate_regions = edges.get_neighbouring_regions(region);
+  // Select a region
+  if (candidate_regions.size() > 0) {
+    int destination_index = rand() % candidate_regions.size();
+    int destination = candidate_regions[destination_index];
+  
+    // Find the eligible targets
+    int dst_start = edges.region_agent_offsets[destination];
+    int dst_end;
+    if (destination == edges.region_agent_offsets.size() - 1)
+      dst_end = edges.node_values.size();
     else
-      break;
-  }
+      dst_end = edges.region_agent_offsets[destination + 1];
 
-  // Figure out which region to travel to
-  int ns_start = edges.region_connection_offsets[region];
-  int ns_end;
-  if (region == edges.region_agent_offsets.size() - 1)
-    ns_end = edges.region_connections.size();
-  else
-    ns_end = edges.region_connection_offsets[region + 1];
-  std::vector<int> neighbouring_regions(edges.region_connections.begin() + ns_start, edges.region_connections.begin() + ns_end);
-  int destination = neighbouring_regions[rand() % neighbouring_regions.size()];
-
-  // Find the eligible targets
-  int dst_start = edges.region_agent_offsets[destination];
-  int dst_end;
-  if (destination == edges.region_agent_offsets.size() - 1)
-    dst_end = edges.node_values.size();
-  else
-    dst_end = edges.region_agent_offsets[destination + 1];
-
-  // Choose the targets and try to infect
-  int n_potential_targets = dst_end - dst_start;
-  int n_attempts = 1;
-  for (int i = 0; i < n_attempts; i++) {
-    int target_id = rand() % n_potential_targets + dst_start;
-    try_infecting_neighbour(t, i, edges);
+    // Choose the targets and try to infect
+    int n_potential_targets = dst_end - dst_start;
+    int n_attempts = 1;
+    for (int i = 0; i < n_attempts; i++) {
+      int target_id = rand() % n_potential_targets + dst_start;
+      try_infecting_neighbour(t, target_id, edges);
+    }
   }
 }
 

@@ -74,6 +74,11 @@ public:
 
   Agent get_node(int id);
 
+  /* Get the id of the region region the agent with a given id belongs to */
+  int get_agent_region(int id);
+
+  /* Get a vector of regions that neighbour a given region*/
+  vector<int> get_neighbouring_regions(int region_id);
 
   /* Prints information about the graph */
   void print_graph();
@@ -84,6 +89,15 @@ public:
   /* Read a graph written with write_generatable_graph() */
   void read_generatable_graph(istream& stream);
 
-  /* Set the connections between regions */
-  void set_region_connections_from_stream(istream& stream);
+  /* Begins a new region starting after the last created agent */
+  void start_new_region();
+
+  /* Set the connections between regions from a stream input */
+  void set_region_connections(istream& stream);
+
+  /* Set the region connections with a vector of vectors of ints */
+  void set_region_connections(vector<vector<int>>& connections);
+
+  /* Create empty region connections based on currently existing regions */
+  void default_region_connections();
 };

@@ -12,6 +12,8 @@ bool roll(float p) {
 }
 
 void Graph::nw_small_world(int l, int k, float p) {
+  start_new_region();
+  
   // Vector for storing connection vectors
   vector<unique_ptr<vector<int>>> adjacencies;
 
@@ -43,7 +45,6 @@ void Graph::nw_small_world(int l, int k, float p) {
   int id = 0;
   int n_existing_agents = node_values.size();
   int n_existing_connections = edges.size();
-  region_agent_offsets.push_back(n_existing_agents);
   for (auto& adjacency : adjacencies) {
     node_values.push_back(Agent(id++ + n_existing_agents));
     offsets.push_back(n_existing_connections);
