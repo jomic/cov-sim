@@ -3,8 +3,12 @@
 #include "VaccinationStrategy.hpp"
 #include "Graph.hpp"
 
-class TrivialStrategy: public VaccinationStrategy {
+class RandomStrategy: public VaccinationStrategy {
 public:
+  int time_deployed{0};
+  int success_rate{0};
+  int vaccines_per_day{1};
+  
   void vaccinate(Graph& g);
 };
 

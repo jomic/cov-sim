@@ -39,9 +39,19 @@ public:
   bool is_susceptible(int t);
 
   /*
+    Check if the individual is vaccinated at time t.
+  */
+  bool is_vaccinated();
+
+  /*
     Infect the individual at time t.
   */
   void infect(int t);
+
+  /*
+    Vaccinate the individual
+  */
+  void vaccinate();
 
   /*
     Make the individual try to infect all of its neighbours at time t.

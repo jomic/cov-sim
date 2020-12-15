@@ -46,6 +46,10 @@ bool Agent::is_susceptible(int t) {
   return s;
 }
 
+bool Agent::is_vaccinated() {
+  return v;
+}
+
 void Agent::infect(int t) {
   if (s) {
     s = false;
@@ -57,6 +61,11 @@ void Agent::infect(int t) {
     }
     infected_on = t;
   }
+}
+
+void Agent::vaccinate() {
+  s = false;
+  v = true;
 }
 
 void Agent::try_infecting_neighbours(int t, Graph& edges) {
