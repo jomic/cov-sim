@@ -1,3 +1,4 @@
+#include <cmath>
 #include <iostream>
 #include <cstdlib>
 #include <unistd.h>
@@ -32,6 +33,19 @@ int main(int argc, char** argv) {
       break;
     }
   }
+
+  // Calculate and print some graph info
+  // Path length estimation based on Newman, Moore and Watts (1999)
+  float expected_degree = 2 * k + p * (l - 2 * k - 1);
+  float z = 1 / (k * p);
+  float sqrt_term = sqrt(1 + 2 * z / l);
+  float expected_path_length = atanh(1 / sqrt_term) * z / (2 * k * sqrt_term);
+  clog << "== Graph data ==" << endl
+       << "Number of nodes:\t" << l << endl
+       << "Expected degree:\t" << expected_degree << endl
+       << "Expected path length:\t" << expected_path_length << endl
+       << "Note that the path length may be inaccurate for some values." << endl
+       << "================" << endl << endl;
 
   Graph g;
   if (add_region)
