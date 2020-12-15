@@ -90,7 +90,7 @@ void Agent::try_infecting_on_travel(int t, Graph& edges) {
     int destination = candidate_regions[destination_index];
     int dst_start = edges.region_agent_offsets[destination];
     int dst_end;
-    if (destination == edges.region_agent_offsets.size() - 1)
+    if (destination == (int) edges.region_agent_offsets.size() - 1)
       dst_end = edges.node_values.size();
     else
       dst_end = edges.region_agent_offsets[destination + 1];

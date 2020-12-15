@@ -125,7 +125,7 @@ void Graph::nw_small_world(int l, int k, float p) {
 
   // Sort each adjacency list
 #pragma omp parallel for
-  for (int i = 0; i < adjacencies.size(); i++)
+  for (int i = 0; i < (int) adjacencies.size(); i++)
     sort(adjacencies[i]->begin(), adjacencies[i]->end());
 
   // Store all adjacencies in the compressed row vectors
@@ -196,7 +196,7 @@ int Graph::get_agent_region(int id) {
 vector<int> Graph::get_neighbouring_regions(int region_id) {
   int region_start = region_connection_offsets[region_id];
   int region_end;
-  if (region_id == region_connection_offsets.size() - 1)
+  if (region_id == (int) region_connection_offsets.size() - 1)
     region_end = region_connections.size();
   else
     region_end = region_connection_offsets[region_id + 1];
