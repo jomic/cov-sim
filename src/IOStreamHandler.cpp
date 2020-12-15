@@ -130,7 +130,6 @@ void initialize_graph_from_stream(istream& stream, Graph& g) {
     return;
   }
 
-  // Initialize connections between agents
   if (s["graph"].is_object() && s["graph"]["type"].is_string())
     initialize_graph(s["graph"], g);
   else if (s["graph"].is_array()) {
