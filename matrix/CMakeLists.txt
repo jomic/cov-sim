@@ -14,17 +14,20 @@ endif()
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+include_directories(${PROJECT_SOURCE_DIR}/include)
+add_subdirectory(include)
+
 add_executable(${PROJECT_NAME} main.cc)
 
 # ##############################################################################
 # If you include the drogon source code locally in your project, use this method
-# to add drogon 
-# add_subdirectory(drogon) 
+# to add drogon
+# add_subdirectory(drogon)
 # target_link_libraries(${PROJECT_NAME} PRIVATE drogon)
 # ##############################################################################
 
 find_package(Drogon CONFIG REQUIRED)
-target_link_libraries(${PROJECT_NAME} PRIVATE Drogon::Drogon)
+target_link_libraries(${PROJECT_NAME} PRIVATE Drogon::Drogon include)
 
 if(CMAKE_CXX_STANDARD LESS 17)
   # With C++14, use boost to support any and string_view
@@ -57,5 +60,5 @@ target_sources(${PROJECT_NAME}
                ${PLUGIN_SRC}
                ${MODEL_SRC})
 # ##############################################################################
-# uncomment the following line for dynamically loading views 
+# uncomment the following line for dynamically loading views
 # set_property(TARGET ${PROJECT_NAME} PROPERTY ENABLE_EXPORTS ON)
