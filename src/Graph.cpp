@@ -68,6 +68,7 @@ int get_index(int x, int y, int matrix_size) {
 
 void Graph::matrix_graph(int n, int d) {
   start_new_region();
+  int n_existing_agents = node_values.size();
   for (int i = 0; i < (n * n); ++i) {
     
     int node_x = get_x(i, n);
@@ -80,13 +81,13 @@ void Graph::matrix_graph(int n, int d) {
     int max_y = min(node_y + d + 1, n);
 
     offsets.push_back(edges.size());
-    node_values.push_back(Agent(i));
+    node_values.push_back(Agent(i + n_existing_agents));
         
     for (int y = min_y; y < max_y; ++y) {
       for (int x = min_x; x < max_x; ++x) {
         int index = get_index(x, y, n);
         if (index != i) {
-          edges.push_back(get_index(x, y, n));
+          edges.push_back(get_index(x, y, n) + n_existing_agents);
         }
       }
     }
