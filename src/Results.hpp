@@ -26,7 +26,7 @@ public:
   void add_removed(int n);
   void add_removed();
   void prepare_new_result();
-  void print(int N);
+  void print(int Npopulation);
   void save_to_file(std::string file_name);
   void write_to_output_stream(std::ostream& stream);
 };

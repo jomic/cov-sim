@@ -1,6 +1,6 @@
 {
     "select_all": false,
-    "N": 5,
+    "N_init_infected": 5,
     "T": 100,
     "T_v": 10,
     "n_v": 3,
