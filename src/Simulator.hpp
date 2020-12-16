@@ -1,8 +1,8 @@
 #pragma once
 #include <iostream>
 #include "Graph.hpp"
+#include "IOjson.hpp"
 #include "Results.hpp"
-#include "IOStreamHandler.hpp"
 
 class Simulator {
 private:

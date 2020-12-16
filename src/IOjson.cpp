@@ -1,14 +1,12 @@
-#include <vector>
 #include <iostream>
-#include "Group.hpp"
-#include "Graph.hpp"
-#include "Simulator.hpp"
-#include "Results.hpp"
 #include "../include/json.hpp"
-
+#include <vector>
+#include "Graph.hpp"
+#include "Group.hpp"
+#include "Results.hpp"
+#include "Simulator.hpp"
 using namespace std;
 using json = nlohmann::json;
-
 
 void get_groups_from_stream(istream& stream, vector<shared_ptr<group_t>>& groups) {
   json s;

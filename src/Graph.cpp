@@ -1,9 +1,9 @@
 #include <fstream>
 #include <iostream>
+#include <memory>
 #include <string>
 #include <tuple>
 #include <vector>
-#include <memory>
 #include "Agent.hpp"
 #include "Graph.hpp"
 #include "Group.hpp"

@@ -1,10 +1,9 @@
 #pragma once
+#include <memory>
 #include <string>
 #include <vector>
-#include <memory>
 #include "Agent.hpp"
 #include "Group.hpp"
-
 using namespace std;
 
 class Relation {

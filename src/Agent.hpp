@@ -1,9 +1,8 @@
 #pragma once
-
 class Graph;
 #include <memory>
-#include "Results.hpp"
 #include "Group.hpp"
+#include "Results.hpp"
 
 class Agent {
 private:

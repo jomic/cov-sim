@@ -1,9 +1,9 @@
+#include <iostream>
+#include <set>
+#include <vector>
 #include "Graph.hpp"
 #include "Results.hpp"
 #include "Simulator.hpp"
-#include <vector>
-#include <set>
-#include <iostream>
 
 std::set<int> unique_random_numbers(int n, int max) {
   std::set<int> numbers;
