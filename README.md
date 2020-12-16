@@ -49,7 +49,8 @@ The settings file is structured as follows. Note that any value can be omitted, 
 	"T_v": /* The time step at which vaccination starts */,
 	"n_v": /* The number of vaccinations available at each time step */,
 	"groups": [], /* See more below */
-	"graph": {} /* See more below */
+	"graph": {} or [], /* See more below */
+	"region_connections": [] or "" /* See more below */
 }
 ```
 
@@ -62,6 +63,8 @@ The settings for the groups is an array of objects of group parameters. These gr
 	"s": /* How susceptible an agent is */,
 	"p_i": /* How infectious an agent is if infected */,
 	"p_ai": /* How infectious an agent is if asymptomatic */,
+	"p_t": /* How probable is the agent to travel if infected */,
+	"p_at": /* How probable is the agent to travel if asymptotic */,
 	"p_v": /* How probable a vaccine is to work */,
 	"d_v": /* How long it takes for a vaccine to work */,
 	"d_i": /* How many time steps until an infected agent is removed */,
@@ -70,7 +73,7 @@ The settings for the groups is an array of objects of group parameters. These gr
 }
 ```
 
-The graph setting is a json object that depends on the type of graph that should be generated. The `"type"` field is used to decide which type of graph is created.
+The graph setting is a json object that depends on the type of graph that should be generated. The `"type"` field is used to decide which type of graph is created. This field can also be set as an array of objects, in which case each object in the array will be used to create a graph for a different region.
 
 ```
 {
@@ -86,6 +89,31 @@ The graph setting is a json object that depends on the type of graph that should
 	"file_name": /* The name of the file being used */
 }
 ```
+
+```
+{
+	"type": "file_2", // An alternative graph based on a file
+	"file_name": /* The name of the file being used */
+}
+```
+
+The regions can be connected to other regions, which makes it possible for agents to try to infect random agents in a neighbouring region. There are two ways of specifying the connections in the `"region_connections"` field. The first is an array of arrays of integers, wherein the numbers in the n:th array specify the indices of the regions that region n is connected to. The other is to specify a filename as a string, in which line n lists spaced-seperated indices for regions connected to region n.
+
+---
+
+# Graph generator
+
+The `graph_generator` executable can be used to pre-generate Newman-Watts small world graphs, as this can be time-consuming. It has the following flags available:
+
+- `-o` The graph should be put in the standard output stream, in a format readable by the `"file_2"` option of the settings file.
+- `-l` The number of agents.
+- `-k` The number of connected immediate neighbours on each side of an agent.
+- `-p` The probability of a given non-neighbourhood edge being created.
+- `-r` The input to the program is an already-existing graph, and the graph generated should be added as a region.
+
+For example, to generate a graph with two regions and store it in `graph.txt`, you could write:
+
+`bin/graph_generator -o -l 10000 -k 10 -p 0.001 | bin/graph_generator -ro -l 5000 -k 15 -p 0.003 > graph.txt`
 
 ---
 
