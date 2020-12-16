@@ -85,6 +85,15 @@ The graph setting is a json object that depends on the type of graph that should
 
 ```
 {
+	"type": "nw_small_world", // A Newman-Watts small world
+	"l": /* Number of agents */,
+	"k": /* Immediate neighbour range */,
+	"p": /* Shortcut probability */
+}
+```
+
+```
+{
 	"type": "file", // A graph based on a file
 	"file_name": /* The name of the file being used */
 }
