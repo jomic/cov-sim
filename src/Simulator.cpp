@@ -20,12 +20,12 @@ std::set<int> unique_random_numbers(int n, int max) {
 void Simulator::infect_initial(Graph& edges, int n) {
   std::set<int> rand_index = unique_random_numbers(n, edges.node_count());
   for (auto i : rand_index) {
-    edges.node_values[i].infect(0);
+    edges.agent[i].infect(0);
   }
 }
 
 void Simulator::iterate(Results& results, Graph& edges, int t) {
-  for (Agent &node : edges.node_values) {
+  for (Agent &node : edges.agent) {
     node.update_results(t, results);
     if (node.is_infected(t)) {
       if (select_all)

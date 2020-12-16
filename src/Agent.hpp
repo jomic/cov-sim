@@ -1,6 +1,6 @@
 #pragma once
-class Graph;
 #include <memory>
+class Graph;
 #include "Group.hpp"
 #include "Results.hpp"
 

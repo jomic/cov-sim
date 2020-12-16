@@ -7,7 +7,7 @@
 group_t Agent::default_group;
 
 void Agent::try_infecting_neighbour(int t, int target_id, Graph& edges) {
-  Agent& n = edges.node_values[target_id];
+  Agent& n = edges.agent[target_id];
   if (n.is_susceptible(t)) {
     float roll = (float)rand() / (float)RAND_MAX;
     float risk;

@@ -17,8 +17,7 @@ class Graph {
 public:
   vector<int> offsets;
   vector<int> edges;
-  vector<Relation> edge_values;
-  vector<Agent> node_values;
+  vector<Agent> agent;
 
   /* Read node information from file.
      Format of file should be:
