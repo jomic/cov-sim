@@ -36,6 +36,8 @@ void get_groups_from_stream(istream& stream, vector<shared_ptr<group_t>>& groups
 	g->p_ai = group["p_ai"];
       if (group["p_t"].is_number())
 	g->p_t = group["p_t"];
+      if (group["p_at"].is_number())
+	g->p_at = group["p_at"];
       if (group["p_v"].is_number())
 	g->p_v = group["p_v"];
       if (group["d_v"].is_number())

@@ -7,6 +7,7 @@ struct group_t {
   float p_i{0.1f};   // Infectiousness
   float p_ai{0.05f}; // Infectiousness (asymptopmatic)
   float p_t{0.0f};   // Probability of travelling
+  float p_at{0.0f};  // Probability of travelling (asymptomatic)
   float p_v{0.9f};   // Vaccine effectiveness
   int d_v{28};       // Vaccine duration
   int d_i{14};       // Infection duration
