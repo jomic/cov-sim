@@ -1,25 +1,50 @@
 {
     "select_all": false,
-    "N": 10,
-    "T": 80,
+    "N": 1,
+    "T": 150,
     "T_v": 10,
-    "n_v": 3,
+    "n_v": 20,
     "groups": [
 	{
 	    "n_i": 1,
-	    "n_ai": 1,
+	    "n_ai": 3,
 	    "s": 1.0,
 	    "p_i": 0.25,
-	    "p_ai": 0.03,
+	    "p_ai": 0.35,
+	    "p_t": 0.001,
+	    "p_at": 0.001,
 	    "p_v": 0.9,
-	    "d_v": 20,
+	    "d_v": 28,
 	    "d_i": 14,
-	    "d_ai": 12,
-	    "a_p": 0.0
+	    "d_ai": 10,
+	    "a_p": 0.1
 	}
     ],
-    "graph": {
-	"type": "file_2",
-	"file_name": "graph.txt"
-    }
+    "graph": [
+	{
+	    "type": "nw_small_world",
+	    "l": 5000,
+	    "k": 10,
+	    "p": 0.001 
+	},
+	{
+	    "type": "nw_small_world",
+	    "l": 3000,
+	    "k": 10,
+	    "p": 0.001 
+	},
+	{
+	    "type": "nw_small_world",
+	    "l": 2000,
+	    "k": 10,
+	    "p": 0.001 
+	}
+
+
+    ],
+    "region_connections": [
+	[1],
+	[0, 2],
+	[1]
+    ]
 }
