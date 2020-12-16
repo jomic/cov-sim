@@ -1,4 +1,11 @@
 #include "demo_v1_Test.h"
+#include <iostream>
+#include "../include/Graph.hpp"
+#include "../include/Results.hpp"
+#include "../include/Simulator.hpp"
+#include "../include/Group.hpp"
+#include "../include/Agent.hpp"
+
 using namespace demo::v1;
 //add definition of your processing function here
 
@@ -12,7 +19,7 @@ void Test::login(const HttpRequestPtr &req,
     Json::Value ret;
     ret["result"]="ok";
     ret["token"]=drogon::utils::getUuid();
-    auto resp=HttpReponse::newHttpJsonResponse(ret);
+    auto resp=HttpResponse::newHttpJsonResponse(ret);
     callback(resp);
 }
 
@@ -28,7 +35,7 @@ void Test::getInfo(const HttpRequestPtr &req,
     ret["user_name"]="Jack";
     ret["user_id"]=userId;
     ret["gender"]=1;
-    auto resp=HttpResponse::newHttpResponse(ret);
+    auto resp=HttpResponse::newHttpJsonResponse(ret);
     callback(resp);
 }
 
@@ -45,7 +52,7 @@ void Test::setInit(const HttpRequestPtr &req,
     ret["susceptable"]=sus;
     ret["infectious"]=inf;
     ret["removed"]=rem;
-    auto resp=HttpResponse::newHttpResponse(ret);
+    auto resp=HttpResponse::newHttpJsonResponse(ret);
     callback(resp);
 }
 

@@ -52,6 +52,8 @@ void Results::prepare_new_result() {
   results.push_back(new_result);
 }
 
+void Results::getResult
+
 void Results::print(int N) {
     cout << "\n";
   int T = results.size();
