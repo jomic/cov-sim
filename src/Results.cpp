@@ -4,8 +4,8 @@
 #include <math.h>
 #include <string>
 #include <vector>
-#include "IOjson.hpp"
 #include "Results.hpp"
+#include "IOStreamHandler.hpp"
 using namespace std;
 
 void Results::add_susceptible(int n) {
@@ -53,9 +53,9 @@ void Results::prepare_new_result() {
   results.push_back(new_result);
 }
 
-void Results::print(int Npopulation) { // TODO, no arg in this function!
-  clog << endl;
-  int T = results.size(), N = Npopulation;
+void Results::print(int N) {
+    clog << "\n";
+  int T = results.size();
   for (int t = 0; t < T; t++) {
     const int WDTH = 100, spcs = 8;
     for (int i = 0; i < round(WDTH*results[t].i/N); i++) {clog << "I";}

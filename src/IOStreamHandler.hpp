@@ -1,10 +1,11 @@
 #pragma once
-#include <iostream>
-#include <memory>
-#include <vector>
-#include "Graph.hpp"
-#include "Group.hpp"
+
 class Simulator;
+#include <vector>
+#include <memory>
+#include <iostream>
+#include "Group.hpp"
+#include "Graph.hpp"
 
 /*
   Fill a vector with groups based on information from json stream

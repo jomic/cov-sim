@@ -1,9 +1,10 @@
 #pragma once
-#include <memory>
 #include <string>
 #include <vector>
+#include <memory>
 #include "Agent.hpp"
 #include "Group.hpp"
+
 using namespace std;
 
 class Relation {
@@ -17,7 +18,8 @@ class Graph {
 public:
   vector<int> offsets;
   vector<int> edges;
-  vector<Agent> agent;
+  vector<Relation> edge_values;
+  vector<Agent> node_values;
 
   /* Read node information from file.
      Format of file should be:

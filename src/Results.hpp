@@ -1,7 +1,7 @@
 #pragma once
-#include <iostream>
 #include <string>
 #include <vector>
+#include <iostream>
 
 struct result_t {
   int s{0};
@@ -26,7 +26,7 @@ public:
   void add_removed(int n);
   void add_removed();
   void prepare_new_result();
-  void print(int Npopulation);
+  void print(int N);
   void save_to_file(std::string file_name);
   void write_to_output_stream(std::ostream& stream);
 };

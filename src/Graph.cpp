@@ -1,9 +1,9 @@
 #include <fstream>
 #include <iostream>
-#include <memory>
 #include <string>
 #include <tuple>
 #include <vector>
+#include <memory>
 #include "Agent.hpp"
 #include "Graph.hpp"
 #include "Group.hpp"
@@ -41,7 +41,7 @@ void Graph::input_from_file(string file_name) {
       for (auto i : v) {
         if (!first) {
           first = true;
-          agent.push_back(Agent(stoi(i)));
+          node_values.push_back(Agent(stoi(i)));
         } else {
           edges.push_back(stoi(i));
             
@@ -78,7 +78,7 @@ void Graph::matrix_graph(int n, int d) {
     int max_y = min(node_y + d + 1, n);
 
     offsets.push_back(edges.size());
-    agent.push_back(Agent(i));
+    node_values.push_back(Agent(i));
         
     for (int y = min_y; y < max_y; ++y) {
       for (int x = min_x; x < max_x; ++x) {
@@ -97,7 +97,7 @@ void Graph::default_graph() {
 
 void Graph::assign_groups(vector<shared_ptr<group_t>>& groups) {
   if (groups.size() > 0) {
-    for (Agent& agent : agent) {
+    for (Agent& agent : node_values) {
       int i = rand() % groups.size();
       agent.assign_group(groups[i]);
     }
@@ -128,7 +128,7 @@ int Graph::node_count() {
 }
 
 Agent Graph::get_node(int id) {
-  return agent[id];
+  return node_values[id];
 }
 
 void Graph::print_graph() {

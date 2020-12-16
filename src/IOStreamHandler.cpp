@@ -1,12 +1,14 @@
-#include <iostream>
-#include "../include/json.hpp"
 #include <vector>
-#include "Graph.hpp"
+#include <iostream>
 #include "Group.hpp"
-#include "Results.hpp"
+#include "Graph.hpp"
 #include "Simulator.hpp"
+#include "Results.hpp"
+#include "../include/json.hpp"
+
 using namespace std;
 using json = nlohmann::json;
+
 
 void get_groups_from_stream(istream& stream, vector<shared_ptr<group_t>>& groups) {
   json s;
@@ -60,8 +62,8 @@ void initialize_simulator_from_stream(istream& stream, Simulator& sim) {
     sim.select_all = s["select_all"];
   if (s["T"].is_number())
     sim.T = s["T"];
-  if (s["N_init_infected"].is_number())
-    sim.N_init_infected = s["N_init_infected"];
+  if (s["N"].is_number())
+    sim.N = s["N"];
   if (s["T_v"].is_number())
     sim.T_v = s["T_v"];
   if (s["n_v"].is_number())

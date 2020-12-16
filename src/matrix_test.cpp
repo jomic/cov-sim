@@ -19,6 +19,9 @@ int main(int argc, char *argv[]) {
     return 1;
   }
 
+
+
+
   srand(1);
   Graph g;
   g.matrix_graph(L, D_zero);

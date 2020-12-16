@@ -1,11 +1,11 @@
 #include <iostream>
+#include <vector>
 #include <memory>
 #include <unistd.h>
-#include <vector>
 #include "Graph.hpp"
-#include "IOjson.hpp"
 #include "Results.hpp"
 #include "Simulator.hpp"
+#include "IOStreamHandler.hpp"
 using namespace std;
 
 int main(int argc, char** argv) {

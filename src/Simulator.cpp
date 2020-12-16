@@ -1,9 +1,9 @@
-#include <iostream>
-#include <set>
-#include <vector>
 #include "Graph.hpp"
 #include "Results.hpp"
 #include "Simulator.hpp"
+#include <vector>
+#include <set>
+#include <iostream>
 
 std::set<int> unique_random_numbers(int n, int max) {
   std::set<int> numbers;
@@ -20,12 +20,12 @@ std::set<int> unique_random_numbers(int n, int max) {
 void Simulator::infect_initial(Graph& edges, int n) {
   std::set<int> rand_index = unique_random_numbers(n, edges.node_count());
   for (auto i : rand_index) {
-    edges.agent[i].infect(0);
+    edges.node_values[i].infect(0);
   }
 }
 
 void Simulator::iterate(Results& results, Graph& edges, int t) {
-  for (Agent &node : edges.agent) {
+  for (Agent &node : edges.node_values) {
     node.update_results(t, results);
     if (node.is_infected(t)) {
       if (select_all)
@@ -45,7 +45,7 @@ Results Simulator::simulate(Graph& edges) {
     so the variables used in the simulator are assigned 
     these values here until we decide which names to use.
   */
-  initial_infections = N_init_infected;
+  initial_infections = N;
   t_end = T;
   
   
