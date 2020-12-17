@@ -21,7 +21,7 @@ void Simulator::infect_initial(Graph& edges, int n) {
 
 void Simulator::iterate(Results& results, Graph& edges, int t) {
 
-  vac_strat->vaccinate(edges);
+  vac_strat->vaccinate(edges, t);
   
   for (Agent &node : edges.node_values) {
     node.update_results(t, results);
@@ -31,6 +31,9 @@ void Simulator::iterate(Results& results, Graph& edges, int t) {
       else
 	node.try_infecting_n_neighbours(t, edges);
       node.update_infection(t);
+    }
+    else if (node.is_vaccinated_susceptible(t)) {
+      node.update_vaccination(t, vac_strat->affect_time);
     }
   }
 }

@@ -6,12 +6,12 @@
 #include "Utilities.hpp"
 #include <iostream>
 
-void RandomStrategy::vaccinate(Graph& g) {
+void RandomStrategy::vaccinate(Graph& g, int t) {
 
   vector<int> unvaccinated;
 
   for (int i = 0; i < g.node_count(); ++i) {
-    if (!(g.get_node(i).is_vaccinated())) {
+    if (!(g.get_node(i).is_vaccinated_susceptible(t))) {
       unvaccinated.push_back(i);
     }
   }
@@ -23,13 +23,14 @@ void RandomStrategy::vaccinate(Graph& g) {
   
   set<int> nums = unique_random_numbers(vaccines,
                                         unvaccinated.size());
+  
   for (int i : nums) {
-    g.node_values[i].vaccinate();
+    g.node_values[i].vaccinate(t);
   }
   
   return;
 }
 
-void NothingStrategy::vaccinate(Graph& g) {
+void NothingStrategy::vaccinate(Graph& g, int t) {
   return;
 }

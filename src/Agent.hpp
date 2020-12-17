@@ -14,6 +14,7 @@ private:
   bool v;
   bool r;
   int infected_on;
+  int vaccinated_on;
   std::shared_ptr<group_t> group;
   static group_t default_group;
 
@@ -44,6 +45,11 @@ public:
   bool is_vaccinated();
 
   /*
+    Check if the individual is vaccinated but still susceptible at time t.
+  */
+  bool is_vaccinated_susceptible(int t);
+
+  /*
     Infect the individual at time t.
   */
   void infect(int t);
@@ -51,7 +57,7 @@ public:
   /*
     Vaccinate the individual
   */
-  void vaccinate();
+  void vaccinate(int t);
 
   /*
     Make the individual try to infect all of its neighbours at time t.
@@ -67,6 +73,11 @@ public:
     Update the individuals infection, given that an infection last for d time steps.
   */
   void update_infection(int t);
+
+  /*
+    Update the individuals vaccination.
+  */
+  void update_vaccination(int t, int d);
   
   /*
     Update the results with the individual.

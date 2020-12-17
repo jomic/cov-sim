@@ -29,6 +29,7 @@ Agent::Agent(int id, std::shared_ptr<group_t> group)
   v = false;
   r = false;
   infected_on = -1;
+  vaccinated_on = -1;
 }
 
 Agent::Agent(int id)
@@ -50,6 +51,10 @@ bool Agent::is_vaccinated() {
   return v;
 }
 
+bool Agent::is_vaccinated_susceptible(int t) {
+  return (s && (vaccinated_on != -1));
+}
+
 void Agent::infect(int t) {
   if (s) {
     s = false;
@@ -63,9 +68,11 @@ void Agent::infect(int t) {
   }
 }
 
-void Agent::vaccinate() {
-  s = false;
-  v = true;
+void Agent::vaccinate(int t) {
+  vaccinated_on = t;
+  if ( t == 5 ) {
+    std::cerr << 5 << std::endl;
+  }
 }
 
 void Agent::try_infecting_neighbours(int t, Graph& edges) {
@@ -94,6 +101,14 @@ void Agent::update_infection(int t) {
   } else if (a && infected_on + group->d_ai < t) {
     a = false;
     r = true;
+  }
+}
+
+void Agent::update_vaccination(int t, int d) {
+  std::cerr << vaccinated_on << " " << d << " " << t << std::endl;
+  if (s && ((vaccinated_on + d) < t)) {
+    v = true;
+    s = false;
   }
 }
 
