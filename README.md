@@ -89,4 +89,16 @@ The graph setting is a json object that depends on the type of graph that should
 
 ---
 
-Additional notes will be written here ...
+# Plotting
+
+To plot the json output there is a python script included using matplotlib, that means that both python and matplotlib needs to be installed (`python -m pip install matplotlib`). An example of using this script from a file:
+```
+py/plot_sir.py < output.json
+```
+It is also possible to pipe the result from `cov-sim` directly:
+```
+../src/cov-sim -i -o < settings.json | ./plot_sir.py
+```
+Make sure to make the script runnable with `chmod +x py/plot_sir.py`.
+
+---
