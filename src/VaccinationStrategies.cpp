@@ -8,6 +8,10 @@
 
 void RandomStrategy::vaccinate(Graph& g, int t) {
 
+  if (t < time_deployed) {
+    return;
+  }
+  
   vector<int> unvaccinated;
 
   for (int i = 0; i < g.node_count(); ++i) {
