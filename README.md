@@ -22,8 +22,6 @@ If you want to leave **all the other** executable binaries intact, but want to r
 
 where you should replace `<main-file>` by any of the main files.
 
-This is work in progress!
-
 ---
 
 # Settings

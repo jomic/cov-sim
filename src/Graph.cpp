@@ -297,6 +297,7 @@ void Graph::set_region_connections(vector<vector<int>>& connections) {
 
 void Graph::default_region_connections() {
   for (auto offset : region_agent_offsets) {
+    (void)offset;
     region_connection_offsets.push_back(0);
   }
 }

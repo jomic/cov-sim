@@ -1,6 +1,6 @@
 #include <cmath>
-#include <iostream>
 #include <cstdlib>
+#include <iostream>
 #include <unistd.h>
 #include "Graph.hpp"
 using namespace std;
