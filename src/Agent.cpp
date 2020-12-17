@@ -105,7 +105,6 @@ void Agent::update_infection(int t) {
 }
 
 void Agent::update_vaccination(int t, int d) {
-  std::cerr << vaccinated_on << " " << d << " " << t << std::endl;
   if (s && ((vaccinated_on + d) < t)) {
     v = true;
     s = false;
