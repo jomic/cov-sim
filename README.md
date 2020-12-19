@@ -1,6 +1,8 @@
 # cov-sim
 In this project a Covid-19 simulator using a Microscopic Agent-Based Model has been built.
 
+There is [more extensive documentation](docs/Docs.md).
+
 For the time being, there are **four** source files containing a `main` function, namely `cov-sim.cpp`, `matrix_test.cpp`, `matrixC19.cpp` and `gen-graph.cpp`.
 
 The `gen-graph.cpp` file is used only for generating graphs and does not run any simulation.
