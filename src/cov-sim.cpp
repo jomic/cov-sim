@@ -13,10 +13,10 @@ int main(int argc, char** argv) {
   bool output_results = false;
   bool randomize_seed = false;
   bool print_graph = false;
-  
+
   // Handle flags
   int c;
-  while ((c = getopt(argc, argv, "iorp")) != -1) {
+  while ((c = getopt(argc, argv, "iops")) != -1) {
     switch (c) {
     case 'i':
       input_settings = true;
@@ -24,15 +24,15 @@ int main(int argc, char** argv) {
     case 'o':
       output_results = true;
       break;
-    case 'r':
-      randomize_seed = true;
-      break;
     case 'p':
       print_graph = true;
       break;
+    case 's':
+      randomize_seed = true;
+      break;
     }
   }
-  
+
   // Initialize a seed for the randomizer:
   if (randomize_seed)
     srand(time(NULL));

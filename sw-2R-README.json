@@ -1,0 +1,26 @@
+{
+    "select_all": false,
+    "N": 1,
+    "T": 120,
+    "T_v": 10,
+    "n_v": 20,
+    "groups": [{
+        "n_i": 1,
+        "n_ai": 3,
+        "s": 1.0,
+        "p_i": 0.25,
+        "p_ai": 0.35,
+        "p_t": 0.001,
+        "p_at": 0.001,
+        "p_v": 0.9,
+        "d_v": 28,
+        "d_i": 14,
+        "d_ai": 10,
+        "a_p": 0.1
+    }],
+    "graph": [{
+        "type": "file_format_advanced",
+        "file_name": "sw-2R-README.txt"
+    }],
+    "region_connections": [[1],[0]]
+}

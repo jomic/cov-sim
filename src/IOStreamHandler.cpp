@@ -88,7 +88,7 @@ void initialize_graph(json& s, Graph& g) {
 	   && s["k"].is_number()
 	   && s["p"].is_number())
     g.nw_small_world(s["l"], s["k"], s["p"]);
-  else if (s["type"] == "file_2"
+  else if (s["type"] == "file_format_advanced"
 	   && s["file_name"].is_string()) {
     ifstream file;
     file.open(s["file_name"]);

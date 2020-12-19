@@ -6,21 +6,24 @@
 using namespace std;
 
 int main(int argc, char** argv) {
-  srand(time(NULL));
   bool add_region = false;
   bool output_result = false;
+  bool randomized_seed = false;
   int l = 10;
   int k = 1;
   float p = 0.0f;
-  
+
   int c;
-  while ((c = getopt(argc, argv, "rol:k:p:")) != -1) {
+  while ((c = getopt(argc, argv, "orsl:k:p:")) != -1) {
     switch (c) {
+    case 'o':
+      output_result = true;
+      break;
     case 'r':
       add_region = true;
       break;
-    case 'o':
-      output_result = true;
+    case 's':
+      randomized_seed = true;
       break;
     case 'l':
       l = atoi(optarg);
@@ -33,6 +36,12 @@ int main(int argc, char** argv) {
       break;
     }
   }
+
+  // Initialize a seed for the randomizer:
+  if (randomized_seed)
+    srand(time(NULL));
+  else
+    srand(40);
 
   // Calculate and print some graph info
   // Path length estimation based on Newman, Moore and Watts (1999)

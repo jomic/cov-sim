@@ -1,7 +1,7 @@
 {
     "select_all": false,
     "N": 1,
-    "T": 150,
+    "T": 120,
     "T_v": 10,
     "n_v": 20,
     "groups": [{
@@ -21,24 +21,16 @@
     "graph": [{
         "type": "nw_small_world",
         "l": 5000,
-        "k": 10,
-        "p": 0.001 
-    },
-    {
+        "k": 15,
+        "p": 0.003
+    },{
         "type": "nw_small_world",
-        "l": 3000,
-        "k": 10,
-        "p": 0.001 
-    },
-    {
-        "type": "nw_small_world",
-        "l": 2000,
+        "l": 10000,
         "k": 10,
         "p": 0.001 
     }],
     "region_connections": [
         [1],
-        [0, 2],
-        [1]
+        [0]
     ]
 }
