@@ -110,7 +110,7 @@ The graph setting is a JSON object that depends on the type of graph that should
 }
 ```
 
-The regions can be connected to other regions, which makes it possible for agents to try to infect random agents in a neighbouring region. There are two ways of specifying the connections in the `"region_connections"` field. The first is an array of arrays of integers, wherein the numbers in the n:th array specify the indices of the regions that region n is connected to. The other is to specify a filename as a string, in which line n lists spaced-seperated indices for regions connected to region n.
+The regions can be connected to other regions, which makes it possible for agents to try to infect random agents in a neighbouring region. There are two ways of specifying the connections in the `"region_connections"` field. The first is an array of arrays of integers, wherein the numbers in the n:th array specify the indices of the regions that region n is connected to. The other is to specify a filename as a string, in which line n lists space-separated indices for regions connected to region n.
 
 ---
 

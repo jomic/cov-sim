@@ -65,7 +65,7 @@ Upon being infected, the susceptible node has some probability of instead becomi
 
 
 #### Selecting infection targets
-As mentioned, we will have two methods for selecting neighbours to infect. The first method, from our original model, simply tries to infect all neighbouring nodes. The second method, from the other group’s model, selects only a subset of neighbours. Originally, each agent only selected a single random neighbour each timestep. We could add a parameter for this, such that the agent will select n random neighbours to try to infect instead.
+As mentioned, we will have two methods for selecting neighbours to infect. The first method, from our original model, simply tries to infect all neighbouring nodes. The second method, from the other group’s model, selects only a subset of neighbours. Originally, each agent only selected a single random neighbour each time-step. We could add a parameter for this, such that the agent will select n random neighbours to try to infect instead.
 
 
 #### Age groups
@@ -143,7 +143,7 @@ We might want to make it possible to investigate additional vaccination methods.
 
 
 ### Isolation
-We could simulate the isolation of infected nodes in different ways. Asymptotic agents should not be isolated, since they do not know that they can infect people. The simplest way for selection method (2) could be implemented with the fundamental model by simply having n<sub>i</sub> be lower than n<sub>ai</sub>. Another method would be to limit the number of people who can be infected by an agent to a smaller set of its neighbours. This subset of neighbours would be the same for each timestep, which would mimic D shrinking in the matrix model.
+We could simulate the isolation of infected nodes in different ways. Asymptotic agents should not be isolated, since they do not know that they can infect people. The simplest way for selection method (2) could be implemented with the fundamental model by simply having n<sub>i</sub> be lower than n<sub>ai</sub>. Another method would be to limit the number of people who can be infected by an agent to a smaller set of its neighbours. This subset of neighbours would be the same for each time-step, which would mimic D shrinking in the matrix model.
 
 
 ### Lockdowns
