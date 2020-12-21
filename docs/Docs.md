@@ -1,23 +1,3 @@
-<!-----
-NEW: Check the "Suppress top comment" option to remove this info from the output.
-Conversion time: 1.937 seconds.
-
-Using this Markdown file:
-1. Paste this output into your source file.
-2. See the notes and action items below regarding this conversion run.
-3. Check the rendered output (headings, lists, code blocks, tables) for proper
-  formatting and use a linkchecker before you publish this page.
-
-Conversion notes:
-* Docs to Markdown version 1.0β29
-* Sun Dec 20 2020 06:28:04 GMT-0800 (PST)
-* Source doc: COVID-19-Simulation-Model
-* This document has images: check for >>>>> gd2md-html alert: inline image link
- in generated source and store images to your server. NOTE: Images in exported
- zip file from Google Docs may not appear in the same order as they do in your
- doc. Please check the images!
------>
-
 
 ## COVID-19 Simulation Model
  -- by Christopher Rydell
