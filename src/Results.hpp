@@ -30,6 +30,6 @@ public:
   void prepare_new_result();
   void print(int N);
   void save_to_file(std::string file_name);
-  void write_to_output_stream(std::ostream& stream);
-  void write_last_to_output_stream(std::ostream& stream);
+  void write_to_output_stream(std::ostream& stream, bool split_by_region);
+  void write_last_to_output_stream(std::ostream& stream, bool split_by_region);
 };

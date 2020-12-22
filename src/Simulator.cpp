@@ -65,7 +65,7 @@ Results Simulator::simulate(Graph& edges, bool print_each_result) {
     results.prepare_new_result();
     iterate(results, edges, t);
     if (print_each_result)
-      results.write_last_to_output_stream(std::cout);
+      results.write_last_to_output_stream(std::cout, true);
   }
   return results;
 }

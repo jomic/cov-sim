@@ -11,18 +11,22 @@ using namespace std;
 int main(int argc, char** argv) {
   bool input_settings = false;
   bool output_results = false;
+  bool realtime_output = false;
   bool randomize_seed = false;
   bool print_graph = false;
 
   // Handle flags
   int c;
-  while ((c = getopt(argc, argv, "iops")) != -1) {
+  while ((c = getopt(argc, argv, "iotps")) != -1) {
     switch (c) {
     case 'i':
       input_settings = true;
       break;
     case 'o':
       output_results = true;
+      break;
+    case 't':
+      realtime_output = true;
       break;
     case 'p':
       print_graph = true;
@@ -64,9 +68,11 @@ int main(int argc, char** argv) {
   edges.assign_groups(groups);
 
   // Run the simulation
-  Results results = s.simulate(edges, output_results);
+  Results results = s.simulate(edges, output_results && realtime_output);
 
   // Output results
   if (print_graph)
     results.print(10000);
+  if (output_results && !realtime_output)
+    results.write_to_output_stream(cout, false);
 }
