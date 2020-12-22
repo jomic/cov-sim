@@ -1,15 +1,37 @@
 #include <vector>
 #include <iostream>
 #include <fstream>
+#include <memory>
 #include "Group.hpp"
 #include "Graph.hpp"
 #include "Simulator.hpp"
 #include "Results.hpp"
+#include "VaccinationStrategy.hpp"
 #include "../include/json.hpp"
 
 using namespace std;
 using json = nlohmann::json;
 
+void get_strategy_from_stream(istream& stream, shared_ptr<VaccinationStrategy>& vs) {
+  json s;
+  try {
+    stream >> s;
+  }
+  catch (const exception& e){
+    cerr << "Something went wrong when parsing the JSON settings." << endl;
+    return;
+  }
+
+  if (s["vaccination_strategy"].is_object() && s["vaccination_strategy"]["type"].is_string()) {
+    json strat = s["vaccination_strategy"];
+    if (strat["type"] == "nothing") {
+      vs = make_shared<NothingStrategy>();
+    }
+    else if (strat["type"] == "random") {
+      vs = make_shared<RandomStrategy>();
+    }
+  }
+}
 
 void get_groups_from_stream(istream& stream, vector<shared_ptr<group_t>>& groups) {
   json s;

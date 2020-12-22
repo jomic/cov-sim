@@ -41,12 +41,14 @@ int main(int argc, char** argv) {
 
   vector<shared_ptr<group_t>> groups;
   Graph edges;
-  NothingStrategy vs;
+  shared_ptr<VaccinationStrategy> vs = make_shared<NothingStrategy>();
   Simulator s(vs);
-
 
   // Load groups and settings from stream
   if (input_settings) {
+    get_strategy_from_stream(cin, vs);
+    s = Simulator(vs);
+    reset_stream(cin);
     get_groups_from_stream(cin, groups);
     reset_stream(cin);
     initialize_simulator_from_stream(cin, s);

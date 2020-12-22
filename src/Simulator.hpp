@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <memory>
 #include "Graph.hpp"
 #include "Results.hpp"
 #include "IOStreamHandler.hpp"
@@ -35,7 +36,7 @@ private:
   unsigned int T_v{10};           // Vaccination start time
   unsigned int n_v{10};           // Vaccines available per timestep
 
-  VaccinationStrategy *vac_strat;
+  std::shared_ptr<VaccinationStrategy> vac_strat;
   
   /**
     Infects n agents at time t=0.
@@ -43,7 +44,7 @@ private:
   void infect_initial(Graph& edges, int n);
 
 public:
-  Simulator(VaccinationStrategy& vs);
+  Simulator(std::shared_ptr<VaccinationStrategy>& vs);
   
   /**
     Performs a single iteration at time t.

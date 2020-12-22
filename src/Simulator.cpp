@@ -3,13 +3,14 @@
 #include "Simulator.hpp"
 #include <vector>
 #include <iostream>
+#include <memory>
 #include "VaccinationStrategies.hpp"
 #include "Utilities.hpp"
 
 
 
-Simulator::Simulator(VaccinationStrategy& vs) {
-  vac_strat = &vs;
+Simulator::Simulator(std::shared_ptr<VaccinationStrategy>& vs) {
+  vac_strat = vs;
 }
 
 void Simulator::infect_initial(Graph& edges, int n) {
