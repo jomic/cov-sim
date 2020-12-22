@@ -68,6 +68,11 @@ bool Agent::can_be_vaccinated(int t) {
   return s && vaccinated_on == -1;
 }
 
+bool Agent::is_travelling(int t) {
+  float p = i ? group->p_t : group->p_at;
+  return p > (float) rand() / (float) RAND_MAX;
+}
+
 void Agent::infect(int t) {
   if (s) {
     s = false;
@@ -101,6 +106,27 @@ void Agent::try_infecting_n_neighbours(int t, Graph& edges) {
   for (int i = 0; i < attempts; i++) {
     int target = rand() % n_ids.size();
     try_infecting_neighbour(t, n_ids[target], edges);
+  }
+}
+
+void Agent::try_infecting_on_travel(int t, Graph& edges) {
+  int region = edges.get_agent_region(id);
+  std::vector<int> candidate_regions = edges.get_neighbouring_regions(region);
+  if (candidate_regions.size() > 0) {
+    int destination_index = rand() % candidate_regions.size();
+    int destination = candidate_regions[destination_index];
+    int dst_start = edges.region_agent_offsets[destination];
+    int dst_end;
+    if (destination == (int) edges.region_agent_offsets.size() - 1)
+      dst_end = edges.node_values.size();
+    else
+      dst_end = edges.region_agent_offsets[destination + 1];
+    int n_potential_targets = dst_end - dst_start;
+    int n_attempts = i ? group->n_i : group->n_ai;
+    for (int i = 0; i < n_attempts; i++) {
+      int target_id = rand() % n_potential_targets + dst_start;
+      try_infecting_neighbour(t, target_id, edges);
+    }
   }
 }
 

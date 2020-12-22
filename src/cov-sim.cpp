@@ -13,10 +13,10 @@ int main(int argc, char** argv) {
   bool output_results = false;
   bool randomize_seed = false;
   bool print_graph = false;
-  
+
   // Handle flags
   int c;
-  while ((c = getopt(argc, argv, "iorp")) != -1) {
+  while ((c = getopt(argc, argv, "iops")) != -1) {
     switch (c) {
     case 'i':
       input_settings = true;
@@ -24,15 +24,15 @@ int main(int argc, char** argv) {
     case 'o':
       output_results = true;
       break;
-    case 'r':
-      randomize_seed = true;
-      break;
     case 'p':
       print_graph = true;
       break;
+    case 's':
+      randomize_seed = true;
+      break;
     }
   }
-  
+
   // Initialize a seed for the randomizer:
   if (randomize_seed)
     srand(time(NULL));
@@ -55,17 +55,16 @@ int main(int argc, char** argv) {
   }
   else {
     edges.default_graph();
+    edges.default_region_connections();
   }
 
   // Assign groups to the agents in the graph
   edges.assign_groups(groups);
 
   // Run the simulation
-  Results results = s.simulate(edges);
+  Results results = s.simulate(edges, output_results);
 
   // Output results
   if (print_graph)
     results.print(10000);
-  if (output_results)
-    results.write_to_output_stream(cout);
 }

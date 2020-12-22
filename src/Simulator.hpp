@@ -53,6 +53,7 @@ public:
   /**
     Runs a simulation for given settings for the specified graph `edges`.
    */
+  Results simulate(Graph& edges, bool print_each_result);
   Results simulate(Graph& edges);
 
   // Allow the initializer function to access private members
