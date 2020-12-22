@@ -14,10 +14,12 @@ private:
   bool v;
   bool r;
   int infected_on;
+  int vaccinated_on;
   std::shared_ptr<group_t> group;
   static group_t default_group;
 
   void try_infecting_neighbour(int t, int id, Graph& edges);
+  void try_completing_vaccination();
 
 public:
   Agent(int id, std::shared_ptr<group_t> group);
@@ -39,6 +41,21 @@ public:
   bool is_susceptible(int t);
 
   /*
+    Check if the individual is vaccinated at time t.
+  */
+  bool is_vaccinated();
+
+  /*
+    Check if the individual is vaccinated but still susceptible at time t.
+  */
+  bool is_vaccinated_susceptible(int t);
+
+  /*
+    Check if the agent is eligible for vaccination at time t.
+   */
+  bool can_be_vaccinated(int t);
+  
+  /*
     Check if the individual is travelling at the time t.
    */
   bool is_travelling(int t);
@@ -47,6 +64,11 @@ public:
     Infect the individual at time t.
   */
   void infect(int t);
+
+  /*
+    Vaccinate the individual
+  */
+  void vaccinate(int t);
 
   /*
     Make the individual try to infect all of its neighbours at time t.
@@ -67,6 +89,11 @@ public:
     Update the individuals infection, given that an infection last for d time steps.
   */
   void update_infection(int t);
+
+  /*
+    Update the individuals vaccination.
+  */
+  void update_vaccination(int t);
   
   /*
     Update the results with the individual.

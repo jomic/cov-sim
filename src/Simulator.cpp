@@ -2,19 +2,15 @@
 #include "Results.hpp"
 #include "Simulator.hpp"
 #include <vector>
-#include <set>
 #include <iostream>
+#include <memory>
+#include "VaccinationStrategies.hpp"
+#include "Utilities.hpp"
 
-std::set<int> unique_random_numbers(int n, int max) {
-  std::set<int> numbers;
-  if (n > max) {
-    std::cout << "random_numbers: n cant be larger than total\n";
-    return numbers;
-  }
-  while ((int)numbers.size() < n) {
-      numbers.insert(rand() % max);
-    }
-  return numbers;
+
+
+Simulator::Simulator(std::shared_ptr<VaccinationStrategy>& vs) {
+  vac_strat = vs;
 }
 
 void Simulator::infect_initial(Graph& edges, int n) {
@@ -25,6 +21,7 @@ void Simulator::infect_initial(Graph& edges, int n) {
 }
 
 void Simulator::iterate(Results& results, Graph& edges, int t) {
+  vac_strat->vaccinate(edges, t);
   int current_id = 0;
   int current_region = -1;
   for (Agent &node : edges.node_values) {
@@ -44,6 +41,9 @@ void Simulator::iterate(Results& results, Graph& edges, int t) {
 	  node.try_infecting_n_neighbours(t, edges);	
       }
       node.update_infection(t);
+    }
+    else if (node.is_vaccinated_susceptible(t)) {
+      node.update_vaccination(t);
     }
   }
 }
@@ -65,7 +65,7 @@ Results Simulator::simulate(Graph& edges, bool print_each_result) {
     results.prepare_new_result();
     iterate(results, edges, t);
     if (print_each_result)
-      results.write_last_to_output_stream(std::cout);
+      results.write_last_to_output_stream(std::cout, true);
   }
   return results;
 }

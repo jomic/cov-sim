@@ -6,6 +6,12 @@ class Simulator;
 #include <iostream>
 #include "Group.hpp"
 #include "Graph.hpp"
+#include "VaccinationStrategy.hpp"
+
+/*
+  Initialize a vaccination strategy from json stream
+ */
+void get_strategy_from_stream(std::istream& stream, std::shared_ptr<VaccinationStrategy>& vs);
 
 /*
   Fill a vector with groups based on information from json stream
