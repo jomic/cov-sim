@@ -19,6 +19,7 @@ private:
   static group_t default_group;
 
   void try_infecting_neighbour(int t, int id, Graph& edges);
+  void try_completing_vaccination();
 
 public:
   Agent(int id, std::shared_ptr<group_t> group);
@@ -50,6 +51,11 @@ public:
   bool is_vaccinated_susceptible(int t);
 
   /*
+    Check if the agent is eligible for vaccination at time t.
+   */
+  bool can_be_vaccinated(int t);
+
+  /*
     Infect the individual at time t.
   */
   void infect(int t);
@@ -77,7 +83,7 @@ public:
   /*
     Update the individuals vaccination.
   */
-  void update_vaccination(int t, int d);
+  void update_vaccination(int t);
   
   /*
     Update the results with the individual.

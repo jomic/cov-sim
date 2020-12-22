@@ -33,7 +33,7 @@ void Simulator::iterate(Results& results, Graph& edges, int t) {
       node.update_infection(t);
     }
     else if (node.is_vaccinated_susceptible(t)) {
-      node.update_vaccination(t, vac_strat->affect_time);
+      node.update_vaccination(t);
     }
   }
 }
