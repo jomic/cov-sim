@@ -36,6 +36,8 @@ The `cov-sim` executable can be run using a JSON-formatted settings stream for i
 - `-i` Use JSON-formatted settings from the standard input stream - typically from a file.
             (If the `-i` flag is not used, the parameters are set to their default values).
 - `-o` Output JSON-formatted results to the standard output stream.
+- `-t` If the `-o` flag is active, results are outputted in real-time as they become available.
+            (If the `-t` flag is not used with `-o`, the results are all outputted when the simulation ends as a single JSON object).
 - `-p` Plot the results in the terminal - along with the SAIVR values.
 - `-s` Use a non-deterministic seed for the simulation.
 
@@ -52,9 +54,18 @@ The settings file is structured as follows. Note that any value can be omitted, 
     "T": /* The number of simulation time steps */,
     "T_v": /* The time step at which vaccination starts */,
     "n_v": /* The number of vaccinations available at each time step */,
+    "vaccination_strategy": {}, /* See more below */
     "groups": [], /* See more below */
     "graph": {} or [], /* See more below */
     "region_connections": [] or "" /* See more below */
+}
+```
+
+The vaccination strategy used in the simulation is specified as an object with the mandatory field `"type"`. Currently, the available strategies available are `"nothing"`, which does not distribute vaccines at all, and `"random"`, which distributes the vaccines randomly. For example, the value of `"vaccination_strategy"` could be set as follows.
+
+```
+{
+    "type": "random"
 }
 ```
 
@@ -120,9 +131,9 @@ To plot the json output there is a python script included using matplotlib, that
 ```
 py/plot_sir.py < output.json
 ```
-It is also possible to pipe the result from `cov-sim` directly:
+It is also possible to pipe the result from `cov-sim` directly. Note that the script is used for plotting the total results, rather than the real-time results. Therefore, the `-t` flag must be inactive:
 ```
-../src/cov-sim -i -o < settings.json | ./plot_sir.py
+bin/cov-sim -io < settings.json | py/plot_sir.py
 ```
 Make sure to make the script runnable with `chmod +x py/plot_sir.py`.
 
