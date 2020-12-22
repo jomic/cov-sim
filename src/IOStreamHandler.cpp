@@ -31,6 +31,11 @@ void get_strategy_from_stream(istream& stream, shared_ptr<VaccinationStrategy>& 
       vs = make_shared<RandomStrategy>();
     }
   }
+
+  if (s["T_v"].is_number())
+    vs->time_deployed = s["T_v"];
+  if (s["n_v"].is_number())
+    vs->vaccines_per_day = s["n_v"];
 }
 
 void get_groups_from_stream(istream& stream, vector<shared_ptr<group_t>>& groups) {
