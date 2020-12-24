@@ -7,7 +7,7 @@
 group_t Agent::default_group;
 
 void Agent::try_infecting_neighbour(int t, int target_id, Graph& edges) {
-  Agent& n = edges.node_values[target_id];
+  Agent& n = edges.agents[target_id];
   if (n.is_susceptible(t)) {
     float roll = (float)rand() / (float)RAND_MAX;
     float risk;
@@ -118,7 +118,7 @@ void Agent::try_infecting_on_travel(int t, Graph& edges) {
     int dst_start = edges.region_agent_offsets[destination];
     int dst_end;
     if (destination == (int) edges.region_agent_offsets.size() - 1)
-      dst_end = edges.node_values.size();
+      dst_end = edges.agents.size();
     else
       dst_end = edges.region_agent_offsets[destination + 1];
     int n_potential_targets = dst_end - dst_start;

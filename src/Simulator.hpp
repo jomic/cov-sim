@@ -33,7 +33,6 @@ private:
   bool select_all{true}; // Whether or not agents try to infect all neighbours
   unsigned int T{50};              // Simulation duration
   unsigned int N_init_infected{4}; // Initially infected agents
-  // Unused
   unsigned int T_v{10};            // Vaccination start time
   unsigned int n_v{10};            // Vaccines available per timestep
 

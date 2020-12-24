@@ -14,7 +14,7 @@ Simulator::Simulator(std::shared_ptr<VaccinationStrategy>& vs) {
 void Simulator::infect_initial(Graph& edges, int n) {
   std::set<int> rand_index = unique_random_numbers(n, edges.node_count());
   for (auto i : rand_index) {
-    edges.node_values[i].infect(0);
+    edges.agents[i].infect(0);
   }
 }
 
@@ -22,7 +22,7 @@ void Simulator::iterate(Results& results, Graph& edges, int t) {
   vac_strat->vaccinate(edges, t);
   int current_id = 0;
   int current_region = -1;
-  for (Agent &node : edges.node_values) {
+  for (Agent &node : edges.agents) {
     if (edges.get_agent_region(current_id++) != current_region) {
       current_region++;
       results.prepare_new_region();

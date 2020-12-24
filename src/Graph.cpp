@@ -27,10 +27,9 @@ void Graph::input_from_file(string file_name) {
       for (auto i : v) {
         if (!first) {
           first = true;
-          node_values.push_back(Agent(stoi(i)));
+          agents.push_back(Agent(stoi(i)));
         } else {
           edges.push_back(stoi(i));
-            
         }
       }
     }
@@ -52,7 +51,7 @@ int get_index(int x, int y, int matrix_size) {
 
 void Graph::matrix_graph(int n, int d) {
   start_new_region();
-  int n_existing_agents = node_values.size();
+  int n_existing_agents = agents.size();
   for (int i = 0; i < (n * n); ++i) {
     
     int node_x = get_x(i, n);
@@ -65,7 +64,7 @@ void Graph::matrix_graph(int n, int d) {
     int max_y = min(node_y + d + 1, n);
 
     offsets.push_back(edges.size());
-    node_values.push_back(Agent(i + n_existing_agents));
+    agents.push_back(Agent(i + n_existing_agents));
         
     for (int y = min_y; y < max_y; ++y) {
       for (int x = min_x; x < max_x; ++x) {
@@ -115,10 +114,10 @@ void Graph::nw_small_world(int l, int k, float p) {
 
   // Store all adjacencies in the compressed row vectors
   int id = 0;
-  int n_existing_agents = node_values.size();
+  int n_existing_agents = agents.size();
   int n_existing_connections = edges.size();
   for (auto& adjacency : adjacencies) {
-    node_values.push_back(Agent(id++ + n_existing_agents));
+    agents.push_back(Agent(id++ + n_existing_agents));
     offsets.push_back(n_existing_connections);
     n_existing_connections += adjacency->size();
     for (auto edge : *adjacency)
@@ -133,7 +132,7 @@ void Graph::default_graph() {
 
 void Graph::assign_groups(vector<shared_ptr<group_t>>& groups) {
   if (groups.size() > 0) {
-    for (Agent& agent : node_values) {
+    for (Agent& agent : agents) {
       int i = rand() % groups.size();
       agent.assign_group(groups[i]);
     }
@@ -164,7 +163,7 @@ int Graph::node_count() {
 }
 
 Agent Graph::get_node(int id) {
-  return node_values[id];
+  return agents[id];
 }
 
 int Graph::get_agent_region(int id) {
@@ -223,7 +222,7 @@ void Graph::write_generatable_graph(ostream& stream) {
 
 void Graph::read_generatable_graph(istream& stream) {
   int id = 0;
-  int n_existing_agents = node_values.size();
+  int n_existing_agents = agents.size();
   int n_existing_connections = edges.size();
   string line;
 
@@ -238,7 +237,7 @@ void Graph::read_generatable_graph(istream& stream) {
   entries = split(line, " ");
   for (auto& entry : entries) {
     offsets.push_back(stoi(entry) + n_existing_connections);
-    node_values.push_back(Agent(id++ + n_existing_agents));
+    agents.push_back(Agent(id++ + n_existing_agents));
   }
 
   // Add the edges
@@ -249,7 +248,7 @@ void Graph::read_generatable_graph(istream& stream) {
 }
 
 void Graph::start_new_region() {
-  int n_agents = node_values.size();
+  int n_agents = agents.size();
   region_agent_offsets.push_back(n_agents);
 }
 

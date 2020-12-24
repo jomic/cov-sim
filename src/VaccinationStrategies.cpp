@@ -29,7 +29,7 @@ void RandomStrategy::vaccinate(Graph& g, int t) {
                                         unvaccinated.size());
 
   for (int i : nums) {
-    g.node_values[i].vaccinate(t);
+    g.agents[i].vaccinate(t);
   }
   
   return;

@@ -19,8 +19,7 @@ class Graph {
 public:
   vector<int> offsets;
   vector<int> edges;
-  vector<Relation> edge_values;
-  vector<Agent> node_values;
+  vector<Agent> agents;
 
   vector<int> region_agent_offsets;
   vector<int> region_connection_offsets;
@@ -60,9 +59,8 @@ public:
   void default_graph();
 
   /**
-    Assign groups to already-existing agents from 
-    a vector of available groups, with a uniform 
-    distribution.
+    Assign groups to already-existing agents from a vector of available
+    groups, with a uniform distribution.
    */
   void assign_groups(vector<shared_ptr<group_t>>& groups);
 
