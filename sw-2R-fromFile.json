@@ -20,7 +20,7 @@
     }],
     "graph": [{
         "type": "file_format_advanced",
-        "file_name": "sw-2R-README.txt"
+        "file_name": "sw-2R-fromFile.txt"
     }],
     "region_connections": [[1],[0]]
 }

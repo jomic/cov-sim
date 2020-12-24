@@ -1,16 +1,14 @@
+#include <algorithm>
 #include <fstream>
 #include <iostream>
+#include <memory>
 #include <string>
 #include <vector>
-#include <memory>
-#include <algorithm>
 #include "Agent.hpp"
 #include "Graph.hpp"
 #include "Group.hpp"
 #include "Utilities.hpp"
 using namespace std;
-
-
 
 Relation::Relation(int d) : distance(d) {}
 

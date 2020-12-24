@@ -1,7 +1,8 @@
 #pragma once
+#include <iostream>
 #include <string>
 #include <vector>
-#include <iostream>
+using std::vector;
 
 struct result_t {
   int s{0};
@@ -13,8 +14,8 @@ struct result_t {
 
 class Results {
 private:
-  std::vector<result_t> results;
-  std::vector<std::vector<result_t>> results_by_region;
+  vector<result_t> results;
+  vector<vector<result_t>> results_by_region;
 public:
   void add_susceptible(int n);
   void add_susceptible();

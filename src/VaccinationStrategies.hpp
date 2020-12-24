@@ -1,7 +1,6 @@
 #pragma once
-
-#include "VaccinationStrategy.hpp"
 #include "Graph.hpp"
+#include "VaccinationStrategy.hpp"
 
 class RandomStrategy: public VaccinationStrategy {
   

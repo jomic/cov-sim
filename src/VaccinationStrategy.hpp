@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Graph.hpp"
 
 class VaccinationStrategy {

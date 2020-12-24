@@ -2,10 +2,11 @@
 #include <iostream>
 #include <memory>
 #include "Graph.hpp"
-#include "Results.hpp"
 #include "IOStreamHandler.hpp"
-#include "VaccinationStrategy.hpp"
+#include "Results.hpp"
 #include "VaccinationStrategies.hpp"
+#include "VaccinationStrategy.hpp"
+using namespace std;
 
 class Simulator {
 private:
@@ -36,7 +37,7 @@ private:
   unsigned int T_v{10};           // Vaccination start time
   unsigned int n_v{10};           // Vaccines available per timestep
 
-  std::shared_ptr<VaccinationStrategy> vac_strat;
+  shared_ptr<VaccinationStrategy> vac_strat;
   
   /**
     Infects n agents at time t=0.
@@ -44,7 +45,7 @@ private:
   void infect_initial(Graph& edges, int n);
 
 public:
-  Simulator(std::shared_ptr<VaccinationStrategy>& vs);
+  Simulator(shared_ptr<VaccinationStrategy>& vs);
 
   /**
     Performs a single iteration at time t.
@@ -58,5 +59,5 @@ public:
   Results simulate(Graph& edges);
 
   // Allow the initializer function to access private members
-  friend void initialize_simulator_from_stream(std::istream& stream, Simulator& s);
+  friend void initialize_simulator_from_stream(istream& stream, Simulator& s);
 };

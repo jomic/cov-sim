@@ -49,7 +49,7 @@ void Simulator::iterate(Results& results, Graph& edges, int t) {
 Results Simulator::simulate(Graph& edges, bool print_each_result) {
   Results results;
   
-  /*
+  /**
     Just for now: settings are based on document names,
     so the variables used in the simulator are assigned 
     these values here until we decide which names to use.

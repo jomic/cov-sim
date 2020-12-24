@@ -1,13 +1,13 @@
-#include <vector>
-#include <iostream>
 #include <fstream>
-#include <memory>
-#include "Group.hpp"
-#include "Graph.hpp"
-#include "Simulator.hpp"
-#include "Results.hpp"
-#include "VaccinationStrategy.hpp"
+#include <iostream>
 #include "../include/json.hpp"
+#include <memory>
+#include <vector>
+#include "Graph.hpp"
+#include "Group.hpp"
+#include "Results.hpp"
+#include "Simulator.hpp"
+#include "VaccinationStrategy.hpp"
 
 using namespace std;
 using json = nlohmann::json;

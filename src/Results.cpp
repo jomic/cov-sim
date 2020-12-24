@@ -4,8 +4,8 @@
 #include <math.h>
 #include <string>
 #include <vector>
-#include "Results.hpp"
 #include "IOStreamHandler.hpp"
+#include "Results.hpp"
 using namespace std;
 
 void Results::add_susceptible(int n) {

@@ -1,5 +1,5 @@
-#include <vector>
 #include <memory>
+#include <vector>
 #include "Agent.hpp"
 #include "Graph.hpp"
 #include "Results.hpp"

@@ -41,22 +41,27 @@ The `cov-sim` executable can be run using a JSON-formatted settings stream for i
 - `-p` Plot the results in the terminal - along with the SAIVR values.
 - `-s` Use a non-deterministic seed for the simulation.
 
-For example, to run the program with settings from `grafMatrix.json`, output in `resultsMatrix.json`, a random seed, and a plot in the terminal, you can run:
+For example, to run the program with settings from `grafMatrix.json`, a random seed, and output in `resultsMatrix.json`, you can run:
 
-`bin/cov-sim -iops < grafMatrix.json > resultsMatrix.json`
+`bin/cov-sim -ios < grafMatrix.json > resultsMatrix.json`
 
-The settings file is structured as follows. Note that any value can be omitted, in which case it will be set to a default value.
+Or, to use `grafMatrix.json`, a **non**-random seed, and make a plot in the terminal, run:
+
+`bin/cov-sim -ip < grafMatrix.json`
+
+The settings file is structured as follows.
+Note that any value can be omitted, in which case it will be set to a default value.
 
 ```
 {
-    "select_all": /* Whether all neighbours get infection attempts each step or just some */,
-    "N": /* The number of initial infected */,
-    "T": /* The number of simulation time steps */,
-    "T_v": /* The time step at which vaccination starts */,
-    "n_v": /* The number of vaccinations available at each time step */,
-    "vaccination_strategy": {}, /* See more below */
-    "groups": [], /* See more below */
-    "graph": {} or [], /* See more below */
+    "select_all": /* Whether ALL neighbours can get infected each step */,
+    "N":          /* The number of initial infected */,
+    "T":          /* The number of simulation time steps */,
+    "T_v":        /* The time step at which vaccination starts */,
+    "n_v":        /* The number of vaccinations available at each time step */,
+    "vaccination_strategy": {},    /* See more below */
+    "groups": [],                  /* See more below */
+    "graph": {} or [],             /* See more below */
     "region_connections": [] or "" /* See more below */
 }
 ```
@@ -73,18 +78,18 @@ The settings for the groups is an array of objects of group parameters. These gr
 
 ```
 {
-    "n_i": /* How many infection attempts if infected */,
+    "n_i":  /* How many infection attempts if infected */,
     "n_ai": /* How many infection attempts if asymptomatic */,
-    "s": /* How susceptible an agent is */,
-    "p_i": /* How infectious an agent is if infected */,
+    "s":    /* How susceptible an agent is */,
+    "p_i":  /* How infectious an agent is if infected */,
     "p_ai": /* How infectious an agent is if asymptomatic */,
-    "p_t": /* How probable is the agent to travel if infected */,
+    "p_t":  /* How probable is the agent to travel if infected */,
     "p_at": /* How probable is the agent to travel if asymptotic */,
-    "p_v": /* How probable a vaccine is to work */,
-    "d_v": /* How long it takes for a vaccine to work */,
-    "d_i": /* How many time steps until an infected agent is removed */,
+    "p_v":  /* How probable a vaccine is to work */,
+    "d_v":  /* How long it takes for a vaccine to work */,
+    "d_i":  /* How many time steps until an infected agent is removed */,
     "d_ai": /* How many time steps until an asymptomatic agent is removed */,
-    "a_p": /* How probable an agent is to become asymptomatic if infected */
+    "a_p":  /* How probable an agent is to become asymptomatic if infected */
 }
 ```
 
@@ -93,8 +98,8 @@ The graph setting is a JSON object that depends on the type of graph that should
 ```
 {
     "type": "matrix", // A graph representation of a matrix
-    "size": /* The length of the side of the matrix */,
-    "distance": /* The range of each agent in the matrix */
+    "size":           /* The length of the side of the matrix */,
+    "distance":       /* Measures the size of the neighbour sub-matrix */
 }
 ```
 
@@ -116,7 +121,7 @@ The graph setting is a JSON object that depends on the type of graph that should
 
 ```
 {
-    "type": "file_format_advanced", // An alternative graph based on a file
+    "type": "file_format_advanced", // Reading the graph from a file
     "file_name": /* The name of the file being used */
 }
 ```
@@ -127,7 +132,9 @@ The regions can be connected to other regions, which makes it possible for agent
 
 # Plotting
 
-To plot the json output there is a python script included using matplotlib, that means that both python and matplotlib needs to be installed (`python -m pip install matplotlib`). An example of using this script from a file:
+To plot the json output there is a python script using matplotlib, meaning that both python and matplotlib need to be installed (`python -m pip install matplotlib`).
+An example of using this script from a file:
+
 ```
 py/plot_sir.py < output.json
 ```
@@ -150,10 +157,10 @@ The `gen-graph` executable can be used to pre-generate Newman-Watts small world 
 - `-k` The number of connected immediate neighbours on each side of an agent.
 - `-p` The probability of a given non-neighbourhood edge being created.
 
-For example, to generate a *Newman-Watts small world* graph with ***two regions***  
-and store it in `sw-2R-README.txt`, you could paste or type:
+For example, to generate a *Newman-Watts small world* graph with ***two regions***
+and store it in `sw-2R-fromFile.txt`, you could paste or type:
 
-`bin/gen-graph -o -l 10000 -k 10 -p 0.001 | bin/gen-graph -or -l 5000 -k 15 -p 0.003 > sw-2R-README.txt`
+`bin/gen-graph -o -l 10000 -k 10 -p 0.001 | bin/gen-graph -or -l 5000 -k 15 -p 0.003 > sw-2R-fromFile.txt`
 
 Note the `-r` flag in the command *to the right* of the pipe (`|`) character, which adds the graph generated *to the left* the pipe (`|`) as another region. When the `-r` flag  is used, the input to the executable (on the right side) should be a stream with already-existing graph data. This is the case in this example, since the `-o` flag is active in the command to the left of the pipe. The graph with 10 000 people is thus added as input when generating the graph with 5000 people.
 
@@ -161,11 +168,11 @@ Note the `-r` flag in the command *to the right* of the pipe (`|`) character, wh
 
 # How to use a generated graph
 
-If a graph has been saved to a file (under the format `file_format_advanced`), it can be read and used for a simulation. To use the graph stored in `sw-2R-README.txt`, paste or type:
+If a graph has been saved to a file (under the format `file_format_advanced`), it can be read and used for a simulation. To use the graph stored in `sw-2R-fromFile.txt`, paste or type:
 
-`bin/cov-sim -ip < sw-2R-README.json`
+`bin/cov-sim -ip < sw-2R-fromFile.json`
 
-where the file `sw-2R-README.json` has the following content:
+where the file `sw-2R-fromFile.json` has the following content:
 
     {
         "select_all": false,
@@ -189,7 +196,7 @@ where the file `sw-2R-README.json` has the following content:
         }],
         "graph": [{
             "type": "file_format_advanced",
-            "file_name": "sw-2R-README.txt"
+            "file_name": "sw-2R-fromFile.txt"
         }],
         "region_connections": [[1],[0]]
     }
@@ -198,7 +205,7 @@ where the file `sw-2R-README.json` has the following content:
 
 # Simulation examples - graph *not* from a file
 
-If a graph is small enough, you need not generate it first and store it to a file.  
+If a graph is small enough, you need not generate it first and store it to a file.
 For example, the following generates a graph and runs a simulation with the same parameters as above:
 
 `bin/cov-sim -ip < sw-2Regions.json`

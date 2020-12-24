@@ -1,10 +1,10 @@
-#include "VaccinationStrategies.hpp"
-#include "Graph.hpp"
-#include <vector>
-#include <set>
 #include <algorithm>
-#include "Utilities.hpp"
 #include <iostream>
+#include <set>
+#include <vector>
+#include "Graph.hpp"
+#include "Utilities.hpp"
+#include "VaccinationStrategies.hpp"
 
 void RandomStrategy::vaccinate(Graph& g, int t) {
 
