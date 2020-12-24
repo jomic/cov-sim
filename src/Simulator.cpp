@@ -7,8 +7,6 @@
 #include "VaccinationStrategies.hpp"
 #include "Utilities.hpp"
 
-
-
 Simulator::Simulator(std::shared_ptr<VaccinationStrategy>& vs) {
   vac_strat = vs;
 }

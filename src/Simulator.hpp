@@ -45,7 +45,7 @@ private:
 
 public:
   Simulator(std::shared_ptr<VaccinationStrategy>& vs);
-  
+
   /**
     Performs a single iteration at time t.
    */
