@@ -53,13 +53,13 @@ int main(int argc, char** argv) {
        << "Number of nodes:\t" << l << endl
        << "Expected degree:\t" << expected_degree << endl
        << "Expected path length:\t" << expected_path_length << endl
-       << "Note that the path length may be inaccurate for some values." << endl
-       << "================" << endl << endl;
+       << "Note that the path length may be inaccurate for some values."
+       << endl << "================" << endl << endl;
 
-  Graph g;
+  Graph graf;
   if (add_region)
-    g.read_generatable_graph(cin);
-  g.nw_small_world(l, k, p);
+    graf.read_generatable_graph(cin);
+  graf.nw_small_world(l, k, p);
   if (output_result)
-    g.write_generatable_graph(cout);
+    graf.write_generatable_graph(cout);
 }

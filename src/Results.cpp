@@ -99,14 +99,14 @@ void Results::save_to_file(string file_name) {
 
 void Results::write_to_output_stream(ostream& stream, bool split_by_region) {
   if (split_by_region)
-    write_results_to_output_stream(stream, results_by_region);
+    results_to_output(stream, results_by_region);
   else
-    write_results_to_output_stream(stream, results);
+    results_to_output(stream, results);
 }
 
 void Results::write_last_to_output_stream(ostream& stream, bool split_by_region) {
   if (split_by_region)
-    write_result_to_output_stream(stream, results_by_region.back());
+    result_to_output(stream, results_by_region.back());
   else
-    write_result_to_output_stream(stream, results.back());
+    result_to_output(stream, results.back());
 }

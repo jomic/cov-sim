@@ -11,32 +11,32 @@ Simulator::Simulator(std::shared_ptr<VaccinationStrategy>& vs) {
   vac_strat = vs;
 }
 
-void Simulator::infect_initial(Graph& edges, int n) {
-  std::set<int> rand_index = unique_random_numbers(n, edges.node_count());
+void Simulator::infect_initial(Graph& graf, int n) {
+  std::set<int> rand_index = unique_random_numbers(n, graf.node_count());
   for (auto i : rand_index) {
-    edges.agents[i].infect(0);
+    graf.agents[i].infect(0);
   }
 }
 
-void Simulator::iterate(Results& results, Graph& edges, int t) {
-  vac_strat->vaccinate(edges, t);
+void Simulator::iterate(Results& results, Graph& graf, int t) {
+  vac_strat->vaccinate(graf, t);
   int current_id = 0;
   int current_region = -1;
-  for (Agent &node : edges.agents) {
-    if (edges.get_agent_region(current_id++) != current_region) {
+  for (Agent &node : graf.agents) {
+    if (graf.get_agent_region(current_id++) != current_region) {
       current_region++;
       results.prepare_new_region();
     }
     node.update_results(t, results);
     if (node.is_infected(t)) {
       if (node.is_travelling(t)) {
-	node.try_infecting_on_travel(t, edges);
+	node.try_infecting_on_travel(t, graf);
       }
       else {
 	if (select_all)
-	  node.try_infecting_neighbours(t, edges);
+	  node.try_infecting_neighbours(t, graf);
 	else
-	  node.try_infecting_n_neighbours(t, edges);	
+	  node.try_infecting_n_neighbours(t, graf);	
       }
       node.update_infection(t);
     }
@@ -46,7 +46,7 @@ void Simulator::iterate(Results& results, Graph& edges, int t) {
   }
 }
 
-Results Simulator::simulate(Graph& edges, bool print_each_result) {
+Results Simulator::simulate(Graph& graf, bool print_each_result) {
   Results results;
   
   /**
@@ -58,16 +58,16 @@ Results Simulator::simulate(Graph& edges, bool print_each_result) {
   t_end = T;
   
   
-  infect_initial(edges, initial_infections);
+  infect_initial(graf, initial_infections);
   for (int t = 1; t <= t_end; t++) {
     results.prepare_new_result();
-    iterate(results, edges, t);
+    iterate(results, graf, t);
     if (print_each_result)
       results.write_last_to_output_stream(std::cout, true);
   }
   return results;
 }
 
-Results Simulator::simulate(Graph& edges) {
-  return simulate(edges, false);
+Results Simulator::simulate(Graph& graf) {
+  return simulate(graf, false);
 }

@@ -17,8 +17,8 @@ public:
 
 class Graph {
 public:
-  vector<int> offsets;
-  vector<int> edges;
+  vector<int> offsetsVctr;
+  vector<int> edgesVctr;
   vector<Agent> agents;
 
   vector<int> region_agent_offsets;

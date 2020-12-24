@@ -44,31 +44,31 @@ int main(int argc, char** argv) {
     srand(1);
 
   vector<shared_ptr<group_t>> groups;
-  Graph edges;
+  Graph graf;
   shared_ptr<VaccinationStrategy> vs = make_shared<NothingStrategy>();
   Simulator s(vs);
 
   // Load groups and settings from stream
   if (input_settings) {
-    get_strategy_from_stream(cin, vs);
+    get_strategy(cin, vs);
     s = Simulator(vs);
     reset_stream(cin);
-    get_groups_from_stream(cin, groups);
+    get_groups(cin, groups);
     reset_stream(cin);
     initialize_simulator_from_stream(cin, s);
     reset_stream(cin);
-    initialize_graph_from_stream(cin, edges);
+    initialize_graph_from_stream(cin, graf);
   }
   else {
-    edges.default_graph();
-    edges.default_region_connections();
+    graf.default_graph();
+    graf.default_region_connections();
   }
 
   // Assign groups to the agents in the graph
-  edges.assign_groups(groups);
+  graf.assign_groups(groups);
 
   // Run the simulation
-  Results results = s.simulate(edges, output_results && realtime_output);
+  Results results = s.simulate(graf, output_results && realtime_output);
 
   // Output results
   if (print_graph)

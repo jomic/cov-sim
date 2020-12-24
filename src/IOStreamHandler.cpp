@@ -12,7 +12,7 @@
 using namespace std;
 using json = nlohmann::json;
 
-void get_strategy_from_stream(istream& stream, shared_ptr<VaccinationStrategy>& vs) {
+void get_strategy(istream& stream, shared_ptr<VaccinationStrategy>& vs) {
   json s;
   try {
     stream >> s;
@@ -22,7 +22,8 @@ void get_strategy_from_stream(istream& stream, shared_ptr<VaccinationStrategy>& 
     return;
   }
 
-  if (s["vaccination_strategy"].is_object() && s["vaccination_strategy"]["type"].is_string()) {
+  if (s["vaccination_strategy"].is_object()
+        && s["vaccination_strategy"]["type"].is_string()) {
     json strat = s["vaccination_strategy"];
     if (strat["type"] == "nothing") {
       vs = make_shared<NothingStrategy>();
@@ -38,7 +39,7 @@ void get_strategy_from_stream(istream& stream, shared_ptr<VaccinationStrategy>& 
     vs->vaccines_per_day = s["n_v"];
 }
 
-void get_groups_from_stream(istream& stream, vector<shared_ptr<group_t>>& groups) {
+void get_groups(istream& stream, vector<shared_ptr<group_t>>& groups) {
   json s;
   try {
     stream >> s;    
@@ -50,32 +51,32 @@ void get_groups_from_stream(istream& stream, vector<shared_ptr<group_t>>& groups
 
   if (s["groups"].is_array()) {
     for (auto group : s["groups"]) {
-      shared_ptr<group_t> g(new group_t);
+      shared_ptr<group_t> graf(new group_t);
       if (group["n_i"].is_number())
-	g->n_i = group["n_i"];
+	graf->n_i = group["n_i"];
       if (group["n_ai"].is_number())
-	g->n_ai = group["n_ai"];
+	graf->n_ai = group["n_ai"];
       if (group["s"].is_number())
-	g->s = group["s"];
+	graf->s = group["s"];
       if (group["p_i"].is_number())
-	g->p_i = group["p_i"];
+	graf->p_i = group["p_i"];
       if (group["p_ai"].is_number())
-	g->p_ai = group["p_ai"];
+	graf->p_ai = group["p_ai"];
       if (group["p_t"].is_number())
-	g->p_t = group["p_t"];
+	graf->p_t = group["p_t"];
       if (group["p_at"].is_number())
-	g->p_at = group["p_at"];
+	graf->p_at = group["p_at"];
       if (group["p_v"].is_number())
-	g->p_v = group["p_v"];
+	graf->p_v = group["p_v"];
       if (group["d_v"].is_number())
-	g->d_v = group["d_v"];
+	graf->d_v = group["d_v"];
       if (group["d_i"].is_number())
-	g->d_i = group["d_i"];
+	graf->d_i = group["d_i"];
       if (group["d_ai"].is_number())
-	g->d_ai = group["d_ai"];
+	graf->d_ai = group["d_ai"];
       if (group["a_p"].is_number())
-	g->a_p = group["a_p"];
-      groups.push_back(g);
+	graf->a_p = group["a_p"];
+      groups.push_back(graf);
     }
   }
 }
@@ -102,31 +103,31 @@ void initialize_simulator_from_stream(istream& stream, Simulator& sim) {
     sim.n_v = s["n_v"];
 }
 
-void initialize_graph(json& s, Graph& g) {
+void initialize_graph(json& s, Graph& graf) {
   if (s["type"] == "matrix"
       && s["size"].is_number()
       && s["distance"].is_number())
-    g.matrix_graph(s["size"], s["distance"]);
+    graf.matrix_graph(s["size"], s["distance"]);
   else if (s["type"] == "file"
 	   && s["file_name"].is_string())
-    g.input_from_file(s["file_name"]);
+    graf.input_from_file(s["file_name"]);
   else if (s["type"] == "nw_small_world"
 	   && s["l"].is_number()
 	   && s["k"].is_number()
 	   && s["p"].is_number())
-    g.nw_small_world(s["l"], s["k"], s["p"]);
+    graf.nw_small_world(s["l"], s["k"], s["p"]);
   else if (s["type"] == "file_format_advanced"
 	   && s["file_name"].is_string()) {
     ifstream file;
     file.open(s["file_name"]);
-    g.read_generatable_graph(file);
+    graf.read_generatable_graph(file);
     file.close();
   }
   else
-    g.default_graph();
+    graf.default_graph();
 }
 
-void initialize_region_connections(json& s, Graph& g) {
+void initialize_region_connections(json& s, Graph& graf) {
   if (s["region_connections"].is_array()) {
     vector<vector<int>> connections;
     for (auto connection_list : s["region_connections"]) {
@@ -136,20 +137,20 @@ void initialize_region_connections(json& s, Graph& g) {
 	  c.push_back(entry);
       connections.push_back(c);
     }
-    g.set_region_connections(connections);
+    graf.set_region_connections(connections);
   }
   else if (s["region_connections"].is_string()) {
     ifstream file;
     file.open(s["region_connections"]);
-    g.set_region_connections(file);
+    graf.set_region_connections(file);
     file.close();
   }
   else {
-    g.default_region_connections();
+    graf.default_region_connections();
   }  
 }
 
-void initialize_graph_from_stream(istream& stream, Graph& g) {
+void initialize_graph_from_stream(istream& stream, Graph& graf) {
   json s;
   try {
     stream >> s;
@@ -160,19 +161,19 @@ void initialize_graph_from_stream(istream& stream, Graph& g) {
   }
 
   if (s["graph"].is_object() && s["graph"]["type"].is_string())
-    initialize_graph(s["graph"], g);
+    initialize_graph(s["graph"], graf);
   else if (s["graph"].is_array()) {
     for (auto graph : s["graph"]) {
       if (graph["type"].is_string())
-	initialize_graph(graph, g);
+	initialize_graph(graph, graf);
       else
-	g.default_graph();
+	graf.default_graph();
     }
   }
   else
-    g.default_graph();
+    graf.default_graph();
 
-  initialize_region_connections(s, g);
+  initialize_region_connections(s, graf);
 }
 
 
@@ -198,17 +199,17 @@ json region_result_to_json(vector<result_t>& region_result) {
   return j;
 }
 
-void write_result_to_output_stream(ostream& stream, result_t& result) {
+void result_to_output(ostream& stream, result_t& result) {
   json output = result_to_json(result);
   stream << output << endl;
 }
 
-void write_result_to_output_stream(ostream& stream, vector<result_t>& region_result) {
+void result_to_output(ostream& stream, vector<result_t>& region_result) {
   json output = region_result_to_json(region_result);
   stream << output << endl;
 }
 
-void write_results_to_output_stream(ostream& stream, vector<result_t>& results) {
+void results_to_output(ostream& stream, vector<result_t>& results) {
   json output = {
     {"results", {}}
   };
@@ -219,10 +220,9 @@ void write_results_to_output_stream(ostream& stream, vector<result_t>& results) 
   stream << output << endl;
 }
 
-void write_results_to_output_stream(ostream& stream, vector<vector<result_t>>& region_results) {
-  json output = {
-    {"results", {}}
-  };
+void results_to_output(
+      ostream& stream, vector<vector<result_t>>& region_results) {
+  json output = { {"results", {}} };
   for (auto& result : region_results) {
     json entry = region_result_to_json(result);
     output["results"].push_back(entry);

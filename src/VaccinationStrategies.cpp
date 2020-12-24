@@ -6,7 +6,7 @@
 #include "Utilities.hpp"
 #include "VaccinationStrategies.hpp"
 
-void RandomStrategy::vaccinate(Graph& g, int t) {
+void RandomStrategy::vaccinate(Graph& graf, int t) {
 
   if (t < time_deployed) {
     return;
@@ -14,8 +14,8 @@ void RandomStrategy::vaccinate(Graph& g, int t) {
   
   vector<int> unvaccinated;
 
-  for (int i = 0; i < g.node_count(); ++i) {
-    if (g.get_node(i).can_be_vaccinated(t)) {
+  for (int i = 0; i < graf.node_count(); ++i) {
+    if (graf.get_node(i).can_be_vaccinated(t)) {
       unvaccinated.push_back(i);
     }
   }
@@ -29,12 +29,12 @@ void RandomStrategy::vaccinate(Graph& g, int t) {
                                         unvaccinated.size());
 
   for (int i : nums) {
-    g.agents[i].vaccinate(t);
+    graf.agents[i].vaccinate(t);
   }
   
   return;
 }
 
-void NothingStrategy::vaccinate(Graph& g, int t) {
+void NothingStrategy::vaccinate(Graph& graf, int t) {
   return;
 }

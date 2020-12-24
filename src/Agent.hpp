@@ -17,7 +17,7 @@ private:
   std::shared_ptr<group_t> group;
   static group_t default_group;
 
-  void try_infecting_neighbour(int t, int id, Graph& edges);
+  void try_infecting_neighbour(int t, int id, Graph& graf);
   void try_completing_vaccination();
 
 public:
@@ -72,20 +72,23 @@ public:
   /**
     Make the individual try to infect all of its neighbours at time t.
   */
-  void try_infecting_neighbours(int t, Graph& edges);
+  void try_infecting_neighbours(int t, Graph& graf);
 
   /**
-    Make the individual try to infect some of its neighbours at time t, n based on its group params.
+    Make the individual try to infect some of its neighbours at time t,
+    based on its group parameters.
   */
-  void try_infecting_n_neighbours(int t, Graph& edges);
+  void try_infecting_n_neighbours(int t, Graph& graf);
 
   /**
-    Make the individual try to infect n people in a neighbouring region, based on group params.
+    Make the individual try to infect n people in a neighbouring region,
+    based on its group parameters.
    */
-  void try_infecting_on_travel(int t, Graph& edges);
+  void try_infecting_on_travel(int t, Graph& graf);
   
   /**
-    Update the individuals infection, given that an infection last for d time steps.
+    Update the individuals infection, given that an infection lasts
+    for d time steps.
   */
   void update_infection(int t);
 

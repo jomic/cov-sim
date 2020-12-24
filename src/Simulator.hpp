@@ -31,7 +31,7 @@ private:
 
   // Parameters from the document (except vaccine type)
   bool select_all{true}; // Whether or not agents try to infect all neighbours
-  unsigned int T{50};              // Simulation duration
+  unsigned int T{20};              // Simulation duration
   unsigned int N_init_infected{4}; // Initially infected agents
   unsigned int T_v{10};            // Vaccination start time
   unsigned int n_v{10};            // Vaccines available per timestep
@@ -41,7 +41,7 @@ private:
   /**
     Infects n agents at time t=0.
    */
-  void infect_initial(Graph& edges, int n);
+  void infect_initial(Graph& graf, int n);
 
 public:
   Simulator(shared_ptr<VaccinationStrategy>& vs);
@@ -49,13 +49,13 @@ public:
   /**
     Performs a single iteration at time t.
    */
-  void iterate(Results& results, Graph& edges, int t);
+  void iterate(Results& results, Graph& graf, int t);
 
   /**
-    Runs a simulation for given settings for the specified graph `edges`.
+    Runs a simulation for given settings for the specified graph `graf`.
    */
-  Results simulate(Graph& edges, bool print_each_result);
-  Results simulate(Graph& edges);
+  Results simulate(Graph& graf, bool print_each_result);
+  Results simulate(Graph& graf);
 
   // Allow the initializer function to access private members
   friend void initialize_simulator_from_stream(istream& stream, Simulator& s);
