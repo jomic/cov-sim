@@ -94,8 +94,8 @@ void initialize_simulator_from_stream(istream& stream, Simulator& sim) {
     sim.select_all = s["select_all"];
   if (s["T"].is_number())
     sim.T = s["T"];
-  if (s["N"].is_number())
-    sim.N = s["N"];
+  if (s["N_init_infected"].is_number())
+    sim.N_init_infected = s["N_init_infected"];
   if (s["T_v"].is_number())
     sim.T_v = s["T_v"];
   if (s["n_v"].is_number())

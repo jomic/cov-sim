@@ -54,7 +54,7 @@ Results Simulator::simulate(Graph& edges, bool print_each_result) {
     so the variables used in the simulator are assigned 
     these values here until we decide which names to use.
   */
-  initial_infections = N;
+  initial_infections = N_init_infected;
   t_end = T;
   
   

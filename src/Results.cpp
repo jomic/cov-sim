@@ -65,15 +65,15 @@ void Results::prepare_new_result() {
   results_by_region.push_back(new_region_results);
 }
 
-void Results::print(int N) {
+void Results::print(int N_population) {
     clog << "\n";
   int T = results.size();
   for (int t = 0; t < T; t++) {
     const int WDTH = 100, spcs = 8;
-    for (int i = 0; i < round(WDTH*results[t].i/N); i++) {clog << "I";}
-    int n_s_t = WDTH - round(WDTH*results[t].i/N) - round(WDTH*results[t].r/N);
+    for (int i = 0; i < round(WDTH*results[t].i/N_population); i++) {clog << "I";}
+    int n_s_t = WDTH - round(WDTH*results[t].i/N_population) - round(WDTH*results[t].r/N_population);
     for (int i = 0; i < n_s_t; i++) {clog << " ";}
-    for (int i = 0; i < round(WDTH*results[t].r/N); i++) {clog << "R";}
+    for (int i = 0; i < round(WDTH*results[t].r/N_population); i++) {clog << "R";}
     clog << "| s a i v r(" << setw(3) << setfill(' ') << t << "): ";
     clog << setw(spcs) << setfill(' ') << results[t].s;
     clog << setw(spcs) << setfill(' ') << results[t].a;
