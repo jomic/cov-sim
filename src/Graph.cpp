@@ -21,7 +21,7 @@ void Graph::input_from_file(string file_name) {
     while(getline(newfile, tp)) {
 
       offsetsVctr.push_back(edgesVctr.size());
-        
+
       vector<string> v = split(tp, " ");
       bool first = false;
       for (auto i : v) {
@@ -53,7 +53,7 @@ void Graph::matrix_graph(int n, int d) {
   start_new_region();
   int n_existing_agents = agents.size();
   for (int i = 0; i < (n * n); ++i) {
-    
+
     int node_x = get_x(i, n);
     int node_y = get_y(i, n);
 
@@ -65,7 +65,7 @@ void Graph::matrix_graph(int n, int d) {
 
     offsetsVctr.push_back(edgesVctr.size());
     agents.push_back(Agent(i + n_existing_agents));
-        
+
     for (int y = min_y; y < max_y; ++y) {
       for (int x = min_x; x < max_x; ++x) {
         int index = get_index(x, y, n);
@@ -84,7 +84,7 @@ bool roll(float p) {
 
 void Graph::nw_small_world(int l, int k, float p) {
   start_new_region();
-  
+
   // Vector for storing connection vectors
   vector<unique_ptr<vector<int>>> adjacencies;
 
@@ -101,8 +101,8 @@ void Graph::nw_small_world(int l, int k, float p) {
   for (int i = 0; i < l; i++) {
     for (int j = i + k + 1; j < l; j++) {
       if (j < i + l - k && roll(p)) {
-	adjacencies[i]->push_back(j);
-	adjacencies[j]->push_back(i);
+        adjacencies[i]->push_back(j);
+        adjacencies[j]->push_back(i);
       }
     }
   }
@@ -184,7 +184,7 @@ vector<int> Graph::get_neighbouring_regions(int region_id) {
     region_end = region_connections.size();
   else
     region_end = region_connection_offsets[region_id + 1];
-  
+
   vector<int> neighbouring_regions;
   for (int i = region_start; i < region_end; i++)
     neighbouring_regions.push_back(region_connections[i]);
@@ -256,14 +256,14 @@ void Graph::start_new_region() {
 void Graph::set_region_connections(istream& stream) {
   string line;
   vector<string> entries;
-  
+
   while (getline(stream, line)) {
     entries = split(line, " ");
     region_connection_offsets.push_back(region_connections.size());
     for (auto& entry : entries)
       region_connections.push_back(stoi(entry));
   }
-  
+
   if (region_connection_offsets.size() != region_agent_offsets.size())
     cerr << "WARNING -- Inconsistent region count." << endl;
 }
@@ -274,7 +274,7 @@ void Graph::set_region_connections(vector<vector<int>>& connections) {
     for (auto connection : connection_list)
       region_connections.push_back(connection);
   }
-  
+
   if (region_connection_offsets.size() != region_agent_offsets.size())
     cerr << "WARNING -- Inconsistent region count." << endl;
 }

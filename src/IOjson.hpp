@@ -4,7 +4,7 @@
 #include <vector>
 #include "Graph.hpp"
 #include "Group.hpp"
-class Simlatr;
+class Simulator;
 #include "VcStrgy.hpp"
 
 /**
@@ -20,7 +20,7 @@ void get_groups(std::istream& stream, std::vector<std::shared_ptr<group_t>>& gro
 /**
   Set simulator parameters based on information from json stream
  */
-void initialize_simulator_from_stream(std::istream& stream, Simlatr& s);
+void initialize_simulator_from_stream(std::istream& stream, Simulator& s);
 
 /**
   Make the appropriate calls to a graph for generating a network

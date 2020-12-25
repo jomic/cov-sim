@@ -29,8 +29,8 @@ public:
   void add_removed();
   void prepare_new_region();
   void prepare_new_result();
-  void print(int Npop);
+  void plot();
   void save_to_file(std::string file_name);
-  void write_to_output_stream(std::ostream& stream, bool split_by_region);
-  void write_last_to_output_stream(std::ostream& stream, bool split_by_region);
+  void write_to_output(std::ostream& stream, bool split_by_region);
+  void write_last_to_output(std::ostream& stream, bool split_by_region);
 };

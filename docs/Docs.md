@@ -81,7 +81,7 @@ Vaccine deployment type - Which strategy should be used for deploying the vaccin
 
 T (simulation duration) - The total number of time steps in the simulation
 
-N_init_infected (initial infected count) - The number of infected agents at the start of the simulation
+initial_infections (initial infected count) - The number of infected agents at the start of the simulation
 
 T<sub>v</sub> (vaccination start time) - The time at which the vaccine starts being deployed.
 

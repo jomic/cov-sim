@@ -11,7 +11,7 @@ void RandomStrategy::vaccinate(Graph& graf, int t) {
   if (t < time_deployed) {
     return;
   }
-  
+
   vector<int> unvaccinated;
 
   for (int i = 0; i < graf.node_count(); ++i) {
@@ -19,18 +19,18 @@ void RandomStrategy::vaccinate(Graph& graf, int t) {
       unvaccinated.push_back(i);
     }
   }
-  
+
   if(unvaccinated.size() == 0) return;
 
   int unvaccinated_count = unvaccinated.size();
   int vaccines = std::min(vaccines_per_day, unvaccinated_count);
-  
+
   set<int> nums = unique_random_numbers(vaccines, unvaccinated.size());
 
   for (int i : nums) {
     graf.agents[i].vaccinate(t);
   }
-  
+
   return;
 }
 

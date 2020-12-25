@@ -55,7 +55,7 @@ Note that any value can be omitted, in which case it will be set to a default va
 ```
 {
     "select_all": /* Whether ALL neighbours can get infected each step */,
-    "N_init_infected": /* The number of initially infected agents */,
+    "initial_infections": /* The number of initially infected agents */,
     "T":               /* The number of simulation time steps */,
     "T_v":             /* The time step at which vaccination starts */,
     "n_v":             /* The number of vaccinations available at each time step */,
@@ -176,7 +176,7 @@ where the file `sw-2R-fromFile.json` has the following content:
 
     {
         "select_all": false,
-        "N_init_infected": 1,
+        "initial_infections": 1,
         "T": 120,
         "T_v": 10,
         "n_v": 20,

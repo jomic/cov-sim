@@ -1,7 +1,7 @@
 #include <iostream>
 #include "Graph.hpp"
 #include "Results.hpp"
-#include "Simlatr.hpp"
+#include "Simulator.hpp"
 using namespace std;
 
 int main(int argc, char *argv[]) {
@@ -23,9 +23,9 @@ int main(int argc, char *argv[]) {
   Graph graph;
   graph.matrix_graph(L, D0);
   shared_ptr<VcStrgy> vs = make_shared<NothingStrategy>();
-  Simlatr s(vs);
+  Simulator s(vs);
   Results results = s.simulate(graph);
   results.save_to_file("data.txt");
-  results.print(L*L);
+  results.plot();
   return 0;
 }

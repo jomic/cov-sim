@@ -5,7 +5,7 @@
 #include "Graph.hpp"
 #include "IOjson.hpp"
 #include "Results.hpp"
-#include "Simlatr.hpp"
+#include "Simulator.hpp"
 using namespace std;
 
 int main(int argc, char** argv) {
@@ -13,7 +13,7 @@ int main(int argc, char** argv) {
   bool output_results = false;
   bool realtime_output = false;
   bool randomize_seed = false;
-  bool print_graph = false;
+  bool plot_graph = false;
 
   // Handle flags
   int c;
@@ -29,7 +29,7 @@ int main(int argc, char** argv) {
       realtime_output = true;
       break;
     case 'p':
-      print_graph = true;
+      plot_graph = true;
       break;
     case 's':
       randomize_seed = true;
@@ -46,12 +46,12 @@ int main(int argc, char** argv) {
   vector<shared_ptr<group_t>> groups;
   Graph graf;
   shared_ptr<VcStrgy> vs = make_shared<NothingStrategy>();
-  Simlatr s(vs);
+  Simulator s(vs);
 
   // Load groups and settings from stream
   if (input_settings) {
     get_strategy(cin, vs);
-    s = Simlatr(vs);
+    s = Simulator(vs);
     reset_stream(cin);
     get_groups(cin, groups);
     reset_stream(cin);
@@ -71,8 +71,8 @@ int main(int argc, char** argv) {
   Results results = s.simulate(graf, output_results && realtime_output);
 
   // Output results
-  if (print_graph)
-    results.print(10000);
+  if (plot_graph)
+    results.plot();
   if (output_results && !realtime_output)
-    results.write_to_output_stream(cout, false);
+    results.write_to_output(cout, false);
 }

@@ -6,7 +6,7 @@
 #include "Graph.hpp"
 #include "Group.hpp"
 #include "Results.hpp"
-#include "Simlatr.hpp"
+#include "Simulator.hpp"
 #include "VcStrgy.hpp"
 
 using namespace std;
@@ -42,7 +42,7 @@ void get_strategy(istream& stream, shared_ptr<VcStrgy>& vs) {
 void get_groups(istream& stream, vector<shared_ptr<group_t>>& groups) {
   json s;
   try {
-    stream >> s;    
+    stream >> s;
   }
   catch (const exception& e){
     cerr << "Something went wrong when parsing the JSON settings." << endl;
@@ -53,38 +53,38 @@ void get_groups(istream& stream, vector<shared_ptr<group_t>>& groups) {
     for (auto group : s["groups"]) {
       shared_ptr<group_t> graf(new group_t);
       if (group["n_i"].is_number())
-	graf->n_i = group["n_i"];
+        graf->n_i = group["n_i"];
       if (group["n_ai"].is_number())
-	graf->n_ai = group["n_ai"];
+        graf->n_ai = group["n_ai"];
       if (group["s"].is_number())
-	graf->s = group["s"];
+      graf->s = group["s"];
       if (group["p_i"].is_number())
-	graf->p_i = group["p_i"];
+        graf->p_i = group["p_i"];
       if (group["p_ai"].is_number())
-	graf->p_ai = group["p_ai"];
+        graf->p_ai = group["p_ai"];
       if (group["p_t"].is_number())
-	graf->p_t = group["p_t"];
+        graf->p_t = group["p_t"];
       if (group["p_at"].is_number())
-	graf->p_at = group["p_at"];
+        graf->p_at = group["p_at"];
       if (group["p_v"].is_number())
-	graf->p_v = group["p_v"];
+        graf->p_v = group["p_v"];
       if (group["d_v"].is_number())
-	graf->d_v = group["d_v"];
+        graf->d_v = group["d_v"];
       if (group["d_i"].is_number())
-	graf->d_i = group["d_i"];
+        graf->d_i = group["d_i"];
       if (group["d_ai"].is_number())
-	graf->d_ai = group["d_ai"];
+        graf->d_ai = group["d_ai"];
       if (group["a_p"].is_number())
-	graf->a_p = group["a_p"];
+        graf->a_p = group["a_p"];
       groups.push_back(graf);
     }
   }
 }
 
-void initialize_simulator_from_stream(istream& stream, Simlatr& sim) {
+void initialize_simulator_from_stream(istream& stream, Simulator& sim) {
   json s;
   try {
-    stream >> s;    
+    stream >> s;
   }
   catch (const exception& e){
     cerr << "Something went wrong when parsing the JSON settings." << endl;
@@ -95,8 +95,8 @@ void initialize_simulator_from_stream(istream& stream, Simlatr& sim) {
     sim.select_all = s["select_all"];
   if (s["T"].is_number())
     sim.T = s["T"];
-  if (s["N_init_infected"].is_number())
-    sim.N_init_infected = s["N_init_infected"];
+  if (s["initial_infections"].is_number())
+    sim.initial_infections = s["initial_infections"];
   if (s["T_v"].is_number())
     sim.T_v = s["T_v"];
   if (s["n_v"].is_number())
@@ -109,15 +109,15 @@ void initialize_graph(json& s, Graph& graf) {
       && s["distance"].is_number())
     graf.matrix_graph(s["size"], s["distance"]);
   else if (s["type"] == "file"
-	   && s["file_name"].is_string())
+           && s["file_name"].is_string())
     graf.input_from_file(s["file_name"]);
   else if (s["type"] == "nw_small_world"
-	   && s["l"].is_number()
-	   && s["k"].is_number()
-	   && s["p"].is_number())
+           && s["l"].is_number()
+           && s["k"].is_number()
+           && s["p"].is_number())
     graf.nw_small_world(s["l"], s["k"], s["p"]);
   else if (s["type"] == "file_format_advanced"
-	   && s["file_name"].is_string()) {
+           && s["file_name"].is_string()) {
     ifstream file;
     file.open(s["file_name"]);
     graf.read_generatable_graph(file);
@@ -133,8 +133,8 @@ void initialize_region_connections(json& s, Graph& graf) {
     for (auto connection_list : s["region_connections"]) {
       vector<int> c;
       for (auto entry : connection_list)
-	if (entry.is_number())
-	  c.push_back(entry);
+        if (entry.is_number())
+          c.push_back(entry);
       connections.push_back(c);
     }
     graf.set_region_connections(connections);
@@ -147,7 +147,7 @@ void initialize_region_connections(json& s, Graph& graf) {
   }
   else {
     graf.default_region_connections();
-  }  
+  }
 }
 
 void initialize_graph_from_stream(istream& stream, Graph& graf) {
@@ -165,9 +165,9 @@ void initialize_graph_from_stream(istream& stream, Graph& graf) {
   else if (s["graph"].is_array()) {
     for (auto graph : s["graph"]) {
       if (graph["type"].is_string())
-	initialize_graph(graph, graf);
+        initialize_graph(graph, graf);
       else
-	graf.default_graph();
+        graf.default_graph();
     }
   }
   else

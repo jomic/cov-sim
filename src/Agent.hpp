@@ -28,7 +28,7 @@ public:
     Assign a new group to the agent.
    */
   void assign_group(std::shared_ptr<group_t>& new_group);
-  
+
   /**
     Check if the individual can infect people at time t.
   */
@@ -53,7 +53,7 @@ public:
     Check if the agent is eligible for vaccination at time t.
    */
   bool can_be_vaccinated(int t);
-  
+
   /**
     Check if the individual is travelling at the time t.
    */
@@ -85,7 +85,7 @@ public:
     based on its group parameters.
    */
   void try_infecting_on_travel(int t, Graph& graf);
-  
+
   /**
     Update the individuals infection, given that an infection lasts
     for d time steps.
@@ -96,7 +96,7 @@ public:
     Update the individuals vaccination.
   */
   void update_vaccination(int t);
-  
+
   /**
     Update the results with the individual.
   */

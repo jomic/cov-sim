@@ -24,7 +24,7 @@ public:
   vector<int> region_agent_offsets;
   vector<int> region_connection_offsets;
   vector<int> region_connections;
-  
+
 
   /** Read node information from file.
      Format of file should be:
@@ -46,14 +46,14 @@ public:
 
   /**
     Generate a Newman-Watts small world network
-    from a 1d lattice with length l, neighbourhood 
+    from a 1d lattice with length l, neighbourhood
     radius k, and shortcut probability p
    */
   void nw_small_world(int l, int k, float p);
-  
+
   /**
-    Initializes a default graph with no specific 
-    parameters, useful if nothing else has been 
+    Initializes a default graph with no specific
+    parameters, useful if nothing else has been
     specified. Implemented as a matrix graph.
    */
   void default_graph();
