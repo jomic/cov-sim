@@ -6,7 +6,7 @@ COMPILER=g++ -c
 COMPILE_FLAGS= -Wall -g -fopenmp -o
 LINKER=g++
 LINK_FLAGS= -fopenmp -lstdc++fs -o
-DEPENDEES = obj/Agent.o obj/Graph.o obj/Results.o obj/Simulator.o obj/IOStreamHandler.o obj/VaccinationStrategies.o obj/Utilities.o
+DEPENDEES = obj/Agent.o obj/Graph.o obj/IOjson.o obj/Results.o obj/Simlatr.o obj/Utils.o obj/VcStrgies.o
 
 obj/%.o: src/%.cpp
 	mkdir -p $(@D)
@@ -35,4 +35,4 @@ clean_binaries:
 
 .PHONY: clean_binaries clean_objects clean
 
-.PRECIOUS: $(DEPENDEES) bin/trivial bin/cov-sim bin/gen-graph bin/matrix_test bin/matrixC19
+.PRECIOUS: $(DEPENDEES) bin/trivial bin/cov-sim bin/gen-graph bin/matrixDemo bin/matrixC19

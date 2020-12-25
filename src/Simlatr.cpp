@@ -1,24 +1,24 @@
 #include "Graph.hpp"
 #include "Results.hpp"
-#include "Simulator.hpp"
+#include "Simlatr.hpp"
 #include <vector>
 #include <iostream>
 #include <memory>
-#include "VaccinationStrategies.hpp"
-#include "Utilities.hpp"
+#include "VcStrgies.hpp"
+#include "Utils.hpp"
 
-Simulator::Simulator(std::shared_ptr<VaccinationStrategy>& vs) {
+Simlatr::Simlatr(std::shared_ptr<VcStrgy>& vs) {
   vac_strat = vs;
 }
 
-void Simulator::infect_initial(Graph& graf, int n) {
+void Simlatr::infect_initial(Graph& graf, int n) {
   std::set<int> rand_index = unique_random_numbers(n, graf.node_count());
   for (auto i : rand_index) {
     graf.agents[i].infect(0);
   }
 }
 
-void Simulator::iterate(Results& results, Graph& graf, int t) {
+void Simlatr::iterate(Results& results, Graph& graf, int t) {
   vac_strat->vaccinate(graf, t);
   int current_id = 0;
   int current_region = -1;
@@ -46,7 +46,7 @@ void Simulator::iterate(Results& results, Graph& graf, int t) {
   }
 }
 
-Results Simulator::simulate(Graph& graf, bool print_each_result) {
+Results Simlatr::simulate(Graph& graf, bool print_each_result) {
   Results results;
   
   /**
@@ -68,6 +68,6 @@ Results Simulator::simulate(Graph& graf, bool print_each_result) {
   return results;
 }
 
-Results Simulator::simulate(Graph& graf) {
+Results Simlatr::simulate(Graph& graf) {
   return simulate(graf, false);
 }

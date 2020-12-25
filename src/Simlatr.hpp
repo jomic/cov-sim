@@ -2,13 +2,13 @@
 #include <iostream>
 #include <memory>
 #include "Graph.hpp"
-#include "IOStreamHandler.hpp"
+#include "IOjson.hpp"
 #include "Results.hpp"
-#include "VaccinationStrategies.hpp"
-#include "VaccinationStrategy.hpp"
+#include "VcStrgies.hpp"
+#include "VcStrgy.hpp"
 using namespace std;
 
-class Simulator {
+class Simlatr {
 private:
 /**
   @initial_infections number of initially infected agents.
@@ -36,7 +36,7 @@ private:
   unsigned int T_v{10};            // Vaccination start time
   unsigned int n_v{10};            // Vaccines available per timestep
 
-  shared_ptr<VaccinationStrategy> vac_strat;
+  shared_ptr<VcStrgy> vac_strat;
   
   /**
     Infects n agents at time t=0.
@@ -44,7 +44,7 @@ private:
   void infect_initial(Graph& graf, int n);
 
 public:
-  Simulator(shared_ptr<VaccinationStrategy>& vs);
+  Simlatr(shared_ptr<VcStrgy>& vs);
 
   /**
     Performs a single iteration at time t.
@@ -58,5 +58,5 @@ public:
   Results simulate(Graph& graf);
 
   // Allow the initializer function to access private members
-  friend void initialize_simulator_from_stream(istream& stream, Simulator& s);
+  friend void initialize_simulator_from_stream(istream& stream, Simlatr& s);
 };

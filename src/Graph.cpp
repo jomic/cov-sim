@@ -7,7 +7,7 @@
 #include "Agent.hpp"
 #include "Graph.hpp"
 #include "Group.hpp"
-#include "Utilities.hpp"
+#include "Utils.hpp"
 using namespace std;
 
 Relation::Relation(int d) : distance(d) {}

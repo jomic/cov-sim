@@ -6,13 +6,13 @@
 #include "Graph.hpp"
 #include "Group.hpp"
 #include "Results.hpp"
-#include "Simulator.hpp"
-#include "VaccinationStrategy.hpp"
+#include "Simlatr.hpp"
+#include "VcStrgy.hpp"
 
 using namespace std;
 using json = nlohmann::json;
 
-void get_strategy(istream& stream, shared_ptr<VaccinationStrategy>& vs) {
+void get_strategy(istream& stream, shared_ptr<VcStrgy>& vs) {
   json s;
   try {
     stream >> s;
@@ -81,7 +81,7 @@ void get_groups(istream& stream, vector<shared_ptr<group_t>>& groups) {
   }
 }
 
-void initialize_simulator_from_stream(istream& stream, Simulator& sim) {
+void initialize_simulator_from_stream(istream& stream, Simlatr& sim) {
   json s;
   try {
     stream >> s;    
@@ -221,7 +221,7 @@ void results_to_output(ostream& stream, vector<result_t>& results) {
 }
 
 void results_to_output(
-      ostream& stream, vector<vector<result_t>>& region_results) {
+ostream& stream, vector<vector<result_t>>& region_results) {
   json output = { {"results", {}} };
   for (auto& result : region_results) {
     json entry = region_result_to_json(result);

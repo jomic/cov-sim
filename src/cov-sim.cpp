@@ -3,9 +3,9 @@
 #include <unistd.h>
 #include <vector>
 #include "Graph.hpp"
-#include "IOStreamHandler.hpp"
+#include "IOjson.hpp"
 #include "Results.hpp"
-#include "Simulator.hpp"
+#include "Simlatr.hpp"
 using namespace std;
 
 int main(int argc, char** argv) {
@@ -45,13 +45,13 @@ int main(int argc, char** argv) {
 
   vector<shared_ptr<group_t>> groups;
   Graph graf;
-  shared_ptr<VaccinationStrategy> vs = make_shared<NothingStrategy>();
-  Simulator s(vs);
+  shared_ptr<VcStrgy> vs = make_shared<NothingStrategy>();
+  Simlatr s(vs);
 
   // Load groups and settings from stream
   if (input_settings) {
     get_strategy(cin, vs);
-    s = Simulator(vs);
+    s = Simlatr(vs);
     reset_stream(cin);
     get_groups(cin, groups);
     reset_stream(cin);

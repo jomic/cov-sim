@@ -2,7 +2,7 @@
 #include <set>
 #include <string>
 #include <vector>
-#include "Utilities.hpp"
+#include "Utils.hpp"
 using namespace std;
 
 set<int> unique_random_numbers(int n, int max) {

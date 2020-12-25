@@ -1,7 +1,7 @@
 #include <iostream>
 #include "Graph.hpp"
 #include "Results.hpp"
-#include "Simulator.hpp"
+#include "Simlatr.hpp"
 using namespace std;
 
 int main(int argc, char *argv[]) {
@@ -22,8 +22,8 @@ int main(int argc, char *argv[]) {
   srand(1);
   Graph graph;
   graph.matrix_graph(L, D0);
-  shared_ptr<VaccinationStrategy> vs = make_shared<NothingStrategy>();
-  Simulator s(vs);
+  shared_ptr<VcStrgy> vs = make_shared<NothingStrategy>();
+  Simlatr s(vs);
   Results results = s.simulate(graph);
   results.save_to_file("data.txt");
   results.print(L*L);
