@@ -41,7 +41,7 @@ int main(int argc, char** argv) {
   if (randomized_seed)
     srand(time(NULL));
   else
-    srand(40);
+    srand(5);
 
   // Calculate and print some graph info
   // Path length estimation based on Newman, Moore and Watts (1999)

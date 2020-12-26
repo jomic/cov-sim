@@ -191,7 +191,7 @@ void omp_cores() {
 
 int main(int argc, char *argv[]) {
   omp_cores();
-  int init_infected = 4, L = 7, days_sick = 14, D0 = 2, T0 = 60, T = 60;
+  int init_infected = 4, L = 7, days_sick = 14, D0 = 2, T0 = 50, T = 50;
   float betaC = 0.25;
   bool random_seed = false;
 
@@ -224,4 +224,5 @@ int main(int argc, char *argv[]) {
   return EXIT_SUCCESS;
 }
 // make clean_binaries && make matrixC19
+// bin/matrixC19 4 7 14 2 60 60 0.25 true
 // bin/matrixC19 2 5 14 1 50 50 0.4 true

@@ -41,13 +41,13 @@ The `cov-sim` executable can be run using a JSON-formatted settings stream for i
 - `-p` Plot the results in the terminal - along with the SAIVR values.
 - `-s` Use a non-deterministic seed for the simulation.
 
-For example, to run the program with settings from `grafMatrix.json`, a random seed, and output in `resultsMatrix.json`, you can run:
+For example, to run the program with settings from `matrix,L=100,D0=5`, a random seed, and output in `resultsMatrix.json`, you can run:
 
-`bin/cov-sim -ios < grafMatrix.json > resultsMatrix.json`
+`bin/cov-sim -ios < matrix,L=100,D0=5 > resultsMatrix.json`
 
-Or, to use `grafMatrix.json`, a **non**-random seed, and make a plot in the terminal, run:
+Or, to use `matrix,L=100,D0=5`, a **non**-random seed, and make a plot in the terminal, run:
 
-`bin/cov-sim -ip < grafMatrix.json`
+`bin/cov-sim -ip < matrix,L=100,D0=5`
 
 The settings file is structured as follows.
 Note that any value can be omitted, in which case it will be set to a default value.
