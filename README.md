@@ -41,13 +41,13 @@ The `cov-sim` executable can be run using a JSON-formatted settings stream for i
 - `-p` Plot the results in the terminal - along with the SAIVR values.
 - `-s` Use a non-deterministic seed for the simulation.
 
-For example, to run the program with settings from `matrix,L=100,D0=5`, a random seed, and output in `resultsMatrix.json`, you can run:
+For example, to run the program with settings from `matrix,L=100,D0=5.json`, a random seed, and output in `resultsMatrix.json`, you can run:
 
-`bin/cov-sim -ios < matrix,L=100,D0=5 > resultsMatrix.json`
+`bin/cov-sim -ios < matrix,L=100,D0=5.json > resultsMatrix.json`
 
-Or, to use `matrix,L=100,D0=5`, a **non**-random seed, and make a plot in the terminal, run:
+Or, to use `matrix,L=100,D0=5.json`, a **non**-random seed, and make a plot in the terminal, run:
 
-`bin/cov-sim -ip < matrix,L=100,D0=5`
+`bin/cov-sim -ip < matrix,L=100,D0=5.json`
 
 The settings file is structured as follows.
 Note that any value can be omitted, in which case it will be set to a default value.
@@ -56,9 +56,9 @@ Note that any value can be omitted, in which case it will be set to a default va
 {
     "select_all": /* Whether ALL neighbours can get infected each step */,
     "initial_infections": /* The number of initially infected agents */,
-    "T":               /* The number of simulation time steps */,
-    "T_v":             /* The time step at which vaccination starts */,
-    "n_v":             /* The number of vaccinations available at each time step */,
+    "T":          /* The number of simulation time steps */,
+    "T_v":        /* The time step at which vaccination starts */,
+    "n_v":        /* The number of vaccinations available at each time step */,
     "vaccination_strategy": {},    /* See more below */
     "groups": [],                  /* See more below */
     "graph": {} or [],             /* See more below */
@@ -114,7 +114,7 @@ The graph setting is a JSON object that depends on the type of graph that should
 
 ```
 {
-    "type": "file", // A graph based on a file, simple file format
+    "type": "file_format_simple", // A graph based on a file, simple file format
     "file_name": /* The name of the file being used */
 }
 ```
@@ -168,7 +168,7 @@ Note the `-r` flag in the command *to the right* of the pipe (`|`) character, wh
 
 # How to use a generated graph
 
-If a graph has been saved to a file (under the format `file_format_advanced`), it can be read and used for a simulation. To use the graph stored in `sw-2R-fromFile.txt`, paste or type:
+If a graph has been saved to a file (under the format `"file_format_advanced"`), it can be read and used for a simulation. To use the graph stored in `sw-2R-fromFile.txt`, paste or type:
 
 `bin/cov-sim -ip < sw-2R-fromFile.json`
 

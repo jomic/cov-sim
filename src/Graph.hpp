@@ -27,7 +27,7 @@ public:
 
 
   /** Read node information from file.
-     Format of file should be:
+     For "file_format_simple" the format of the file should be:
      NODE_ID CONNECTED_TO_1 CONNECTED_TO_2 ...
      on each line of the file
      Example:

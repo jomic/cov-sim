@@ -108,7 +108,7 @@ void initialize_graph(json& s, Graph& graf) {
       && s["size"].is_number()
       && s["distance"].is_number())
     graf.matrix_graph(s["size"], s["distance"]);
-  else if (s["type"] == "file"
+  else if (s["type"] == "file_format_simple"
            && s["file_name"].is_string())
     graf.input_from_file(s["file_name"]);
   else if (s["type"] == "nw_small_world"

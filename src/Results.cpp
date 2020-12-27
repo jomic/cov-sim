@@ -66,16 +66,20 @@ void Results::prepare_new_result() {
 }
 
 void Results::plot() {
-  int N_tot = results[0].s + results[0].a + results[0].i + results[0].v + results[0].r;
+  int N_tot = results[0].s + results[0].a + results[0].i
+      + results[0].v + results[0].r;
   clog << endl;
   int T = results.size();
   for (int t = 0; t < T; t++) {
     const int WDTH = 100, spcs = 8;
-    for (int i = 0; i < round(WDTH*results[t].i/N_tot); i++) {clog << "I";}
-    int n_s_t = WDTH - round(WDTH*results[t].i/N_tot)
-        - round(WDTH*results[t].r/N_tot);
-    for (int i = 0; i < n_s_t; i++) {clog << " ";}
-    for (int i = 0; i < round(WDTH*results[t].r/N_tot); i++) {clog << "R";}
+    for (int j = 0; j < round(WDTH*results[t].a/N_tot); j++) {clog << "A";}
+    for (int j = 0; j < round(WDTH*results[t].i/N_tot); j++) {clog << "I";}
+    int n_s_t = WDTH - round(WDTH*results[t].a/N_tot)
+        - round(WDTH*results[t].i/N_tot) - round(WDTH*results[t].v/N_tot)
+        - round(WDTH*results[t].r/N_tot); // n_s_t = # susceptible at time t
+    for (int j = 0; j < n_s_t; j++) {clog << " ";} // " " = susceptible
+    for (int j = 0; j < round(WDTH*results[t].v/N_tot); j++) {clog << "V";}
+    for (int j = 0; j < round(WDTH*results[t].r/N_tot); j++) {clog << "R";}
     clog << "| SAIVR (" << setw(3) << setfill(' ') << t << "): ";
     clog << setw(spcs) << setfill(' ') << results[t].s;
     clog << setw(spcs) << setfill(' ') << results[t].a;
