@@ -29,6 +29,9 @@
         "k": 10,
         "p": 0.001 
     }],
+    "vaccination_strategy": [{
+        "type": "random"
+    }],
     "region_connections": [
         [1],
         [0]
