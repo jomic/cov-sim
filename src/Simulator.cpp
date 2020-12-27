@@ -54,8 +54,6 @@ Results Simulator::simulate(Graph& graf, bool print_each_result) {
     so the variables used in the simulator are assigned
     these values here until we decide which names to use.
   */
-  // // // initial_infections = initial_infections;
-  // // // T = T;
 
   infect_initial(graf, initial_infections);
   for (int t = 1; t <= (int)T; t++) {

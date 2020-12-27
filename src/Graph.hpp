@@ -12,7 +12,7 @@ class Relation {
 public:
   int distance;
 
-  Relation(int d);
+  Relation(int Dt);
 };
 
 class Graph {

@@ -10,7 +10,7 @@
 #include "Utils.hpp"
 using namespace std;
 
-Relation::Relation(int d) : distance(d) {}
+Relation::Relation(int Dt) : distance(Dt) {}
 
 void Graph::input_from_file(string file_name) {
   start_new_region();
@@ -49,7 +49,7 @@ int get_index(int x, int y, int matrix_size) {
   return (matrix_size * y) + x;
 }
 
-void Graph::matrix_graph(int n, int d) {
+void Graph::matrix_graph(int n, int Dt) {
   start_new_region();
   int n_existing_agents = agents.size();
   for (int i = 0; i < (n * n); ++i) {
@@ -57,11 +57,11 @@ void Graph::matrix_graph(int n, int d) {
     int node_x = get_x(i, n);
     int node_y = get_y(i, n);
 
-    int min_x = max(node_x - d, 0);
-    int min_y = max(node_y - d, 0);
+    int min_x = max(node_x - Dt, 0);
+    int min_y = max(node_y - Dt, 0);
 
-    int max_x = min(node_x + d + 1, n);
-    int max_y = min(node_y + d + 1, n);
+    int max_x = min(node_x + Dt + 1, n);
+    int max_y = min(node_y + Dt + 1, n);
 
     offsetsVctr.push_back(edgesVctr.size());
     agents.push_back(Agent(i + n_existing_agents));

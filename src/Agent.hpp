@@ -88,7 +88,7 @@ public:
 
   /**
     Update the individuals infection, given that an infection lasts
-    for d time steps.
+    for t time steps.
   */
   void update_infection(int t);
 

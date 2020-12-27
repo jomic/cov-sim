@@ -200,7 +200,7 @@ int main(int argc, char *argv[]) {
     return 1;
   } else if (argc == 8) {
     init_infected = stoi(argv[1]);
-    printf("init_infected = %d", init_infected);
+    cout << "init_infected = " << init_infected;
     L             = stoi(argv[2]);
     days_sick     = stoi(argv[3]);
     D0            = stoi(argv[4]);
