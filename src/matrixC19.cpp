@@ -163,7 +163,7 @@ void plot_result(result_t *result, int N, int t) {
   int n_s_t = WDTH - round(WDTH*result->i/N) - round(WDTH*result->r/N);
   for (int i = 0; i < n_s_t; i++) {cout << " ";}
   for (int i = 0; i < round(WDTH*result->r/N); i++) {cout << "R";}
-  cout << "| i s r(" << setw(3) << setfill(' ') << t << "): ";
+  cout << "| ISR (" << setw(3) << setfill(' ') << t << "): ";
   cout << setw(spcs) << setfill(' ') << result->i;
   cout << setw(spcs) << setfill(' ') << result->s;
   cout << setw(spcs) << setfill(' ') << result->r << endl;
@@ -191,24 +191,25 @@ void omp_cores() {
 
 int main(int argc, char *argv[]) {
   omp_cores();
-  int init_infected = 4, L = 7, days_sick = 14, D0 = 2, T0 = 50, T = 50;
+  int init_infected = 4, L = 7, days_sick = 14, D0 = 2, T = 50, T0 = 0;
   float betaC = 0.25;
   bool random_seed = false;
 
-  if (argc > 9) {
+  if (argc > 8) {
     cout << "Usage: " << argv[0] << " L D0 t" << endl;
     return 1;
-  } else if (argc == 9) {
+  } else if (argc == 8) {
     init_infected = stoi(argv[1]);
     printf("init_infected = %d", init_infected);
     L             = stoi(argv[2]);
     days_sick     = stoi(argv[3]);
     D0            = stoi(argv[4]);
-    T0            = stoi(argv[5]);
-    T             = stoi(argv[6]);
-    betaC         = stof(argv[7]);
-    random_seed   = (string(argv[8]).compare("true") == 0)?true:false;
+    T             = stoi(argv[5]);
+    // T0            = stoi(argv[6]);
+    betaC         = stof(argv[6]);
+    random_seed   = (string(argv[7]).compare("true") == 0)?true:false;
   }
+  T0 = T;
   float betaD = betaC/((2*D0+1)*(2*D0+1) - 1);
 
   grid_t *grid = create_grid(L);
@@ -224,5 +225,7 @@ int main(int argc, char *argv[]) {
   return EXIT_SUCCESS;
 }
 // make clean_binaries && make matrixC19
-// bin/matrixC19 4 7 14 2 60 60 0.25 true
-// bin/matrixC19 2 5 14 1 50 50 0.4 true
+// bin/matrixC19 2 5 14 1 50 0.4 true
+// bin/matrixC19 4 7 14 2 60 0.25 true
+// bin/matrixC19 4 51 14 3 150 0.25 true
+// bin/matrixC19 4 51 14 2 180 0.25 true
