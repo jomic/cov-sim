@@ -112,10 +112,10 @@ void initialize_graph(json& s, Graph& graf) {
            && s["file_name"].is_string())
     graf.input_from_file(s["file_name"]);
   else if (s["type"] == "nw_small_world"
-           && s["l"].is_number()
+           && s["N"].is_number()
            && s["k"].is_number()
            && s["p"].is_number())
-    graf.nw_small_world(s["l"], s["k"], s["p"]);
+    graf.nw_small_world(s["N"], s["k"], s["p"]);
   else if (s["type"] == "file_format_advanced"
            && s["file_name"].is_string()) {
     ifstream file;

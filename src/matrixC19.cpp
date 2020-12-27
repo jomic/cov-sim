@@ -118,8 +118,8 @@ void try_spreading(grid_t *grid, int i, int j, int Dt, float betaD, int t) {
   // Call function on each node within Dt:
   node_t *source = &grid->nodes[grid->L*i + j];
   for (int k = d_top; k < d_bottom; k++) {
-    for (int l = d_left; l < d_right; l++) {
-      node_t *target = &grid->nodes[grid->L*k + l];
+    for (int N = d_left; N < d_right; N++) {
+      node_t *target = &grid->nodes[grid->L*k + N];
       try_infecting(source, target, betaD, t);
     }
   }

@@ -82,25 +82,25 @@ bool roll(float p) {
   return p > (float) rand() / (float) RAND_MAX;
 }
 
-void Graph::nw_small_world(int l, int k, float p) {
+void Graph::nw_small_world(int N, int k, float p) {
   start_new_region();
 
   // Vector for storing connection vectors
   vector<unique_ptr<vector<int>>> adjacencies;
 
   // Create the initial adjacencies
-  for (int i = 0; i < l; i++) {
+  for (int i = 0; i < N; i++) {
     adjacencies.push_back(make_unique<vector<int>>());
     for (int j = 1; j <= k; j++) {
-      adjacencies[i]->push_back((i + j) % l);
-      adjacencies[i]->push_back((i + l - j) % l);
+      adjacencies[i]->push_back((i + j) % N);
+      adjacencies[i]->push_back((i + N - j) % N);
     }
   }
 
   // Create random adjacencies
-  for (int i = 0; i < l; i++) {
-    for (int j = i + k + 1; j < l; j++) {
-      if (j < i + l - k && roll(p)) {
+  for (int i = 0; i < N; i++) {
+    for (int j = i + k + 1; j < N; j++) {
+      if (j < i + N - k && roll(p)) {
         adjacencies[i]->push_back(j);
         adjacencies[j]->push_back(i);
       }

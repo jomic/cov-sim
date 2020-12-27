@@ -86,7 +86,7 @@ The settings for the groups is an array of objects of group parameters. These gr
     "p_t":  /* How probable is the agent to travel if infected */,
     "p_at": /* How probable is the agent to travel if asymptotic */,
     "p_v":  /* How probable a vaccine is to work */,
-    "d_v":  /* How long it takes for a vaccine to work */,
+    "d_v":  /* How many time steps (_d_ays) until a vaccine works */,
     "d_i":  /* How many time steps until an infected agent is removed */,
     "d_ai": /* How many time steps until an asymptomatic agent is removed */,
     "a_p":  /* How probable an agent is to become asymptomatic if infected */
@@ -106,7 +106,7 @@ The graph setting is a JSON object that depends on the type of graph that should
 ```
 {
     "type": "nw_small_world", // A Newman-Watts small world
-    "l": /* Number of agents */,
+    "N": /* Number of agents */,
     "k": /* Immediate neighbour range */,
     "p": /* Shortcut probability */
 }
@@ -153,14 +153,14 @@ The `gen-graph` executable can be used to pre-generate Newman-Watts small world 
 - `-o` The graph should be put in the standard output stream, in a format readable by the `"file_format_advanced"` option of the settings file.
 - `-r` The input to the program is an already-existing graph, and the graph generated should be added as a region.
 - `-s` Use a randomized seed for the simulation.
-- `-l` The number of agents.
+- `-N` The number of agents.
 - `-k` The number of connected immediate neighbours on each side of an agent.
 - `-p` The probability of a given non-neighbourhood edge being created.
 
 For example, to generate a *Newman-Watts small world* graph with ***two regions***
 and store it in `sw-2R-fromFile.txt`, you could paste or type:
 
-`bin/gen-graph -o -l 10000 -k 10 -p 0.001 | bin/gen-graph -or -l 5000 -k 15 -p 0.003 > sw-2R-fromFile.txt`
+`bin/gen-graph -o -N 10000 -k 10 -p 0.001 | bin/gen-graph -or -N 5000 -k 15 -p 0.003 > sw-2R-fromFile.txt`
 
 Note the `-r` flag in the command *to the right* of the pipe (`|`) character, which adds the graph generated *to the left* the pipe (`|`) as another region. When the `-r` flag  is used, the input to the executable (on the right side) should be a stream with already-existing graph data. This is the case in this example, since the `-o` flag is active in the command to the left of the pipe. The graph with 10 000 people is thus added as input when generating the graph with 5000 people.
 

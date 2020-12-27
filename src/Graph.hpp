@@ -46,10 +46,10 @@ public:
 
   /**
     Generate a Newman-Watts small world network
-    from a 1d lattice with length l, neighbourhood
+    from a 1d lattice with length N, neighbourhood
     radius k, and shortcut probability p
    */
-  void nw_small_world(int l, int k, float p);
+  void nw_small_world(int N, int k, float p);
 
   /**
     Initializes a default graph with no specific
