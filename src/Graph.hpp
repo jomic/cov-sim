@@ -8,17 +8,10 @@
 
 using namespace std;
 
-class Relation {
-public:
-  int distance;
-
-  Relation(int Dt);
-};
-
 class Graph {
 public:
-  vector<int> offsetsVctr;
-  vector<int> edgesVctr;
+  vector<int> offsets;
+  vector<int> edges;
   vector<Agent> agents;
 
   vector<int> region_agent_offsets;

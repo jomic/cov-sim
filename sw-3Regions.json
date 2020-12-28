@@ -1,9 +1,9 @@
 {
     "select_all": false,
     "initial_infections": 1,
-    "T": 142,
-    "T_v": 10,
-    "n_v": 20,
+    "T": 183,
+    "T_v": 50,
+    "n_v": 700,
     "groups": [{
         "n_i": 1,
         "n_ai": 3,
@@ -34,6 +34,7 @@
         "k": 10,
         "p": 0.001
     }],
+    "vaccination_strategy": { "type": "random" },
     "region_connections": [
         [1],
         [0, 2],

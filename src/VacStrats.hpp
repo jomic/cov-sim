@@ -1,12 +1,12 @@
 #pragma once
 #include "Graph.hpp"
-#include "VcStrgy.hpp"
+#include "VacStrat.hpp"
 
-class RandomStrategy: public VcStrgy {
+class RandomStrategy: public VacStrat {
   void vaccinate(Graph& graf, int t);
 };
 
-class NothingStrategy: public VcStrgy {
+class NothingStrategy: public VacStrat {
 public:
   void vaccinate(Graph& graf, int t);
 };

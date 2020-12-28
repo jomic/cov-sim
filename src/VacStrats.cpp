@@ -4,7 +4,7 @@
 #include <vector>
 #include "Graph.hpp"
 #include "Utils.hpp"
-#include "VcStrgies.hpp"
+#include "VacStrats.hpp"
 
 void RandomStrategy::vaccinate(Graph& graf, int t) {
 

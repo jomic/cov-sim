@@ -45,7 +45,7 @@ int main(int argc, char** argv) {
 
   vector<shared_ptr<group_t>> groups;
   Graph graf;
-  shared_ptr<VcStrgy> vs = make_shared<NothingStrategy>();
+  shared_ptr<VacStrat> vs = make_shared<NothingStrategy>();
   Simulator s(vs);
 
   // Load groups and settings from stream
@@ -55,9 +55,9 @@ int main(int argc, char** argv) {
     reset_stream(cin);
     get_groups(cin, groups);
     reset_stream(cin);
-    initialize_simulator_from_stream(cin, s);
+    initialize_simulator(cin, s);
     reset_stream(cin);
-    initialize_graph_from_stream(cin, graf);
+    initialize_graph(cin, graf);
   }
   else {
     graf.default_graph();

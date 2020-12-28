@@ -4,10 +4,10 @@
 #include <vector>
 #include <iostream>
 #include <memory>
-#include "VcStrgies.hpp"
+#include "VacStrats.hpp"
 #include "Utils.hpp"
 
-Simulator::Simulator(std::shared_ptr<VcStrgy>& vs) {
+Simulator::Simulator(std::shared_ptr<VacStrat>& vs) {
   vac_strat = vs;
 }
 

@@ -20,7 +20,7 @@ int main(int argc, char *argv[]) {
   srand(1);
   Graph graph;
   graph.matrix_graph(L, D0);
-  shared_ptr<VcStrgy> vs = make_shared<NothingStrategy>();
+  shared_ptr<VacStrat> vs = make_shared<NothingStrategy>();
   Simulator s(vs);
   Results results = s.simulate(graph);
   results.save_to_file("data.txt");

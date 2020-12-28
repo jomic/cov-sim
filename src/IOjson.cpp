@@ -7,12 +7,12 @@
 #include "Group.hpp"
 #include "Results.hpp"
 #include "Simulator.hpp"
-#include "VcStrgy.hpp"
+#include "VacStrat.hpp"
 
 using namespace std;
 using json = nlohmann::json;
 
-void get_strategy(istream& stream, shared_ptr<VcStrgy>& vs) {
+void get_strategy(istream& stream, shared_ptr<VacStrat>& vs) {
   json s;
   try {
     stream >> s;
@@ -81,7 +81,7 @@ void get_groups(istream& stream, vector<shared_ptr<group_t>>& groups) {
   }
 }
 
-void initialize_simulator_from_stream(istream& stream, Simulator& sim) {
+void initialize_simulator(istream& stream, Simulator& sim) {
   json s;
   try {
     stream >> s;
@@ -150,7 +150,7 @@ void initialize_region_connections(json& s, Graph& graf) {
   }
 }
 
-void initialize_graph_from_stream(istream& stream, Graph& graf) {
+void initialize_graph(istream& stream, Graph& graf) {
   json s;
   try {
     stream >> s;

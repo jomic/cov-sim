@@ -5,12 +5,12 @@
 #include "Graph.hpp"
 #include "Group.hpp"
 class Simulator;
-#include "VcStrgy.hpp"
+#include "VacStrat.hpp"
 
 /**
   Initialize a vaccination strategy from json stream
  */
-void get_strategy(std::istream& stream, std::shared_ptr<VcStrgy>& vs);
+void get_strategy(std::istream& stream, std::shared_ptr<VacStrat>& vs);
 
 /**
   Fill a vector with groups based on information from json stream
@@ -20,12 +20,12 @@ void get_groups(std::istream& stream, std::vector<std::shared_ptr<group_t>>& gro
 /**
   Set simulator parameters based on information from json stream
  */
-void initialize_simulator_from_stream(std::istream& stream, Simulator& s);
+void initialize_simulator(std::istream& stream, Simulator& s);
 
 /**
   Make the appropriate calls to a graph for generating a network
  */
-void initialize_graph_from_stream(std::istream& stream, Graph& graf);
+void initialize_graph(std::istream& stream, Graph& graf);
 
 /**
   Write a single result to an output stream as json

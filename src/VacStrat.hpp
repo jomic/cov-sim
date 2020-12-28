@@ -1,7 +1,7 @@
 #pragma once
 #include "Graph.hpp"
 
-class VcStrgy {
+class VacStrat {
 public:
   int time_deployed{0};     // time when the vaccination is deployed
   int vaccines_per_day{1};  // how many vaccinations per day

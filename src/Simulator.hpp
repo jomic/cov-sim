@@ -4,8 +4,8 @@
 #include "Graph.hpp"
 #include "IOjson.hpp"
 #include "Results.hpp"
-#include "VcStrgies.hpp"
-#include "VcStrgy.hpp"
+#include "VacStrats.hpp"
+#include "VacStrat.hpp"
 using namespace std;
 
 class Simulator {
@@ -35,7 +35,7 @@ private:
   unsigned int T_v{10};
   unsigned int n_v{10};
 
-  shared_ptr<VcStrgy> vac_strat;
+  shared_ptr<VacStrat> vac_strat;
 
   /**
     Infects n agents at time t=0.
@@ -43,7 +43,7 @@ private:
   void infect_initial(Graph& graf, int n);
 
 public:
-  Simulator(shared_ptr<VcStrgy>& vs);
+  Simulator(shared_ptr<VacStrat>& vs);
 
   /**
     Performs a single iteration at time t.
@@ -57,5 +57,5 @@ public:
   Results simulate(Graph& graf);
 
   // Allow the initializer function to access private members
-  friend void initialize_simulator_from_stream(istream& stream, Simulator& s);
+  friend void initialize_simulator(istream& stream, Simulator& s);
 };
