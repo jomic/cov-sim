@@ -21,15 +21,15 @@ private:
   @T0                 The time step when a lockdown is put forth.
   @T                  Number of time steps the simulation iterates.
   @T_v                The time step when vaccination starts.
-  @n_v                Number of vaccines available per timestep.
+  @n_v                Number of vaccines available per time-step.
 */ // Parameters set to their default values:
   bool random_seed{false};
   bool select_all{true};
   float betaC{0.25};
   unsigned int initial_infections{4};
-  unsigned int L{7};
+  unsigned int L{5};
   unsigned int days_sick{14};
-  unsigned int D0{2};
+  unsigned int D0{1};
   unsigned int T0{60};
   unsigned int T{20};
   unsigned int T_v{10};

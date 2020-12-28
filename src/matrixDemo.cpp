@@ -6,8 +6,8 @@ using namespace std;
 
 int main(int argc, char *argv[]) {
 
-  int L = 10;
-  int D0 = 5;
+  int L = 7;
+  int D0 = 2;
 
   if (argc == 3) {
     L = stoi(argv[1]);
