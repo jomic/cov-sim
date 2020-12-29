@@ -18,5 +18,8 @@ bin/gen-sw -o -N 10000 -k 10 -p 0.001 | bin/gen-sw -or -N 5000 -k 15 -p 0.003 > 
 bin/cov-sim -ip < sw-2R-fromFile.json
 
 # Also - requires only `tools/compileAndRun cov-sim` beforehand:
+bin/cov-sim -ip < matrix,L=7,D0=2.json
+bin/cov-sim -ip < rand,N=49,N0=16.json
+bin/cov-sim -ip < matrix,L=100,D0=5.json
 bin/cov-sim -ip < sw-2Regions.json
 bin/cov-sim -ip < sw-3Regions.json

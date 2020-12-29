@@ -19,9 +19,7 @@ void Graph::input_from_file(string file_name) {
   if (newfile.is_open()) {
     string tp;
     while(getline(newfile, tp)) {
-
       offsets.push_back(edges.size());
-
       vector<string> v = split(tp, " ");
       bool first = false;
       for (auto j : v) {
@@ -53,19 +51,14 @@ void Graph::matrix_graph(int L, int Dt) {
   start_new_region();
   int n_existing_agents = agents.size();
   for (int j = 0; j < (L * L); ++j) {
-
     int agent_x = get_x(j, L);
     int agent_y = get_y(j, L);
-
     int min_x = max(agent_x - Dt, 0);
     int min_y = max(agent_y - Dt, 0);
-
     int max_x = min(agent_x + Dt + 1, L);
     int max_y = min(agent_y + Dt + 1, L);
-
     offsets.push_back(edges.size());
     agents.push_back(Agent(j + n_existing_agents));
-
     for (int y = min_y; y < max_y; ++y) {
       for (int x = min_x; x < max_x; ++x) {
         int index = get_index(x, y, L);
@@ -76,7 +69,6 @@ void Graph::matrix_graph(int L, int Dt) {
     }
   }
 }
-
 
 bool roll(float p) {
   return p > (float) rand() / (float) RAND_MAX;
