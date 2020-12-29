@@ -7,7 +7,7 @@
     "groups": [{
         "n_i": 1,
         "n_ai": 3,
-        "s": 1.0,
+        "susceptibility": 1.0,
         "p_i": 0.25,
         "p_ai": 0.35,
         "p_t": 0.001,

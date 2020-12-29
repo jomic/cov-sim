@@ -31,21 +31,21 @@ An agent is at any time within one of the compartments **S**usceptible, **A**sym
 ![alt_text](1-saivr.png "The SAIVR compartments.")
 
 
-#### Interaction between two nodes
+#### Interaction between two agents
 
-The simulation is divided into time steps. In each time step, each infected or asymptomatic node will attempt to infect either (1) all its neighbours, or (2) a random subset of its neighbours. Each infection attempt is done by calculating the probability of infection between the two nodes, sampling from a uniform distribution between 0 and 1, and seeing if this sampled value is lower than the probability. If it is, the susceptible node is infected. The node attempting to infect has a parameter for infectiousness. A parameter can also be used for the susceptibility of the target, which can be multiplied with the infectiousness to get the infection probability. The susceptibility parameter can be set to 1 if all agents should be fully susceptible.
+The simulation is divided into time steps. In each time step, each infected or asymptomatic agent will attempt to infect either (1) all its neighbours, or (2) a random subset of its neighbours. Each infection attempt is done by calculating the probability of infection between the two agents, sampling from a uniform distribution between 0 and 1, and seeing if this sampled value is lower than the probability. If it is, the susceptible agent is infected. The agent attempting to infect has a parameter for infectiousness. A parameter can also be used for the susceptibility of the target, which can be multiplied with the infectiousness to get the infection probability. The susceptibility parameter can be set to 1 if all agents should be fully susceptible.
 
-The image below shows an example of how the probability of infection p is calculated when node 1, with infectiousness p<sub>i</sub> tries to infect its neighbour node 2, with susceptibility s.
+The image below shows an example of how the probability of infection p is calculated when agent 1, with infectiousness p<sub>i</sub> tries to infect its neighbour agent 2, with susceptibility s.
 
 
 ![alt_text](2-p=pi_x_s.png "The probability of infection p = p_i * s.")
 
 
-Upon being infected, the susceptible node has some probability of instead becoming asymptomatically infected. This is sampled the same way as the infection itself, except with a different probability.
+Upon being infected, the susceptible agent has some probability of instead becoming asymptomatically infected. This is sampled the same way as the infection itself, except with a different probability.
 
 
 #### Selecting infection targets
-As mentioned, we will have two methods for selecting neighbours to infect. The first method, from our original model, simply tries to infect all neighbouring nodes. The second method, from the other group’s model, selects only a subset of neighbours. Originally, each agent only selected a single random neighbour each time-step. We could add a parameter for this, such that the agent will select n random neighbours to try to infect instead.
+As mentioned, we will have two methods for selecting neighbours to infect. The first method, from our original model, simply tries to infect all neighbouring agents. The second method, from the other group’s model, selects only a subset of neighbours. Originally, each agent only selected a single random neighbour each time-step. We could add a parameter for this, such that the agent will select n random neighbours to try to infect instead.
 
 
 #### Age groups
@@ -93,7 +93,7 @@ n<sub>i</sub> (infection attempts) - The number of random neighbours an infected
 
 n<sub>ai</sub> (asymptotic infection attempts) - The number of random neighbours an asymptotic agent should try to infect each step, when method (2) is used.
 
-s (susceptibility) - A value between 0 and 1, multiplied with an infection probability to lessen the probability of being infected.
+susceptibility - A value between 0 and 1, multiplied with an infection probability to lessen the probability of being infected.
 
 p<sub>i</sub> (infectiousness) - A value between 0 and 1, used as a parameter to a Bernoulli distribution that determines whether the agent infects a susceptible agent or not. This is multiplied by the target’s susceptibility.
 
@@ -123,7 +123,7 @@ We might want to make it possible to investigate additional vaccination methods.
 
 
 ### Isolation
-We could simulate the isolation of infected nodes in different ways. Asymptotic agents should not be isolated, since they do not know that they can infect people. The simplest way for selection method (2) could be implemented with the fundamental model by simply having n<sub>i</sub> be lower than n<sub>ai</sub>. Another method would be to limit the number of people who can be infected by an agent to a smaller set of its neighbours. This subset of neighbours would be the same for each time-step, which would mimic D shrinking in the matrix model.
+We could simulate the isolation of infected agents in different ways. Asymptotic agents should not be isolated, since they do not know that they can infect people. The simplest way for selection method (2) could be implemented with the fundamental model by simply having n<sub>i</sub> be lower than n<sub>ai</sub>. Another method would be to limit the number of people who can be infected by an agent to a smaller set of its neighbours. This subset of neighbours would be the same for each time-step, which would mimic D shrinking in the matrix model.
 
 
 ### Lockdowns

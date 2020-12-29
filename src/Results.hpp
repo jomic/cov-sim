@@ -4,18 +4,18 @@
 #include <vector>
 using std::vector;
 
-struct result_t {
-  int s{0};
-  int a{0};
-  int i{0};
-  int v{0};
-  int r{0};
+struct Result {
+  int s_count{0};
+  int a_count{0};
+  int i_count{0};
+  int v_count{0};
+  int r_count{0};
 };
 
 class Results {
 private:
-  vector<result_t> results;
-  vector<vector<result_t>> results_by_region;
+  vector<Result> results;
+  vector<vector<Result>> results_by_region;
 public:
   void add_susceptible(int n);
   void add_susceptible();

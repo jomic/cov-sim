@@ -13,7 +13,7 @@ int main(int argc, char *argv[]) {
     L = stoi(argv[1]);
     D0 = stoi(argv[2]);
   } else if (argc != 1) {
-    cout << "Usage: " << argv[0] << " L D0 t\n";
+    cout << "Usage: " << argv[0] << " L D0" << endl;
     return 1;
   }
 
@@ -21,8 +21,8 @@ int main(int argc, char *argv[]) {
   Graph graph;
   graph.matrix_graph(L, D0);
   shared_ptr<VacStrat> vs = make_shared<NothingStrategy>();
-  Simulator s(vs);
-  Results results = s.simulate(graph);
+  Simulator sim(vs);
+  Results results = sim.simulate(graph);
   results.save_to_file("data.txt");
   results.plot();
   return 0;

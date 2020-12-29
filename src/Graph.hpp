@@ -19,7 +19,7 @@ public:
   vector<int> region_connections;
 
 
-  /** Read node information from file.
+  /** Read agent information from file.
      For "file_format_simple" the format of the file should be:
      NODE_ID CONNECTED_TO_1 CONNECTED_TO_2 ...
      on each line of the file
@@ -55,15 +55,15 @@ public:
     Assign groups to already-existing agents from a vector of available
     groups, with a uniform distribution.
    */
-  void assign_groups(vector<shared_ptr<group_t>>& groups);
+  void assign_groups(vector<shared_ptr<Group>>& groups);
 
-  /** Returns list of neighbours of node *id* */
+  /** Returns list of neighbours of agent *id* */
   vector<int> neighbours(int id);
 
-  /** Returns amount of nodes */
-  int node_count();
+  /** Returns number of agents */
+  int agents_count();
 
-  Agent get_node(int id);
+  Agent get_agent(int id);
 
   /** Get the id of the region region the agent with a given id belongs to */
   int get_agent_region(int id);

@@ -9,8 +9,8 @@
 using namespace std;
 
 void Results::add_susceptible(int n) {
-  results.back().s += n;
-  results_by_region.back().back().s += n;
+  results.back().s_count += n;
+  results_by_region.back().back().s_count += n;
 }
 
 void Results::add_susceptible() {
@@ -18,8 +18,8 @@ void Results::add_susceptible() {
 }
 
 void Results::add_asymptomatic(int n) {
-  results.back().a += n;
-  results_by_region.back().back().a += n;
+  results.back().a_count += n;
+  results_by_region.back().back().a_count += n;
 }
 
 void Results::add_asymptomatic() {
@@ -27,8 +27,8 @@ void Results::add_asymptomatic() {
 }
 
 void Results::add_infected(int n) {
-  results.back().i += n;
-  results_by_region.back().back().i += n;
+  results.back().i_count += n;
+  results_by_region.back().back().i_count += n;
 }
 
 void Results::add_infected() {
@@ -36,8 +36,8 @@ void Results::add_infected() {
 }
 
 void Results::add_vaccinated(int n) {
-  results.back().v += n;
-  results_by_region.back().back().v += n;
+  results.back().v_count += n;
+  results_by_region.back().back().v_count += n;
 }
 
 void Results::add_vaccinated() {
@@ -45,8 +45,8 @@ void Results::add_vaccinated() {
 }
 
 void Results::add_removed(int n) {
-  results.back().r += n;
-  results_by_region.back().back().r += n;
+  results.back().r_count += n;
+  results_by_region.back().back().r_count += n;
 }
 
 void Results::add_removed() {
@@ -54,53 +54,59 @@ void Results::add_removed() {
 }
 
 void Results::prepare_new_region() {
-  result_t new_result;
+  Result new_result;
   results_by_region.back().push_back(new_result);
 }
 
 void Results::prepare_new_result() {
-  result_t new_result;
+  Result new_result;
   results.push_back(new_result);
-  vector<result_t> new_region_results;
+  vector<Result> new_region_results;
   results_by_region.push_back(new_region_results);
 }
 
 void Results::plot() {
-  int N_tot = results[0].s + results[0].a + results[0].i
-      + results[0].v + results[0].r;
+  int N_tot = results[0].s_count + results[0].a_count + results[0].i_count
+      + results[0].v_count + results[0].r_count;
   clog << endl;
   int T = results.size();
   for (int t = 0; t < T; t++) {
     const int WDTH = 100, spcs = 8;
-    for (int j = 0; j < round(WDTH*results[t].a/N_tot); j++) {clog << "A";}
-    for (int j = 0; j < round(WDTH*results[t].i/N_tot); j++) {clog << "I";}
-    int n_s_t = WDTH - round(WDTH*results[t].a/N_tot)
-        - round(WDTH*results[t].i/N_tot) - round(WDTH*results[t].v/N_tot)
-        - round(WDTH*results[t].r/N_tot); // n_s_t = # susceptible at time t
-    for (int j = 0; j < n_s_t; j++) {clog << " ";} // " " = susceptible
-    for (int j = 0; j < round(WDTH*results[t].v/N_tot); j++) {clog << "V";}
-    for (int j = 0; j < round(WDTH*results[t].r/N_tot); j++) {clog << "R";}
+    for (int j = 0; j < round(WDTH*results[t].a_count/N_tot); j++)
+      { clog << "A"; }
+    for (int j = 0; j < round(WDTH*results[t].i_count/N_tot); j++)
+      { clog << "I"; }
+    int n_s_t = WDTH // n_s_t = number of susceptible agents at time t
+        - round(WDTH*results[t].a_count/N_tot)
+        - round(WDTH*results[t].i_count/N_tot)
+        - round(WDTH*results[t].v_count/N_tot)
+        - round(WDTH*results[t].r_count/N_tot);
+    for (int j = 0; j < n_s_t; j++) { clog << " "; } // " " = susceptible
+    for (int j = 0; j < round(WDTH*results[t].v_count/N_tot); j++)
+      { clog << "V"; }
+    for (int j = 0; j < round(WDTH*results[t].r_count/N_tot); j++)
+      { clog << "R"; }
     clog << "| SAIVR (" << setw(3) << setfill(' ') << t << "): ";
-    clog << setw(spcs) << setfill(' ') << results[t].s;
-    clog << setw(spcs) << setfill(' ') << results[t].a;
-    clog << setw(spcs) << setfill(' ') << results[t].i;
-    clog << setw(spcs) << setfill(' ') << results[t].v;
-    clog << setw(spcs) << setfill(' ') << results[t].r << endl;
+    clog << setw(spcs) << setfill(' ') << results[t].s_count;
+    clog << setw(spcs) << setfill(' ') << results[t].a_count;
+    clog << setw(spcs) << setfill(' ') << results[t].i_count;
+    clog << setw(spcs) << setfill(' ') << results[t].v_count;
+    clog << setw(spcs) << setfill(' ') << results[t].r_count << endl;
   }
 }
 
 void Results::save_to_file(string file_name) {
-  ofstream f;
-  f.open(file_name);
+  ofstream ofs;
+  ofs.open(file_name);
   for (auto result : results) {
-    f <<
-      result.s << " " <<
-      result.a << " " <<
-      result.i << " " <<
-      result.v << " " <<
-      result.r << endl;
+    ofs <<
+      result.s_count << " " <<
+      result.a_count << " " <<
+      result.i_count << " " <<
+      result.v_count << " " <<
+      result.r_count << endl;
   }
-  f.close();
+  ofs.close();
 }
 
 void Results::write_to_output(ostream& stream, bool split_by_region) {

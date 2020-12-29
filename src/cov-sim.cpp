@@ -43,19 +43,19 @@ int main(int argc, char** argv) {
   else
     srand(1);
 
-  vector<shared_ptr<group_t>> groups;
+  vector<shared_ptr<Group>> groups;
   Graph graf;
   shared_ptr<VacStrat> vs = make_shared<NothingStrategy>();
-  Simulator s(vs);
+  Simulator sim(vs);
 
   // Load groups and settings from stream
   if (input_settings) {
     get_strategy(cin, vs);
-    s = Simulator(vs);
+    sim = Simulator(vs);
     reset_stream(cin);
     get_groups(cin, groups);
     reset_stream(cin);
-    initialize_simulator(cin, s);
+    initialize_simulator(cin, sim);
     reset_stream(cin);
     initialize_graph(cin, graf);
   }
@@ -68,7 +68,7 @@ int main(int argc, char** argv) {
   graf.assign_groups(groups);
 
   // Run the simulation
-  Results results = s.simulate(graf, output_results && realtime_output);
+  Results results = sim.simulate(graf, output_results && realtime_output);
 
   // Output results
   if (plot_graph)

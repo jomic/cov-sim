@@ -4,20 +4,20 @@
 #include "Graph.hpp"
 #include "Results.hpp"
 
-group_t Agent::default_group;
+Group Agent::default_group;
 
 void Agent::try_infecting_neighbour(int t, int target_id, Graph& graf) {
-  Agent& n = graf.agents[target_id];
-  if (n.is_susceptible(t)) {
+  Agent& agent = graf.agents[target_id];
+  if (agent.is_susceptible(t)) {
     float roll = (float)rand() / (float)RAND_MAX;
     float risk;
-    if (i) {
-      risk = group->p_i * n.group->s;
+    if (is_infectd) {
+      risk = group->p_i * agent.group->susceptibility;
     } else {
-      risk = group->p_ai * n.group->s;
+      risk = group->p_ai * agent.group->susceptibility;
     }
     if (roll < risk)
-      n.infect(t);
+      agent.infect(t);
   }
 }
 
@@ -25,62 +25,62 @@ void Agent::try_completing_vaccination() {
   float roll = (float)rand() / (float)RAND_MAX;
   float risk = group->p_v;
   if (roll < risk) {
-    v = true;
-    s = false;
+    is_vaccined = true;
+    is_susceptbl = false;
   }
 }
 
-Agent::Agent(int id, std::shared_ptr<group_t> group)
+Agent::Agent(int id, std::shared_ptr<Group> group)
   : id(id), group(group) {
-  s = true;
-  a = false;
-  i = false;
-  v = false;
-  r = false;
+  is_susceptbl = true;
+  is_asympt = false;
+  is_infectd = false;
+  is_vaccined = false;
+  is_recovrd = false;
   infected_on = -1;
   vaccinated_on = -1;
 }
 
 Agent::Agent(int id)
-  : Agent::Agent(id, std::make_shared<group_t>(default_group)) {}
+  : Agent::Agent(id, std::make_shared<Group>(default_group)) {}
 
-void Agent::assign_group(std::shared_ptr<group_t>& new_group) {
+void Agent::assign_group(std::shared_ptr<Group>& new_group) {
   group = new_group;
 }
 
 bool Agent::is_infected(int t) {
-  return (i || a) && t > infected_on;
+  return (is_infectd || is_asympt) && t > infected_on;
 }
 
 bool Agent::is_susceptible(int t) {
-  return s;
+  return is_susceptbl;
 }
 
 bool Agent::is_vaccinated() {
-  return v;
+  return is_vaccined;
 }
 
 bool Agent::is_vaccinated_susceptible(int t) {
-  return (s && (vaccinated_on != -1));
+  return (is_susceptbl && (vaccinated_on != -1));
 }
 
 bool Agent::can_be_vaccinated(int t) {
-  return s && vaccinated_on == -1;
+  return is_susceptbl && vaccinated_on == -1;
 }
 
 bool Agent::is_travelling(int t) {
-  float p = i ? group->p_t : group->p_at;
+  float p = is_infectd ? group->p_t : group->p_at;
   return p > (float) rand() / (float) RAND_MAX;
 }
 
 void Agent::infect(int t) {
-  if (s) {
-    s = false;
+  if (is_susceptbl) {
+    is_susceptbl = false;
     float roll = (float)rand() / (float)RAND_MAX;
     if (roll >= group->a_p) {
-      i = true;
+      is_infectd = true;
     } else {
-      a = true;
+      is_asympt = true;
     }
     infected_on = t;
   }
@@ -102,8 +102,8 @@ void Agent::try_infecting_n_neighbours(int t, Graph& graf) {
   if (!is_infected(t))
     return;
   std::vector<int> n_ids = graf.neighbours(id);
-  int attempts = i ? group->n_i : group->n_ai;
-  for (int i = 0; i < attempts; i++) {
+  int attempts = is_infectd ? group->n_i : group->n_ai;
+  for (int j = 0; j < attempts; j++) {
     int target = rand() % n_ids.size();
     try_infecting_neighbour(t, n_ids[target], graf);
   }
@@ -122,8 +122,8 @@ void Agent::try_infecting_on_travel(int t, Graph& graf) {
     else
       dst_end = graf.region_agent_offsets[destination + 1];
     int n_potential_targets = dst_end - dst_start;
-    int n_attempts = i ? group->n_i : group->n_ai;
-    for (int i = 0; i < n_attempts; i++) {
+    int n_attempts = is_infectd ? group->n_i : group->n_ai;
+    for (int j = 0; j < n_attempts; j++) {
       int target_id = rand() % n_potential_targets + dst_start;
       try_infecting_neighbour(t, target_id, graf);
     }
@@ -131,12 +131,12 @@ void Agent::try_infecting_on_travel(int t, Graph& graf) {
 }
 
 void Agent::update_infection(int t) {
-  if (i && infected_on + group->d_i < t) {
-    i = false;
-    r = true;
-  } else if (a && infected_on + group->d_ai < t) {
-    a = false;
-    r = true;
+  if (is_infectd && infected_on + group->d_i < t) {
+    is_infectd = false;
+    is_recovrd = true;
+  } else if (is_asympt && infected_on + group->d_ai < t) {
+    is_asympt = false;
+    is_recovrd = true;
   }
 }
 
@@ -147,14 +147,14 @@ void Agent::update_vaccination(int t) {
 }
 
 void Agent::update_results(int t, Results& results) {
-  if (s || ((i || a) && t == infected_on))
+  if (is_susceptbl || ((is_infectd || is_asympt) && t == infected_on))
     results.add_susceptible();
-  else if (a)
+  else if (is_asympt)
     results.add_asymptomatic();
-  else if (i)
+  else if (is_infectd)
     results.add_infected();
-  else if (v)
+  else if (is_vaccined)
     results.add_vaccinated();
-  else if (r)
+  else if (is_recovrd)
     results.add_removed();
 }

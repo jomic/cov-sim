@@ -50,7 +50,7 @@ int main(int argc, char** argv) {
   float sqrt_term = sqrt(1 + 2 * z / N);
   float expected_path_length = atanh(1 / sqrt_term) * z / (2 * k * sqrt_term);
   clog << "== Graph data ==" << endl
-       << "Number of nodes:\t" << N << endl
+       << "Number of agents:\t" << N << endl
        << "Expected degree:\t" << expected_degree << endl
        << "Expected path length:\t" << expected_path_length << endl
        << "Note that the path length may be inaccurate for some values."

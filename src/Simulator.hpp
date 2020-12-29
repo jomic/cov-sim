@@ -40,7 +40,7 @@ private:
   /**
     Infects n agents at time t=0.
    */
-  void infect_initial(Graph& graf, int n);
+  void infect_initial(Graph& graf, int initially_infected);
 
 public:
   Simulator(shared_ptr<VacStrat>& vs);
@@ -57,5 +57,5 @@ public:
   Results simulate(Graph& graf);
 
   // Allow the initializer function to access private members
-  friend void initialize_simulator(istream& stream, Simulator& s);
+  friend void initialize_simulator(istream& stream, Simulator& sim);
 };

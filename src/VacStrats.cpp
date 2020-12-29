@@ -14,9 +14,9 @@ void RandomStrategy::vaccinate(Graph& graf, int t) {
 
   vector<int> unvaccinated;
 
-  for (int i = 0; i < graf.node_count(); ++i) {
-    if (graf.get_node(i).can_be_vaccinated(t)) {
-      unvaccinated.push_back(i);
+  for (int j = 0; j < graf.agents_count(); ++j) {
+    if (graf.get_agent(j).can_be_vaccinated(t)) {
+      unvaccinated.push_back(j);
     }
   }
 
@@ -27,8 +27,8 @@ void RandomStrategy::vaccinate(Graph& graf, int t) {
 
   set<int> nums = unique_random_numbers(vaccines, unvaccinated.size());
 
-  for (int i : nums) {
-    graf.agents[i].vaccinate(t);
+  for (int j : nums) {
+    graf.agents[j].vaccinate(t);
   }
 
   return;

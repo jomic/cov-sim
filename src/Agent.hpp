@@ -7,27 +7,27 @@ class Graph;
 class Agent {
 private:
   int id;
-  bool s;
-  bool a;
-  bool i;
-  bool v;
-  bool r;
+  bool is_susceptbl;
+  bool is_asympt;
+  bool is_infectd;
+  bool is_vaccined;
+  bool is_recovrd;
   int infected_on;
   int vaccinated_on;
-  std::shared_ptr<group_t> group;
-  static group_t default_group;
+  std::shared_ptr<Group> group;
+  static Group default_group;
 
   void try_infecting_neighbour(int t, int id, Graph& graf);
   void try_completing_vaccination();
 
 public:
-  Agent(int id, std::shared_ptr<group_t> group);
+  Agent(int id, std::shared_ptr<Group> group);
   Agent(int id);
 
   /**
     Assign a new group to the agent.
    */
-  void assign_group(std::shared_ptr<group_t>& new_group);
+  void assign_group(std::shared_ptr<Group>& new_group);
 
   /**
     Check if the individual can infect people at time t.

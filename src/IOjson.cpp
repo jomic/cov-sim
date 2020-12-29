@@ -13,51 +13,51 @@ using namespace std;
 using json = nlohmann::json;
 
 void get_strategy(istream& stream, shared_ptr<VacStrat>& vs) {
-  json s;
+  json json_obj;
   try {
-    stream >> s;
+    stream >> json_obj;
   }
   catch (const exception& e){
     cerr << "Something went wrong when parsing the JSON settings." << endl;
     return;
   }
 
-  if (s["vaccination_strategy"].is_object()
-        && s["vaccination_strategy"]["type"].is_string()) {
-    json strat = s["vaccination_strategy"];
-    if (strat["type"] == "nothing") {
+  if (json_obj["vaccination_strategy"].is_object()
+        && json_obj["vaccination_strategy"]["type"].is_string()) {
+    json json_strat = json_obj["vaccination_strategy"];
+    if (json_strat["type"] == "nothing") {
       vs = make_shared<NothingStrategy>();
     }
-    else if (strat["type"] == "random") {
+    else if (json_strat["type"] == "random") {
       vs = make_shared<RandomStrategy>();
     }
   }
 
-  if (s["T_v"].is_number())
-    vs->time_deployed = s["T_v"];
-  if (s["n_v"].is_number())
-    vs->vaccines_per_day = s["n_v"];
+  if (json_obj["T_v"].is_number())
+    vs->time_deployed = json_obj["T_v"];
+  if (json_obj["n_v"].is_number())
+    vs->vaccines_per_day = json_obj["n_v"];
 }
 
-void get_groups(istream& stream, vector<shared_ptr<group_t>>& groups) {
-  json s;
+void get_groups(istream& stream, vector<shared_ptr<Group>>& groups) {
+  json json_obj;
   try {
-    stream >> s;
+    stream >> json_obj;
   }
   catch (const exception& e){
     cerr << "Something went wrong when parsing the JSON settings." << endl;
     return;
   }
 
-  if (s["groups"].is_array()) {
-    for (auto group : s["groups"]) {
-      shared_ptr<group_t> graf(new group_t);
+  if (json_obj["groups"].is_array()) {
+    for (auto group : json_obj["groups"]) {
+      shared_ptr<Group> graf(new Group);
       if (group["n_i"].is_number())
         graf->n_i = group["n_i"];
       if (group["n_ai"].is_number())
         graf->n_ai = group["n_ai"];
-      if (group["s"].is_number())
-      graf->s = group["s"];
+      if (group["susceptibility"].is_number())
+        graf->susceptibility = group["susceptibility"];
       if (group["p_i"].is_number())
         graf->p_i = group["p_i"];
       if (group["p_ai"].is_number())
@@ -82,44 +82,44 @@ void get_groups(istream& stream, vector<shared_ptr<group_t>>& groups) {
 }
 
 void initialize_simulator(istream& stream, Simulator& sim) {
-  json s;
+  json json_obj;
   try {
-    stream >> s;
+    stream >> json_obj;
   }
   catch (const exception& e){
     cerr << "Something went wrong when parsing the JSON settings." << endl;
     return;
   }
 
-  if (s["select_all"].is_boolean())
-    sim.select_all = s["select_all"];
-  if (s["T"].is_number())
-    sim.T = s["T"];
-  if (s["initial_infections"].is_number())
-    sim.initial_infections = s["initial_infections"];
-  if (s["T_v"].is_number())
-    sim.T_v = s["T_v"];
-  if (s["n_v"].is_number())
-    sim.n_v = s["n_v"];
+  if (json_obj["select_all"].is_boolean())
+    sim.select_all = json_obj["select_all"];
+  if (json_obj["T"].is_number())
+    sim.T = json_obj["T"];
+  if (json_obj["initial_infections"].is_number())
+    sim.initial_infections = json_obj["initial_infections"];
+  if (json_obj["T_v"].is_number())
+    sim.T_v = json_obj["T_v"];
+  if (json_obj["n_v"].is_number())
+    sim.n_v = json_obj["n_v"];
 }
 
-void initialize_graph(json& s, Graph& graf) {
-  if (s["type"] == "matrix"
-      && s["size"].is_number()
-      && s["distance"].is_number())
-    graf.matrix_graph(s["size"], s["distance"]);
-  else if (s["type"] == "file_format_simple"
-           && s["file_name"].is_string())
-    graf.input_from_file(s["file_name"]);
-  else if (s["type"] == "nw_small_world"
-           && s["N"].is_number()
-           && s["k"].is_number()
-           && s["p"].is_number())
-    graf.nw_small_world(s["N"], s["k"], s["p"]);
-  else if (s["type"] == "file_format_advanced"
-           && s["file_name"].is_string()) {
+void initialize_graph(json& json_obj, Graph& graf) {
+  if (json_obj["type"] == "matrix"
+      && json_obj["size"].is_number()
+      && json_obj["distance"].is_number())
+    graf.matrix_graph(json_obj["size"], json_obj["distance"]);
+  else if (json_obj["type"] == "file_format_simple"
+           && json_obj["file_name"].is_string())
+    graf.input_from_file(json_obj["file_name"]);
+  else if (json_obj["type"] == "nw_small_world"
+           && json_obj["N"].is_number()
+           && json_obj["k"].is_number()
+           && json_obj["p"].is_number())
+    graf.nw_small_world(json_obj["N"], json_obj["k"], json_obj["p"]);
+  else if (json_obj["type"] == "file_format_advanced"
+           && json_obj["file_name"].is_string()) {
     ifstream file;
-    file.open(s["file_name"]);
+    file.open(json_obj["file_name"]);
     graf.read_generatable_graph(file);
     file.close();
   }
@@ -127,10 +127,10 @@ void initialize_graph(json& s, Graph& graf) {
     graf.default_graph();
 }
 
-void initialize_region_connections(json& s, Graph& graf) {
-  if (s["region_connections"].is_array()) {
+void initialize_region_connections(json& json_obj, Graph& graf) {
+  if (json_obj["region_connections"].is_array()) {
     vector<vector<int>> connections;
-    for (auto connection_list : s["region_connections"]) {
+    for (auto connection_list : json_obj["region_connections"]) {
       vector<int> c;
       for (auto entry : connection_list)
         if (entry.is_number())
@@ -139,9 +139,9 @@ void initialize_region_connections(json& s, Graph& graf) {
     }
     graf.set_region_connections(connections);
   }
-  else if (s["region_connections"].is_string()) {
+  else if (json_obj["region_connections"].is_string()) {
     ifstream file;
-    file.open(s["region_connections"]);
+    file.open(json_obj["region_connections"]);
     graf.set_region_connections(file);
     file.close();
   }
@@ -151,19 +151,19 @@ void initialize_region_connections(json& s, Graph& graf) {
 }
 
 void initialize_graph(istream& stream, Graph& graf) {
-  json s;
+  json json_obj;
   try {
-    stream >> s;
+    stream >> json_obj;
   }
   catch (const exception& e){
     cerr << "Something went wrong when parsing the JSON settings." << endl;
     return;
   }
 
-  if (s["graph"].is_object() && s["graph"]["type"].is_string())
-    initialize_graph(s["graph"], graf);
-  else if (s["graph"].is_array()) {
-    for (auto graph : s["graph"]) {
+  if (json_obj["graph"].is_object() && json_obj["graph"]["type"].is_string())
+    initialize_graph(json_obj["graph"], graf);
+  else if (json_obj["graph"].is_array()) {
+    for (auto graph : json_obj["graph"]) {
       if (graph["type"].is_string())
         initialize_graph(graph, graf);
       else
@@ -173,43 +173,42 @@ void initialize_graph(istream& stream, Graph& graf) {
   else
     graf.default_graph();
 
-  initialize_region_connections(s, graf);
+  initialize_region_connections(json_obj, graf);
 }
 
-
-json result_to_json(result_t& result) {
-  json j = {
-    {"s", result.s},
-    {"a", result.a},
-    {"i", result.i},
-    {"v", result.v},
-    {"r", result.r}
+json result_to_json(Result& result) {
+  json json_obj = {
+    {"s", result.s_count},
+    {"a", result.a_count},
+    {"i", result.i_count},
+    {"v", result.v_count},
+    {"r", result.r_count}
   };
-  return j;
+  return json_obj;
 }
 
-json region_result_to_json(vector<result_t>& region_result) {
-  json j = {
+json region_result_to_json(vector<Result>& region_result) {
+  json json_obj = {
     {"region_results", {}}
   };
   for (auto result : region_result) {
     json entry = result_to_json(result);
-    j["region_results"].push_back(entry);
+    json_obj["region_results"].push_back(entry);
   }
-  return j;
+  return json_obj;
 }
 
-void result_to_output(ostream& stream, result_t& result) {
+void result_to_output(ostream& stream, Result& result) {
   json output = result_to_json(result);
   stream << output << endl;
 }
 
-void result_to_output(ostream& stream, vector<result_t>& region_result) {
+void result_to_output(ostream& stream, vector<Result>& region_result) {
   json output = region_result_to_json(region_result);
   stream << output << endl;
 }
 
-void results_to_output(ostream& stream, vector<result_t>& results) {
+void results_to_output(ostream& stream, vector<Result>& results) {
   json output = {
     {"results", {}}
   };
@@ -221,7 +220,7 @@ void results_to_output(ostream& stream, vector<result_t>& results) {
 }
 
 void results_to_output(
-ostream& stream, vector<vector<result_t>>& region_results) {
+ostream& stream, vector<vector<Result>>& region_results) {
   json output = { {"results", {}} };
   for (auto& result : region_results) {
     json entry = region_result_to_json(result);

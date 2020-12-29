@@ -1,9 +1,9 @@
 #pragma once
 
-struct group_t {
+struct Group {
   int n_i{1};        // Infection attempts
   int n_ai{1};       // Infection attempts (asymptomatic)
-  float s{1.0f};     // Susceptibility
+  float susceptibility{1.0f};
   float p_i{0.1f};   // Infectiousness
   float p_ai{0.05f}; // Infectiousness (asymptopmatic)
   float p_t{0.0f};   // Probability of travelling

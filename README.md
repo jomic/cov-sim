@@ -43,7 +43,7 @@ The `cov-sim` executable can be run using a JSON-formatted settings stream for i
 
 For example, to run the program with settings from `matrix,L=100,D0=5.json`, a random seed, and output in `resultsMatrix.json`, you can run:
 
-`bin/cov-sim -ios < matrix,L=100,D0=5.json > resultsMatrix.json`
+`bin/cov-sim -iops < matrix,L=100,D0=5.json > resultsMatrix.json`
 
 Or, to use `matrix,L=100,D0=5.json`, a **non**-random seed, and make a plot in the terminal, run:
 
@@ -80,7 +80,7 @@ The settings for the groups is an array of objects of group parameters. These gr
 {
     "n_i":  /* How many infection attempts if infected */,
     "n_ai": /* How many infection attempts if asymptomatic */,
-    "s":    /* How susceptible an agent is */,
+    "susceptibility":    /* How susceptible an agent is */,
     "p_i":  /* How infectious an agent is if infected */,
     "p_ai": /* How infectious an agent is if asymptomatic */,
     "p_t":  /* How probable is the agent to travel if infected */,
@@ -183,7 +183,7 @@ where the file `sw-2R-fromFile.json` has the following content:
         "groups": [{
             "n_i": 1,
             "n_ai": 3,
-            "s": 1.0,
+            "susceptibility": 1.0,
             "p_i": 0.25,
             "p_ai": 0.35,
             "p_t": 0.001,

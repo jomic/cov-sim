@@ -22,12 +22,12 @@ void Graph::input_from_file(string file_name) {
 
       vector<string> v = split(tp, " ");
       bool first = false;
-      for (auto i : v) {
+      for (auto j : v) {
         if (!first) {
           first = true;
-          agents.push_back(Agent(stoi(i)));
+          agents.push_back(Agent(stoi(j)));
         } else {
-          edges.push_back(stoi(i));
+          edges.push_back(stoi(j));
         }
       }
     }
@@ -35,40 +35,40 @@ void Graph::input_from_file(string file_name) {
   }
 }
 
-int get_x(int i, int matrix_size) {
-  return i % matrix_size;
+int get_x(int j, int matrix_size) {
+  return j % matrix_size;
 }
 
-int get_y(int i, int matrix_size) {
-  return i / matrix_size;
+int get_y(int j, int matrix_size) {
+  return j / matrix_size;
 }
 
 int get_index(int x, int y, int matrix_size) {
   return (matrix_size * y) + x;
 }
 
-void Graph::matrix_graph(int n, int Dt) {
+void Graph::matrix_graph(int L, int Dt) {
   start_new_region();
   int n_existing_agents = agents.size();
-  for (int i = 0; i < (n * n); ++i) {
+  for (int j = 0; j < (L * L); ++j) {
 
-    int node_x = get_x(i, n);
-    int node_y = get_y(i, n);
+    int agent_x = get_x(j, L);
+    int agent_y = get_y(j, L);
 
-    int min_x = max(node_x - Dt, 0);
-    int min_y = max(node_y - Dt, 0);
+    int min_x = max(agent_x - Dt, 0);
+    int min_y = max(agent_y - Dt, 0);
 
-    int max_x = min(node_x + Dt + 1, n);
-    int max_y = min(node_y + Dt + 1, n);
+    int max_x = min(agent_x + Dt + 1, L);
+    int max_y = min(agent_y + Dt + 1, L);
 
     offsets.push_back(edges.size());
-    agents.push_back(Agent(i + n_existing_agents));
+    agents.push_back(Agent(j + n_existing_agents));
 
     for (int y = min_y; y < max_y; ++y) {
       for (int x = min_x; x < max_x; ++x) {
-        int index = get_index(x, y, n);
-        if (index != i) {
-          edges.push_back(get_index(x, y, n) + n_existing_agents);
+        int index = get_index(x, y, L);
+        if (index != j) {
+          edges.push_back(get_index(x, y, L) + n_existing_agents);
         }
       }
     }
@@ -107,8 +107,8 @@ void Graph::nw_small_world(int N, int k, float p) {
 
   // Sort each adjacency list
 #pragma omp parallel for
-  for (int i = 0; i < (int) adjacencies.size(); i++)
-    sort(adjacencies[i]->begin(), adjacencies[i]->end());
+  for (int j = 0; j < (int) adjacencies.size(); j++)
+    sort(adjacencies[j]->begin(), adjacencies[j]->end());
 
   // Store all adjacencies in the compressed row vectors
   int id = 0;
@@ -128,16 +128,16 @@ void Graph::default_graph() {
   matrix_graph(20, 1);
 }
 
-void Graph::assign_groups(vector<shared_ptr<group_t>>& groups) {
+void Graph::assign_groups(vector<shared_ptr<Group>>& groups) {
   if (groups.size() > 0) {
     for (Agent& agent : agents) {
-      int i = rand() % groups.size();
-      agent.assign_group(groups[i]);
+      int j = rand() % groups.size();
+      agent.assign_group(groups[j]);
     }
   }
 }
 
-// Return neighbours of node id:
+// Return neighbours of agent id:
 vector<int> Graph::neighbours(int id) {
   vector<int> neighbours;
   int start = offsets[id];
@@ -149,18 +149,18 @@ vector<int> Graph::neighbours(int id) {
   }
 
 
-  for (int i = start; i < end;  i++) {
-    neighbours.push_back(edges[i]);
+  for (int j = start; j < end;  j++) {
+    neighbours.push_back(edges[j]);
   }
 
   return neighbours;
 }
 
-int Graph::node_count() {
+int Graph::agents_count() {
   return offsets.size();
 }
 
-Agent Graph::get_node(int id) {
+Agent Graph::get_agent(int id) {
   return agents[id];
 }
 
@@ -184,18 +184,18 @@ vector<int> Graph::get_neighbouring_regions(int region_id) {
     region_end = region_connection_offsets[region_id + 1];
 
   vector<int> neighbouring_regions;
-  for (int i = region_start; i < region_end; i++)
-    neighbouring_regions.push_back(region_connections[i]);
+  for (int j = region_start; j < region_end; j++)
+    neighbouring_regions.push_back(region_connections[j]);
 
   return neighbouring_regions;
 }
 
 void Graph::print_graph() {
   clog << "Offsets: ";
-  for (auto i : offsets) { clog << i << ", "; }
+  for (auto j : offsets) { clog << j << ", "; }
   clog << endl;
   clog << "Edges: ";
-  for (auto i : edges) { clog << i << ", "; }
+  for (auto j : edges) { clog << j << ", "; }
   clog << endl;
 }
 

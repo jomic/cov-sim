@@ -11,10 +11,11 @@ Simulator::Simulator(std::shared_ptr<VacStrat>& vs) {
   vac_strat = vs;
 }
 
-void Simulator::infect_initial(Graph& graf, int n) {
-  std::set<int> rand_index = unique_random_numbers(n, graf.node_count());
-  for (auto i : rand_index) {
-    graf.agents[i].infect(0);
+void Simulator::infect_initial(Graph& graf, int initially_infected) {
+  std::set<int> rand_index
+      = unique_random_numbers(initially_infected, graf.agents_count());
+  for (auto j : rand_index) {
+    graf.agents[j].infect(0);
   }
 }
 
@@ -22,26 +23,26 @@ void Simulator::iterate(Results& results, Graph& graf, int t) {
   vac_strat->vaccinate(graf, t);
   int current_id = 0;
   int current_region = -1;
-  for (Agent &node : graf.agents) {
+  for (Agent &agent : graf.agents) {
     if (graf.get_agent_region(current_id++) != current_region) {
       current_region++;
       results.prepare_new_region();
     }
-    node.update_results(t, results);
-    if (node.is_infected(t)) {
-      if (node.is_travelling(t)) {
-        node.try_infecting_on_travel(t, graf);
+    agent.update_results(t, results);
+    if (agent.is_infected(t)) {
+      if (agent.is_travelling(t)) {
+        agent.try_infecting_on_travel(t, graf);
       }
       else {
         if (select_all)
-          node.try_infecting_neighbours(t, graf);
+          agent.try_infecting_neighbours(t, graf);
         else
-          node.try_infecting_n_neighbours(t, graf);
+          agent.try_infecting_n_neighbours(t, graf);
       }
-      node.update_infection(t);
+      agent.update_infection(t);
     }
-    else if (node.is_vaccinated_susceptible(t)) {
-      node.update_vaccination(t);
+    else if (agent.is_vaccinated_susceptible(t)) {
+      agent.update_vaccination(t);
     }
   }
 }
