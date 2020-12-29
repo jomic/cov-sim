@@ -12,9 +12,9 @@
 tools/compileAndRun matrixC19
 tools/compileAndRun matrixDemo
 tools/compileAndRun cov-sim
-tools/compileAndRun gen-graph
+tools/compileAndRun gen-sw
 # followed by:
-bin/gen-graph -o -N 10000 -k 10 -p 0.001 | bin/gen-graph -or -N 5000 -k 15 -p 0.003 > sw-2R-fromFile.txt
+bin/gen-sw -o -N 10000 -k 10 -p 0.001 | bin/gen-sw -or -N 5000 -k 15 -p 0.003 > sw-2R-fromFile.txt
 bin/cov-sim -ip < sw-2R-fromFile.json
 
 # Also - requires only `tools/compileAndRun cov-sim` beforehand:

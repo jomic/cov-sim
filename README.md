@@ -3,9 +3,9 @@ In this project a Covid-19 simulator using a Microscopic Agent-Based Model has b
 
 There is [more extensive documentation](docs/Docs.md).
 
-For the time being, there are **four** source files containing a `main` function, namely `cov-sim.cpp`, `matrixDemo.cpp`, `matrixC19.cpp` and `gen-graph.cpp`.
+For the time being, there are **four** source files containing a `main` function, namely `cov-sim.cpp`, `matrixDemo.cpp`, `matrixC19.cpp` and `gen-sw.cpp`.
 
-The `gen-graph.cpp` file is used only for generating graphs and does not run any simulation.
+The `gen-sw.cpp` file is used only for generating graphs and does not run any simulation.
 
 Compile and run with *default values* by doing either of:
 
@@ -14,15 +14,15 @@ Compile and run with *default values* by doing either of:
 - `tools/compileAndRun cov-sim`
 - `tools/compileAndRun matrixDemo`
 - `tools/compileAndRun matrixC19`
-- `tools/compileAndRun gen-graph`
+- `tools/compileAndRun gen-sw`
 
-Once an executable binary file runs without errors and you don't want to make any more changes to the source code, simply run it as: `bin/cov-sim,` `bin/matrixDemo,` `bin/matrixC19` or `bin/gen-graph` with or without arguments.
+Once an executable binary file runs without errors and you don't want to make any more changes to the source code, simply run it as: `bin/cov-sim,` `bin/matrixDemo,` `bin/matrixC19` or `bin/gen-sw` with or without arguments.
 
 If you want to make a clean compilation (removing **all** binary executables and **all** object files), then do:
 
 - `make clean && make <main-file>`
 
-where you should replace `<main-file>` by `cov-sim`, `matrixDemo` ,`matrixC19` or `gen-graph`.
+where you should replace `<main-file>` by `cov-sim`, `matrixDemo` ,`matrixC19` or `gen-sw`.
 If you want to leave **all the other** executable binaries intact, but want to remove (and recreate) all the object files, then do:
 
 - `tools/cleanCnR <main-file>`
@@ -114,6 +114,14 @@ The graph setting is a JSON object that depends on the type of graph that should
 
 ```
 {
+    "type": "random_graph", // All agents have the same number of connections
+    "Npop": /* Number of agents (population) */,
+    "N0":   /* Number of connections of almost all agents */
+}
+```
+
+```
+{
     "type": "file_format_simple", // A graph based on a file, simple file format
     "file_name": /* The name of the file being used */
 }
@@ -148,7 +156,7 @@ Make sure to make the script runnable with `chmod +x py/plot_sir.py`.
 
 # Graph generator
 
-The `gen-graph` executable can be used to pre-generate Newman-Watts small world graphs, as this can be time-consuming. It has the following flags available:
+The `gen-sw` executable can be used to pre-generate Newman-Watts small world graphs, as this can be time-consuming. It has the following flags available:
 
 - `-o` The graph should be put in the standard output stream, in a format readable by the `"file_format_advanced"` option of the settings file.
 - `-r` The input to the program is an already-existing graph, and the graph generated should be added as a region.
@@ -160,7 +168,7 @@ The `gen-graph` executable can be used to pre-generate Newman-Watts small world 
 For example, to generate a *Newman-Watts small world* graph with ***two regions***
 and store it in `sw-2R-fromFile.txt`, you could paste or type:
 
-`bin/gen-graph -o -N 10000 -k 10 -p 0.001 | bin/gen-graph -or -N 5000 -k 15 -p 0.003 > sw-2R-fromFile.txt`
+`bin/gen-sw -o -N 10000 -k 10 -p 0.001 | bin/gen-sw -or -N 5000 -k 15 -p 0.003 > sw-2R-fromFile.txt`
 
 Note the `-r` flag in the command *to the right* of the pipe (`|`) character, which adds the graph generated *to the left* the pipe (`|`) as another region. When the `-r` flag  is used, the input to the executable (on the right side) should be a stream with already-existing graph data. This is the case in this example, since the `-o` flag is active in the command to the left of the pipe. The graph with 10 000 people is thus added as input when generating the graph with 5000 people.
 

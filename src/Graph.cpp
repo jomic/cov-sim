@@ -1,7 +1,9 @@
 #include <algorithm>
+#include <cmath>
 #include <fstream>
 #include <iostream>
 #include <memory>
+#include <set>
 #include <string>
 #include <vector>
 #include "Agent.hpp"
@@ -123,6 +125,144 @@ void Graph::nw_small_world(int N, int k, float p) {
   }
 }
 
+int sum(vector<int> v) {
+  int sum = 0;
+  for(int i : v) { sum += i; }
+  return sum;
+}
+
+template<typename T>
+string to_string(vector<T> v) {
+  string to_string = "[ ";
+  for(T e : v) { to_string += std::to_string(e) + " "; }
+  to_string += "]";
+  return to_string;
+}
+
+template<typename T>
+string to_string(set<T> s) {
+  string to_string = "< ";
+  for(T e : s) { to_string += std::to_string(e) + " "; }
+  to_string += ">";
+  return to_string;
+}
+
+vector<int> init_offsets(vector<int> v, int N0) {
+  v[0] = 0;
+  for (int i = 1; i < (int)v.size(); i++) {
+    v[i] = v[i-1] + N0;
+  }
+  return v;
+}
+
+void Graph::random_graph(int N, int N0) {
+  int Ne=N*N0, candidateEdge, Nchk1=13.8*sqrt(sqrt(N)), Nchk2=Nchk1+2*N/N0;
+  cout << endl << " N = " << N << ", N0 = " << N0
+       << ", Nchk1 = " << Nchk1 << ", Nchk2 = " << Nchk2 << endl;
+  if (!(Nchk1 < N)) {
+    cout << endl << "!! Each node must have (a lot) fewer edges than"
+         << " there are nodes in the graph !" << endl << endl;
+    return;
+  }
+  vector<int> edges(Ne, -9), offsets(N), belowN0(N);
+  offsets = init_offsets(offsets, N0);
+  // cout << endl << " At start, directly after declarations:" << endl;
+  // cout << " edges = " << to_string(edges) << endl;
+  // cout << " offsets = " << to_string(offsets) << endl;
+  // cout << " edges.size() = " << std::to_string(edges.size()) << endl;
+  vector<set<int>> nodeEdges(N);
+  srand(time(NULL));
+  for (int i = N-1; i > Nchk2; i--) {
+    // cout << " First for-loop " << endl;
+    while ((int)nodeEdges[i].size() < N0) {
+      candidateEdge = rand() % i;
+      if ((int)nodeEdges[candidateEdge].size() < N0) {
+        nodeEdges[candidateEdge].insert(i);
+        nodeEdges[i].insert(candidateEdge);
+      }
+    }
+  }
+  for (int i = Nchk2; i > Nchk1; i--) {
+    // cout << " Second for-loop " << endl;
+    int j = 0;
+    while ((int)nodeEdges[i].size() < N0) {
+      candidateEdge = rand() % i;
+      if ((int)nodeEdges[candidateEdge].size() < N0) {
+        nodeEdges[candidateEdge].insert(i);
+        nodeEdges[i].insert(candidateEdge);
+      }
+      j++;
+      if (j > N) {
+        cout << endl << "  - - !! ERROR ! - -" << endl;
+        cout << endl << " !!! Stuck in infinite loop !!" << endl << endl;
+        return;
+      }
+    }
+    }
+  for (int j = N-1; j > -1; j--) {
+    int k = 0;
+    for(int e : nodeEdges[j]) { edges[j*N0 + k] = e; k++; }
+  }
+  // cout << endl << " i > Nchk1:" << endl;
+  // cout << " edges = " << to_string(edges) << endl;
+  // cout << " offsets = " << to_string(offsets) << endl;
+  // cout << " edges.size() = " << std::to_string(edges.size()) << endl;
+  for (int i = Nchk1; i > -1; i--) {
+    set<int> candidatEdges = nodeEdges[i];
+    // cout << endl << " i = " << i;
+    // cout << ", BEFORE: candidatEdges = " << to_string(candidatEdges);
+    vector<int> nonFullNodes(i);
+    for (int j = 0; j < i; j++) {
+      if ((int)nodeEdges[j].size() < N0) {
+        nonFullNodes[j] = 1;
+        candidatEdges.insert(j);
+      }
+    }
+    // cout << endl << " AFTER: candidatEdges = " << to_string(candidatEdges);
+    // cout << ", nodeEdges[" << i << "].size() = "
+        // << std::to_string(nodeEdges[i].size())
+        // << ", sum(nonFullNodes) = " << sum(nonFullNodes) << endl;
+    if ((int)nodeEdges[i].size() + sum(nonFullNodes) > N0) {
+      while ((int)nodeEdges[i].size() < N0) {
+        candidateEdge = rand() % i;
+        if ((int)nodeEdges[candidateEdge].size() < N0) {
+          nodeEdges[candidateEdge].insert(i);
+          nodeEdges[i].insert(candidateEdge);
+        }
+      }
+    } else if ((int)nodeEdges[i].size() + sum(nonFullNodes) == N0) {
+      nodeEdges[i] = candidatEdges;
+    } else if ((int)nodeEdges[i].size() + sum(nonFullNodes) < N0) {
+      nodeEdges[i] = candidatEdges;
+      belowN0[i] = N0 - candidatEdges.size();
+      edges.erase(edges.begin()+(i+1)*N0-belowN0[i],edges.begin()+(i+1)*N0);
+      for (int k = i+1; k < N; k++) { offsets[k] -= belowN0[i]; }
+    } else {
+      cout << endl << "= = = = = = = = = = = = = = = = = = = ="
+           << endl << "! Programmer's ERROR ! - Go complain!!"
+           << endl << "= = = = = = = = = = = = = = = = = = = =" << endl <<endl;
+      return;
+    }
+    for(int c : nodeEdges[i]) { if (c < i) { nodeEdges[c].insert(i); } }
+    for (int j = N-1; j > -1; j--) {
+      int k = 0;
+      for(int e : nodeEdges[j]) { edges[j*N0 + k] = e; k++; }
+    } // The line below outputs the WRONG `edges`, but this is just TEMPORARY:
+    // cout << " edges (WRONG) = " << to_string(edges) << endl;
+    // cout << " offsets = " << to_string(offsets) << endl;
+    // cout << " edges.size() = " << std::to_string(edges.size()) << endl;
+  }
+// // Below, `edges` is _completely_ recreated from all the `nodeEdges[j]` sets.
+// // The only 'inheritance' is from line 108 which reduces the size of `edges`.
+  int l = 0;
+  for (int j = 0; j < N; j++) {
+    for(int e : nodeEdges[j]) { edges[l] = e; l++; }
+  }
+  cout << endl << " Finally:" << endl;
+  // cout << " edges = " << to_string(edges) << endl;
+  // cout << " offsets = " << to_string(offsets) << endl;
+  cout << " edges.size() = " << std::to_string(edges.size()) << endl;
+}
 
 void Graph::default_graph() {
   matrix_graph(20, 1);

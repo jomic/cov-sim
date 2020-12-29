@@ -57,8 +57,7 @@ int main(int argc, char** argv) {
        << endl << "================" << endl << endl;
 
   Graph graf;
-  if (add_region)
-    graf.read_generatable_graph(cin);
+  if (add_region) { graf.read_generatable_graph(cin); }
   graf.nw_small_world(N, k, p);
   if (output_result)
     graf.write_generatable_graph(cout);

@@ -35,4 +35,4 @@ clean_binaries:
 
 .PHONY: clean_binaries clean_objects clean
 
-.PRECIOUS: $(DEPENDEES) bin/trivial bin/cov-sim bin/gen-graph bin/matrixDemo bin/matrixC19
+.PRECIOUS: $(DEPENDEES) bin/trivial bin/cov-sim bin/gen-sw bin/matrixDemo bin/matrixC19

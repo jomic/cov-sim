@@ -38,11 +38,16 @@ public:
   void matrix_graph(int size, int distance);
 
   /**
-    Generate a Newman-Watts small world network
-    from a 1d lattice with length N, neighbourhood
-    radius k, and shortcut probability p
+    Generate a Newman-Watts small world network from a 1d lattice
+    with length N, neighbourhood radius k, and shortcut probability p
    */
   void nw_small_world(int N, int k, float p);
+
+  /**
+    Generate a andom network in which (almost) all agents have the same
+    number of connections/neighbours N0 [N0 = (2*D0+1)^2-1] and population N.
+   */
+  void random_graph(int N, int N0);
 
   /**
     Initializes a default graph with no specific
