@@ -1,10 +1,12 @@
 import React from 'react';
 import 'antd/dist/antd.css';
-import './MainLayout.module.css';
+import classes from './MainLayout.module.css';
 import { Layout, Menu, Breadcrumb, Card, Space, Button, Switch} from 'antd';
 import { UserOutlined, LaptopOutlined, NotificationOutlined } from '@ant-design/icons';
 import ForceGraph2D from 'react-force-graph-2d';
 import Dashboard from './Dashboard';
+
+// https://medium.com/@jjsincorporated/how-i-built-conways-game-of-life-with-react-hooks-3bc6c2734aa
 
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
@@ -44,12 +46,13 @@ var randomData = genRandomTree(100, false);
 function MainLayout() {
     return(
         <Layout>
-            <Header className="header">
+            <Header className="header" style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
                 <h2 style={{
                     marginTop: '8px', 
                     color: 'white', 
                     fontWeight: '250',
                     margin: '8px 10px 10px -25px',
+            
                     }}>Covid-19 Simulator</h2>
                 <Menu theme="dark" mode="horizontal"
                 defaultSelectedKeys={['2']}>
@@ -65,7 +68,7 @@ function MainLayout() {
                 />
             </Header>
             <Layout>
-                <Layout style={{ padding: '0 24px 24px'}}>
+                <Layout style={{ padding: '0 24px 24px'}} >
                         <Breadcrumb style={{ margin: '16px 0', textAlign: "left"}}>
                             <Breadcrumb.Item>Home</Breadcrumb.Item>
                             <Breadcrumb.Item>Graph-based</Breadcrumb.Item>
@@ -79,7 +82,7 @@ function MainLayout() {
                                 minHeight: 280,
                             }}
                         >
-                            <Space direction="vertical">
+                            <Space direction="horizontal">
                                 <Card bordered>
                                     <h3>Test Data (with states)</h3>
                                     <ForceGraph2D 
@@ -93,43 +96,51 @@ function MainLayout() {
                                             ctx.beginPath(); ctx.arc(x, y, 5, 0, 2 * Math.PI, false); ctx.fill(); // circle
                                         }}
                                     />
-                                </Card>
-                                <Card>
-                                    <h3>Randomly Generated Data</h3>
-                                    <ForceGraph2D 
-                                        height='500'
-                                        width='800'
-                                        graphData={randomData} 
-                                        enableZoomPanInteraction={false}
-                                        nodeLabel="state"
-                                        nodeAutoColorBy={d => d.id%5}
-                                    />
-                                </Card>
-                                <Card bordered>
-                                    <h3>Plot</h3>
-                                    <Dashboard />
+                                    <Dashboard />     
                                 </Card>
                             </Space>                            
                         </Content>
                     </Layout>
-                <Sider width={300} className="site-layout-background">
+                <Sider 
+                    width={300} 
+                    className="site-layout-background"
+                    style={{
+                        overflow: 'auto',
+                        // overflowY: 'auto',
+                        height: '100vh',
+                        position: 'fixed',
+                        right: 0,
+                        // top: "64px",
+                        // paddingBottom: "64px",
+                        paddingTop: "64px",
+                      }}>
                     <Menu
                         mode="inline"
                         defaultSelectedKeys={['1']}
                         defaultOpenKeys={['sub1']}
                         style={{ height: '100%', borderRight: 0}}
                     >
-                        <SubMenu key="sub1" icon={<UserOutlined />} title="subnav1">
-                            <Menu.Item key="1">option1</Menu.Item>
-                            <Menu.Item key="2">option2</Menu.Item>
-                            <Menu.Item key="3">option3</Menu.Item>
-                            <Menu.Item key="4">option4</Menu.Item>
+                        <SubMenu key="sub1" icon={<UserOutlined />} title="Simulation setup">
+                            <Menu.Item key="1">Timesteps</Menu.Item>
+                            <Menu.Item key="2">Initial infections</Menu.Item>
+                            <Menu.Item key="3">Graph source type</Menu.Item>
                         </SubMenu>
-                        <SubMenu key="sub2" icon={<LaptopOutlined />} title="subnav2">
-                            <Menu.Item key="5">option1</Menu.Item>
-                            <Menu.Item key="6">option2</Menu.Item>
-                            <Menu.Item key="7">option3</Menu.Item>
-                            <Menu.Item key="8">option4</Menu.Item>
+                        <SubMenu key="sub2" icon={<LaptopOutlined />} title="Groups">
+                            <SubMenu key="sub4" title="Base Group Parameters">
+                                <Menu.Item key="4">Base Group Parameters</Menu.Item>
+                            </SubMenu>
+                            <Menu.Item key="5"> <Button block>Add Group</Button></Menu.Item>
+                        </SubMenu>
+                        <SubMenu key="sub3" icon={<LaptopOutlined />} title="Vaccination settings">
+                            
+                            <Menu.Item key="6">Vaccination Strategy Type</Menu.Item>
+                            <Menu.Item key="7">Vaccination Start Time</Menu.Item>
+                            <Menu.Item key="8">Vaccinations available each time step</Menu.Item>
+                            <Menu.Item key="8">Vaccinations available each time step</Menu.Item>
+                            <Menu.Item key="8">Vaccinations available each time step</Menu.Item>
+                            <Menu.Item key="8">Vaccinations available each time step</Menu.Item>
+
+
                         </SubMenu>
                         <Space style={{float: 'right', padding: '8px'}}>
                             <Button type="primary">Save</Button>
