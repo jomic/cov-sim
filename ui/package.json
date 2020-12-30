@@ -46,5 +46,6 @@
   "devDependencies": {
     "mockttp": "^1.0.3",
     "nodemon": "^2.0.6"
-  }
+  },
+  "proxy": "http://localhost:8080"
 }

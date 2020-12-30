@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import 'antd/dist/antd.css';
 import classes from './MainLayout.module.css';
 import { Layout, Menu, Breadcrumb, Card, Space, Button, Switch} from 'antd';
@@ -44,6 +44,52 @@ var randomData = genRandomTree(100, false);
 
 
 function MainLayout() {
+    const graphDataRef = useRef({});
+    const [plotData, setPlotData] = useState({
+        data: {
+            s: [],
+            a: [],
+            i: [],
+            v: [],
+            r: [],
+        },
+        labels: []
+    });
+
+
+    useEffect(async () => {
+        const request = await fetch("/api/simulation", {method: 'post'});
+        const response = await request.json();
+        updateData(response);
+    }, []);
+
+    const updateData = (response) => {
+        const state = {...plotData};
+        if (!graphDataRef.current.nodes) {
+            graphDataRef.current = response.graph;
+        } else {
+            for (let i = 0; i < graphDataRef.current.nodes.length; i++) {
+                graphDataRef.current.nodes[i].state = response.graph.nodes[i].state;
+            }
+        }
+
+        const plot = response.plot;
+        state.data.s = [...state.data.s, plot.s];
+        state.data.a = [...state.data.a, plot.a];
+        state.data.i = [...state.data.i, plot.i];
+        state.data.v = [...state.data.v, plot.v];
+        state.data.r = [...state.data.r, plot.r];
+        state.labels = [...state.labels, state.labels.length];
+        setPlotData(state);
+    }
+
+    const requestData = async () => {
+        const request = await fetch("/api/simulation", {method: 'put'});
+        const response = await request.json();
+        updateData(response);   
+    }
+    console.log("-- graph ref --", graphDataRef);
+    console.log("-- plot data -- ", plotData);
     return(
         <Layout>
             <Header className="header" style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
@@ -85,17 +131,19 @@ function MainLayout() {
                             <Space direction="horizontal">
                                 <Card bordered>
                                     <h3>Test Data (with states)</h3>
-                                    <ForceGraph2D 
-                                        height='500'
-                                        width='800'
-                                        graphData={testData} 
-                                        enableZoomPanInteraction={false}
-                                        nodeLabel="state"
-                                        nodeCanvasObject={({ state, x, y }, ctx) => {
-                                            ctx.fillStyle = getStateColor(state);
-                                            ctx.beginPath(); ctx.arc(x, y, 5, 0, 2 * Math.PI, false); ctx.fill(); // circle
-                                        }}
-                                    />
+                                    {graphDataRef.current.nodes && (
+                                        <ForceGraph2D 
+                                            height='500'
+                                            width='800'
+                                            graphData={graphDataRef.current} 
+                                            enableZoomPanInteraction={false}
+                                            nodeLabel="state"
+                                            nodeCanvasObject={({ state, x, y }, ctx) => {
+                                                ctx.fillStyle = getStateColor(state);
+                                                ctx.beginPath(); ctx.arc(x, y, 5, 0, 2 * Math.PI, false); ctx.fill(); // circle
+                                            }}
+                                        />
+                                    )}
                                     <Dashboard />     
                                 </Card>
                             </Space>                            
@@ -146,6 +194,7 @@ function MainLayout() {
                             <Button type="primary">Save</Button>
                             <Button>Reset</Button>        
                         </Space>
+                        <Button onClick={requestData}>Make Request</Button>
 
                     </Menu>
                 </Sider>
