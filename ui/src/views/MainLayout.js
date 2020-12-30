@@ -88,6 +88,7 @@ function MainLayout() {
         const response = await request.json();
         updateData(response);   
     }
+
     console.log("-- graph ref --", graphDataRef);
     console.log("-- plot data -- ", plotData);
     return(
@@ -144,7 +145,7 @@ function MainLayout() {
                                             }}
                                         />
                                     )}
-                                    <Dashboard />     
+                                    <Dashboard data={plotData}/>     
                                 </Card>
                             </Space>                            
                         </Content>
