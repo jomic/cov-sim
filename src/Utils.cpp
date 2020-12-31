@@ -5,15 +5,22 @@
 #include "Utils.hpp"
 using namespace std;
 
-set<int> unique_random_numbers(int numbr, int max) {
+template<typename T>
+string to_string(set<T> set_) {
+  string to_string = "< ";
+  for(T elem : set_) { to_string += std::to_string(elem) + " "; }
+  to_string += ">";
+  return to_string;
+}
+
+set<int> unique_random_numbers(int count, int max) {
   set<int> numbers;
-  if (numbr > max) {
-    cout << "random_numbers: numbr cannot be larger than total" << endl;
+  if (count > max) {
+    cout << "random_numbers: count cannot be larger than total" << endl;
     return numbers;
   }
-  while ((int)numbers.size() < numbr) {
-      numbers.insert(rand() % max);
-    }
+  while ((int)numbers.size() < count) { numbers.insert(rand() % max); }
+// // cout<<" Utils::unique_random_numbers = "<<to_string(numbers)<<endl<<endl;
   return numbers;
 }
 

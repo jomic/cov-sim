@@ -3,7 +3,7 @@ In this project a Covid-19 simulator using a Microscopic Agent-Based Model has b
 
 There is [more extensive documentation](docs/Docs.md).
 
-For the time being, there are **four** source files containing a `main` function, namely `cov-sim.cpp`, `matrixDemo.cpp`, `matrixC19.cpp` and `gen-sw.cpp`.
+For the time being, the source files containing a `main` function are `cov-sim.cpp`, `matrixC19.cpp` and `gen-sw.cpp`.
 
 The `gen-sw.cpp` file is used only for generating graphs and does not run any simulation.
 
@@ -12,17 +12,16 @@ Compile and run with *default values* by doing either of:
 ( If you get `Permission denied` try first running `chmod u+x tools/*`. )
 
 - `tools/compileAndRun cov-sim`
-- `tools/compileAndRun matrixDemo`
 - `tools/compileAndRun matrixC19`
 - `tools/compileAndRun gen-sw`
 
-Once an executable binary file runs without errors and you don't want to make any more changes to the source code, simply run it as: `bin/cov-sim,` `bin/matrixDemo,` `bin/matrixC19` or `bin/gen-sw` with or without arguments.
+Once an executable binary file runs without errors and you don't want to make any more changes to the source code, simply run it as: `bin/cov-sim`, `bin/matrixC19` or `bin/gen-sw` with or without arguments.
 
 If you want to make a clean compilation (removing **all** binary executables and **all** object files), then do:
 
 - `make clean && make <main-file>`
 
-where you should replace `<main-file>` by `cov-sim`, `matrixDemo` ,`matrixC19` or `gen-sw`.
+where you should replace `<main-file>` by `cov-sim`, `matrixC19` or `gen-sw`.
 If you want to leave **all the other** executable binaries intact, but want to remove (and recreate) all the object files, then do:
 
 - `tools/cleanCnR <main-file>`

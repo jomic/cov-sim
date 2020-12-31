@@ -4,7 +4,7 @@ struct Group {
   int n_i{1};        // Infection attempts
   int n_ai{1};       // Infection attempts (asymptomatic)
   float susceptibility{1.0f};
-  float p_i{0.1f};   // Infectiousness
+  float p_i{0.1f};   // Probability that Covid-19 transmits when 2 agents meet.
   float p_ai{0.05f}; // Infectiousness (asymptopmatic)
   float p_t{0.0f};   // Probability of travelling
   float p_at{0.0f};  // Probability of travelling (asymptomatic)

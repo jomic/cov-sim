@@ -6,7 +6,6 @@
 #include "IOjson.hpp"
 #include "Results.hpp"
 #include "Simulator.hpp"
-using namespace std;
 
 int main(int argc, char** argv) {
   bool input_settings = false;
@@ -70,9 +69,12 @@ int main(int argc, char** argv) {
   // Run the simulation
   Results results = sim.simulate(graf, output_results && realtime_output);
 
-  // Output results
-  if (plot_graph)
+  // Output results:
+  if (plot_graph) { results.plot(); }
+  else if (!input_settings) {
     results.plot();
+    graf.print_agents_edges_offsets(" MATRIX:");
+  }
   if (output_results && !realtime_output)
     results.write_to_output(cout, false);
 }

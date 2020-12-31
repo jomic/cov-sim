@@ -10,7 +10,6 @@
 # looks reasonable.
 
 tools/compileAndRun matrixC19
-tools/compileAndRun matrixDemo
 tools/compileAndRun cov-sim
 tools/compileAndRun gen-sw
 # followed by:

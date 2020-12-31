@@ -93,6 +93,7 @@ void Results::plot() {
     clog << setw(spcs) << setfill(' ') << results[t].v_count;
     clog << setw(spcs) << setfill(' ') << results[t].r_count << endl;
   }
+  // // clog << endl;
 }
 
 void Results::save_to_file(string file_name) {

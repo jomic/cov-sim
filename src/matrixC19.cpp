@@ -11,7 +11,7 @@
 using namespace std;
 
 struct Agent {
-  unsigned char is_susceptbl:1, is_infectd:1, is_recovrd:1, infected_on:8;
+  unsigned char is_suscptbl:1, is_infctd:1, is_recvrd:1, infected_at:8;
 };
 
 struct Grid {
@@ -22,10 +22,10 @@ struct Grid {
 struct Result { int count_s, count_i, count_r; };
 
 void init_agent(Agent *agent) {
-  agent->is_susceptbl = true;
-  agent->is_infectd = false;
-  agent->is_recovrd = false;
-  agent->infected_on = 255;
+  agent->is_suscptbl = true;
+  agent->is_infctd = false;
+  agent->is_recvrd = false;
+  agent->infected_at = 255;
 }
 
 // Create a grid for the infection to spread in:
@@ -45,9 +45,9 @@ void destroy_grid(Grid *grid) {
 }
 
 void infect(Agent *target, int t) {
-  target->is_susceptbl = false;
-  target->is_infectd = true;
-  target->infected_on = t;
+  target->is_suscptbl = false;
+  target->is_infctd = true;
+  target->infected_at = t;
 }
 
 set<int> unique_rand_numbers(int numbr, int max) {
@@ -62,24 +62,24 @@ set<int> unique_rand_numbers(int numbr, int max) {
   return numbers;
 }
 
-void infect_initial(int init_infected, Result *result, Grid *grid,
+void infct_init(int init_infctd, Result *result, Grid *grid,
     bool random_seed) {
-  result->count_i = init_infected;
-  result->count_s -= init_infected;
+  result->count_i = init_infctd;
+  result->count_s -= init_infctd;
   if (random_seed) {srand(time(NULL));}
-  set<int> random_nmbrs = unique_rand_numbers(init_infected, grid->N);
+  set<int> random_nmbrs = unique_rand_numbers(init_infctd, grid->N);
   for (auto j : random_nmbrs) {
     infect(&grid->agents[j],0);
   }
 }
 
-Result *init_results(int init_infected, Grid *grid, int T,
+Result *init_results(int init_infctd, Grid *grid, int T,
     bool random_seed) {
   Result *results = (Result *) calloc(T + 1, sizeof(Result));
   results[0].count_i = 0;
   results[0].count_s = grid->N;
   results[0].count_r = 0;
-  infect_initial(init_infected, &results[0], grid, random_seed);
+  infct_init(init_infctd, &results[0], grid, random_seed);
   return results;
 }
 
@@ -91,7 +91,7 @@ void plot_grid(Grid *grid, int L) {
     cout << "|";
     for (int k=0; k<L; k++) {
       Agent *agent = &grid->agents[grid->L*j + k];
-      cout << " " << (agent->is_susceptbl?" ":(agent->is_infectd?"I":"R"));
+      cout << " " << (agent->is_suscptbl?" ":(agent->is_infctd?"I":"R"));
     }
     cout << " |" << endl;
   }
@@ -100,7 +100,7 @@ void plot_grid(Grid *grid, int L) {
 }
 
 void try_infecting(Agent *source, Agent *target, float betaD, int t) {
-  if (source!=target && target->is_susceptbl) {
+  if (source!=target && target->is_suscptbl) {
     float roll = (float) rand() / (float) RAND_MAX;
     if (roll < betaD) {infect(target, t);}
   }
@@ -124,12 +124,12 @@ void try_spreading(Grid *grid, int j, int k, int Dt, float betaD, int t) {
 }
 
 void recover(Agent *agent) {
-  agent->is_infectd = false;
-  agent->is_recovrd = true;
+  agent->is_infctd = false;
+  agent->is_recvrd = true;
 }
 
 void recovering(Agent *agent, int days_sick, int t) {
-  if (agent->infected_on + days_sick < t) {recover(agent);}
+  if (agent->infected_at + days_sick < t) {recover(agent);}
 }
 
 void iterate_for(Grid *grid, Result *result, int days_sick, float betaD,
@@ -137,14 +137,14 @@ void iterate_for(Grid *grid, Result *result, int days_sick, float betaD,
   int j = agent_i / grid->L;
   int k = agent_i % grid->L;
   Agent *agent = &grid->agents[agent_i];
-  if (agent->is_infectd) {
+  if (agent->is_infctd) {
     recovering(agent, days_sick, t);
-    if (agent->is_infectd && agent->infected_on < t) {
+    if (agent->is_infctd && agent->infected_at < t) {
       try_spreading(grid, j, k, Dt, betaD, t);
     }
   }
-  if (agent->is_infectd) result->count_i++;
-  else if (agent->is_susceptbl) {result->count_s++;}
+  if (agent->is_infctd) result->count_i++;
+  else if (agent->is_suscptbl) {result->count_s++;}
 }
 
 void iterate(Grid *grid, Result *result, int days_sick, float betaD,
@@ -162,9 +162,9 @@ void plot_result(Result *result, int N, int t) {
       - round(WDTH*result->count_i/N) - round(WDTH*result->count_r/N);
   for (int j = 0; j < n_s_t; j++) {cout << " ";}
   for (int j = 0; j < round(WDTH*result->count_r/N); j++) {cout << "R";}
-  cout << "| ISR (" << setw(3) << setfill(' ') << t << "): ";
-  cout << setw(spcs) << setfill(' ') << result->count_i;
+  cout << "| SIR (" << setw(3) << setfill(' ') << t << "): ";
   cout << setw(spcs) << setfill(' ') << result->count_s;
+  cout << setw(spcs) << setfill(' ') << result->count_i;
   cout << setw(spcs) << setfill(' ') << result->count_r << endl;
 }
 
@@ -184,13 +184,8 @@ void plot_results(Result *results, int N, int T) {
   for (int t = 0; t <= T; t++) {plot_result(&results[t], N, t);}
 }
 
-void omp_cores() {
-  cout << endl << "omp_get_max_threads: " << omp_get_max_threads() << endl;
-}
-
 int main(int argc, char *argv[]) {
-  omp_cores();
-  int init_infected = 4, L = 7, days_sick = 14, D0 = 2, T = 50, T0 = 0;
+  int init_infctd = 4, L = 7, days_sick = 14, D0 = 2, T = 50, T0 = 0;
   float betaC = 0.25;
   bool random_seed = false;
 
@@ -198,8 +193,7 @@ int main(int argc, char *argv[]) {
     cout << "Usage: " << argv[0] << " L D0 t" << endl;
     return 1;
   } else if (argc == 8) {
-    init_infected = stoi(argv[1]);
-    cout << "init_infected = " << init_infected;
+    init_infctd = stoi(argv[1]);
     L             = stoi(argv[2]);
     days_sick     = stoi(argv[3]);
     D0            = stoi(argv[4]);
@@ -210,9 +204,10 @@ int main(int argc, char *argv[]) {
   }
   T0 = T;
   float betaD = betaC/((2*D0+1)*(2*D0+1) - 1);
+  cout << "init_infctd = " << init_infctd << " , betaD = " << betaD << endl;
 
   Grid *grid = create_grid(L);
-  Result *results = init_results(init_infected, grid, T, random_seed);
+  Result *results = init_results(init_infctd, grid, T, random_seed);
   if (L<71) {plot_grid(grid, L);} // The grid BEFORE the simulation.
   plot_result(&results[0], grid->N, 0);
   results = simulate(results, grid, days_sick, betaD, D0, T0, T);
@@ -224,7 +219,9 @@ int main(int argc, char *argv[]) {
   return EXIT_SUCCESS;
 }
 // make clean_binaries && make matrixC19
-// bin/matrixC19 2 5 14 1 50 0.4 true
-// bin/matrixC19 4 7 14 2 60 0.25 true
-// bin/matrixC19 4 51 14 3 150 0.25 true
-// bin/matrixC19 4 51 14 2 180 0.25 true
+// bin/matrixC19 4   5 14 1  50 0.25 true
+// bin/matrixC19 4   7 14 2  60 0.25 true
+// bin/matrixC19 4  51 14 3 150 0.25 true
+// bin/matrixC19 4  51 14 2 180 0.25 true
+// bin/matrixC19 4 100 14 5  90 0.25 true
+// bin/matrixC19 4 100 14 2 120 0.25 true

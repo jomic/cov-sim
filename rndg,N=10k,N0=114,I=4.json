@@ -1,0 +1,24 @@
+{
+    "select_all": true,
+    "initial_infections": 4,
+    "T": 90,
+    "T_v": 0,
+    "n_v": 0,
+    "groups": [{
+        "n_i": 0,
+        "n_ai": 0,
+        "susceptibility": 1.0,
+        "p_i": 0.002083,
+        "p_ai": 0.0,
+        "p_v": 0,
+        "d_v": 20,
+        "d_i": 14,
+        "d_ai": 12,
+        "a_p": 0.0
+    }],
+    "graph": {
+        "type": "random_graph",
+        "Npop": 10000,
+        "N0": 114
+    }
+}
