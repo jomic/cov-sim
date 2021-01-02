@@ -1,0 +1,41 @@
+# Project in Computer Systems
+# Uppsala University - 2020 Autumn
+# Copyright (c) 2020 group CovSim2: Henrik Schulze,
+# Christopher Rydell, Jonatan Michalak, Amina Manafli, Wenhao Zhu.
+#
+# We don't have any unit tests.
+# To reduce the risk of getting new bugs, here are some commands that
+# to some extent may replace the need for unit tests. What to look for
+# is that the code compiles and runs without errors _and_ that the output
+# looks reasonable.
+
+tools/compileAndRun matrixC19
+
+# 2 Regions, matrix, random graph, nw-small-world:
+tools/compileAndRun cov-sim && bin/cov-sim -ip < mx-2Regions.json
+tools/compileAndRun cov-sim && bin/cov-sim -ip < rg-2Regions.json
+tools/compileAndRun cov-sim && bin/cov-sim -ip < sw-2Regions.json
+
+# Newman-Watts small world network:
+tools/compileAndRun cov-sim && tools/compileAndRun gen-sw
+bin/gen-sw -o -N 10000 -k 10 -p 0.001 | bin/gen-sw -or -N 5000 -k 15 -p 0.003 > sw-2R-fromFile.txt
+bin/cov-sim -ip < sw-2R-fromFile.json
+
+# Random network in which (almost) all agents have the same number of connections:
+tools/compileAndRun cov-sim && tools/compileAndRun gen-rg
+bin/gen-rg -o -N 10000 -c 20 | bin/gen-rg -or -N 5000 -c 30 > rg-2R-fromFile.txt
+bin/cov-sim -ip < rg-2R-fromFile.json
+
+# Also - requires only `tools/compileAndRun cov-sim` beforehand:
+bin/cov-sim -ip < rg,N=8,N0=3,i=4.json
+bin/cov-sim -ip < rg,N=25,N0=7,i=4.json
+bin/cov-sim -ip < sw-3Regions.json
+bin/cov-sim -ips < mx,L=7,D0=2,i=4.json
+bin/cov-sim -ips < rg,N=49,N0=16,i=4.json
+bin/cov-sim -ips < sw,N=49,k=8,i=4.json
+bin/cov-sim -ips < mx,L=51,D0=2,i=4.json
+bin/cov-sim -ips < rg,N=2601,N0=23,i=4.json
+bin/cov-sim -ips < sw,N=2601,k=12,i=4.json
+bin/cov-sim -ips < mx,L=71,D0=5,i=4.json
+bin/cov-sim -ips < rg,N=5041,N0=114,i=4.json
+bin/cov-sim -ips < sw,N=5041,k=57,i=4.json

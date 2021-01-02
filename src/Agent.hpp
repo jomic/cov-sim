@@ -24,6 +24,7 @@ private:
 public:
   Agent(int id, std::shared_ptr<Group> group);
   Agent(int id);
+  Agent();
 
   /**
     Assign a new group to the agent.

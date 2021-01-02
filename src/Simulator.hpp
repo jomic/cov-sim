@@ -29,7 +29,7 @@ private:
   unsigned int days_sick{14};
   unsigned int D0{1};
   unsigned int T0{60};
-  unsigned int T{27};
+  unsigned int T{18};
   unsigned int T_v{10};
   unsigned int n_v{10};
 

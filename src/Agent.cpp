@@ -41,6 +41,7 @@ Agent::Agent(int id, std::shared_ptr<Group> group) : id(id), group(group) {
 Group Agent::default_group;
 Agent::Agent(int id) :
     Agent::Agent(id, std::make_shared<Group>(default_group)) {}
+Agent::Agent() : Agent::Agent(id) {}
 
 void Agent::assign_group(std::shared_ptr<Group>& new_group) {
   group = new_group;

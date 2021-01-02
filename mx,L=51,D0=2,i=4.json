@@ -8,7 +8,7 @@
         "n_i": 0,
         "n_ai": 0,
         "susceptibility": 1.0,
-        "p_i": 0.0104167,
+        "p_i": 0.012,
         "p_ai": 0,
         "p_v": 0,
         "d_v": 0,
@@ -17,8 +17,8 @@
         "a_p": 0
     }],
     "graph": {
-        "type": "random_graph",
-        "Npop": 10000,
-        "N0": 23
+        "type": "matrix",
+        "size": 51,
+        "distance": 2
     }
 }

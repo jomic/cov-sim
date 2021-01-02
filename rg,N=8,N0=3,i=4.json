@@ -1,24 +1,24 @@
 {
     "select_all": true,
     "initial_infections": 4,
-    "T": 90,
+    "T": 30,
     "T_v": 0,
     "n_v": 0,
     "groups": [{
         "n_i": 1,
         "n_ai": 0,
         "susceptibility": 1.0,
-        "p_i": 0.010417,
-        "p_ai": 0,
+        "p_i": 0.012,
+        "p_ai": 0.012,
         "p_v": 0,
         "d_v": 20,
         "d_i": 14,
         "d_ai": 12,
-        "a_p": 0
+        "a_p": 0.5
     }],
     "graph": {
-        "type": "matrix",
-        "size": 51,
-        "distance": 2
+        "type": "random_graph",
+        "Npop": 8,
+        "N0": 3
     }
 }

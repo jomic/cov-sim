@@ -40,7 +40,7 @@ int main(int argc, char** argv) {
   if (randomize_seed)
     srand(time(NULL));
   else
-    srand(1);
+    srand(5);
 
   vector<shared_ptr<Group>> groups;
   Graph graf;
@@ -73,7 +73,7 @@ int main(int argc, char** argv) {
   if (plot_graph) { results.plot(); }
   else if (!input_settings) {
     results.plot();
-    graf.print_agents_edges_offsets(" MATRIX:");
+    graf.print_agents_edges_offsets(" RANDOM graph:");
   }
   if (output_results && !realtime_output)
     results.write_to_output(cout, false);

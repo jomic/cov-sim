@@ -1,7 +1,7 @@
 {
     "select_all": false,
     "initial_infections": 1,
-    "T": 110,
+    "T": 101,
     "T_v": 20,
     "n_v": 500,
     "groups": [{
@@ -19,15 +19,13 @@
         "a_p": 0.1
     }],
     "graph": [{
-        "type": "nw_small_world",
-        "N": 5000,
-        "k": 15,
-        "p": 0.003
+        "type": "random_graph",
+        "Npop": 5000,
+        "N0": 30
     },{
-        "type": "nw_small_world",
-        "N": 10000,
-        "k": 10,
-        "p": 0.001 
+        "type": "random_graph",
+        "Npop": 10000,
+        "N0": 10
     }],
     "vaccination_strategy": { "type": "random" },
     "region_connections": [

@@ -9,9 +9,9 @@ using namespace std;
 
 class Graph {
 public:
-  vector<int> offsets;
-  vector<int> neighbrs;
   vector<Agent> agents;
+  vector<int> neighbrs;
+  vector<int> offsets;
 
   vector<int> region_agent_offsets;
   vector<int> region_connection_offsets;

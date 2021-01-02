@@ -33,7 +33,7 @@ void Graph::print_agents_edges_offsets(string model) {
     << " offsets = " << to_string(offsets) << endl
     << " agents.size() = " << std::to_string(agents.size()) << endl
     << " neighbrs.size() = " << std::to_string(neighbrs.size()) << endl
-    << " offsets.size() = " << std::to_string(offsets.size()) << endl<<endl;
+    << " offsets.size() = " << std::to_string(offsets.size()) << endl;
 }
 
 void Graph::input_from_file(string file_name) {
@@ -73,6 +73,7 @@ int get_index(int x, int y, int matrix_size) {
 
 void Graph::matrix_graph(int L, int Dt) {
   int nr_existing_agents = start_new_region(), N = L * L;
+  for(int j=0; j<N; j++) { agents.push_back(Agent(j + nr_existing_agents)); }
   for (int j = 0; j < N; ++j) {
     int agent_x = get_x(j, L);
     int agent_y = get_y(j, L);
@@ -90,7 +91,6 @@ void Graph::matrix_graph(int L, int Dt) {
       }
     }
   }
-  for(int j=0; j<N; j++) { agents.push_back(Agent(j + nr_existing_agents)); }
 }
 
 bool roll(float p) {
@@ -98,7 +98,7 @@ bool roll(float p) {
 }
 
 void Graph::nw_small_world(int N, int k, float p) {
-  start_new_region();
+  int nr_existing_agents = start_new_region();
 
   // Vector for storing connection vectors
   vector<unique_ptr<vector<int>>> adjacencies;
@@ -129,24 +129,21 @@ void Graph::nw_small_world(int N, int k, float p) {
 
   // Store all adjacencies in the compressed row vectors
   int id = 0;
-  int nr_existing_agents = agents.size();
-  int n_existing_connections = neighbrs.size();
+  int nr_existing_connections = neighbrs.size();
   for (auto& adjacency : adjacencies) {
     agents.push_back(Agent(id++ + nr_existing_agents));
-    offsets.push_back(n_existing_connections);
-    n_existing_connections += adjacency->size();
+    offsets.push_back(nr_existing_connections);
+    nr_existing_connections += adjacency->size();
     for (auto edge : *adjacency)
       neighbrs.push_back(edge + nr_existing_agents);
   }
 }
 
-vector<int> init_offsets(vector<int> vctr, int N, int N0) {
-  vctr.resize(N);
-  vctr[0] = 0;
-  for (int j = 1; j < (int)vctr.size(); j++) {
-    vctr[j] = vctr[j-1] + N0;
-  }
-  return vctr;
+vector<int> init_offsets(int N, int N0, int nr_existing_connections) {
+  vector<int> offsets2add(N,nr_existing_connections);
+  for (int j = 1; j < (int)offsets2add.size(); j++)
+    { offsets2add[j] = offsets2add[j-1] + N0; }
+  return offsets2add;
 }
 
 int sum(vector<int> vctr) {
@@ -164,10 +161,12 @@ string to_string(set<T> set_) {
 }
 
 void Graph::random_graph(int N, int N0) {
-  start_new_region();
-  int nr_existing_agents = agents.size();
+  int nr_existing_agents = start_new_region();
+  vector<Agent> agents2add(N);
+  for(int j=0; j<N; j++) { agents2add[j]=Agent(j+nr_existing_agents); }
+  agents.insert(agents.end(), agents2add.begin(), agents2add.end());
   int Ne=N*N0, candidateEdge, Nchk1=14*sqrt(sqrt(N));
-  if (N<50) { Nchk1=4*(N/5-1); }
+  if (N<50) { Nchk1=4*N/5-4; }
   int Nchk2=Nchk1 + 2*N/N0;
   clog << endl << " N = " << N << " , N0 = " << N0
        << " , Nchk1 = " << Nchk1 << " , Nchk2 = " << Nchk2 << endl;
@@ -176,9 +175,8 @@ void Graph::random_graph(int N, int N0) {
          << " there are nodes in the graph !" << endl << endl;
     return;
   }
-  vector<int> belowN0(N);
-  neighbrs.resize(Ne);
-  offsets = init_offsets(offsets,N,N0);
+  vector<int> offsets2add = init_offsets(N,N0,neighbrs.size()), belowN0(N),
+      nebrs2ad(Ne);
   vector<set<int>> nodeEdges(N);
   for (int j = N-1; j > Nchk2; j--) {
     while ((int)nodeEdges[j].size() < N0) {
@@ -207,7 +205,7 @@ void Graph::random_graph(int N, int N0) {
     }
   for (int k = N-1; k > -1; k--) {
     int l = 0;
-    for(int edg : nodeEdges[k]) { neighbrs[k*N0 + l] = edg; l++; }
+    for(int edg : nodeEdges[k]) { nebrs2ad[k*N0 + l] = edg; l++; }
   }
   for (int j = Nchk1; j > -1; j--) {
     set<int> candidatEdges = nodeEdges[j];
@@ -231,34 +229,34 @@ void Graph::random_graph(int N, int N0) {
     } else if ((int)nodeEdges[j].size() + sum(nonFullNodes) < N0) {
       nodeEdges[j] = candidatEdges;
       belowN0[j] = N0 - candidatEdges.size();
-      neighbrs.erase(
-          neighbrs.begin()+(j+1)*N0-belowN0[j],neighbrs.begin()+(j+1)*N0);
-      for (int l = j+1; l < N; l++) { offsets[l] -= belowN0[j]; }
+      nebrs2ad.erase(
+          nebrs2ad.begin()+(j+1)*N0-belowN0[j],nebrs2ad.begin()+(j+1)*N0);
+      for (int l = j+1; l < N; l++) { offsets2add[l] -= belowN0[j]; }
     } else {
       clog << endl << "= = = = = = = = = = = = = = = = = = = ="
            << endl << "! Programmer'§ ERROR ! - Go complain!!"
            << endl << "= = = = = = = = = = = = = = = = = = = =" << endl <<endl;
       return;
-    } // Below, candidate neighbrs in nodeEdges[j] with (cdt < j) are approved:
+    } // Below, candidate edges in nodeEdges[j] with (cdt < j) are approved:
     for(int cdt : nodeEdges[j]) { if (cdt<j) { nodeEdges[cdt].insert(j); } }
     for (int k = N-1; k > -1; k--) {
       int l = 0;
-      for(int edg : nodeEdges[k]) { neighbrs[k*N0 + l] = edg; l++; }
+      for(int edg : nodeEdges[k]) { nebrs2ad[k*N0 + l] = edg; l++; }
     }
   }
-// Below, `neighbrs` is _completely_ recreated from all the `nodeEdges[k]` sets.
-// The only 'inheritance' is from line 108 which reduces the size of `neighbrs`.
+// Below, `nebrs2ad` is _completely_ recreated from all the `nodeEdges[k]` sets.
+// The only 'inheritance' is from line 108 which reduces the size of `nebrs2ad`.
 // Also, each edge must be adjusted for previous regions (+nr_existing_agents).
   int m = 0;
   for (int k = 0; k < N; k++) {
-    for(int edg : nodeEdges[k]){ neighbrs[m] = edg+nr_existing_agents; m++; }
+    for(int edg : nodeEdges[k]){ nebrs2ad[m] = edg+nr_existing_agents; m++; }
   }
-  for(int j=0; j<N; j++) { agents.push_back(Agent(j + nr_existing_agents)); }
-  // // print_agents_edges_offsets(" random_graph:");
+  neighbrs.insert(neighbrs.end(), nebrs2ad.begin(), nebrs2ad.end());
+  offsets.insert(offsets.end(), offsets2add.begin(), offsets2add.end());
 }
 
 void Graph::default_graph() {
-  matrix_graph(3,1);
+  random_graph(6,3);
 }
 
 void Graph::assign_groups(vector<shared_ptr<Group>>& groups) {
@@ -346,7 +344,7 @@ void Graph::write_generatable_graph(ostream& stream) {
 void Graph::read_generatable_graph(istream& stream) {
   int id = 0;
   int nr_existing_agents = agents.size();
-  int n_existing_connections = neighbrs.size();
+  int nr_existing_connections = neighbrs.size();
   string line;
 
   // Add the region offsets
@@ -359,7 +357,7 @@ void Graph::read_generatable_graph(istream& stream) {
   getline(stream, line);
   entries = split(line, " ");
   for (auto& entry : entries) {
-    offsets.push_back(stoi(entry) + n_existing_connections);
+    offsets.push_back(stoi(entry) + nr_existing_connections);
     agents.push_back(Agent(id++ + nr_existing_agents));
   }
 

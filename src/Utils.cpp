@@ -20,7 +20,6 @@ set<int> unique_random_numbers(int count, int max) {
     return numbers;
   }
   while ((int)numbers.size() < count) { numbers.insert(rand() % max); }
-// // cout<<" Utils::unique_random_numbers = "<<to_string(numbers)<<endl<<endl;
   return numbers;
 }
 

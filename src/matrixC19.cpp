@@ -73,8 +73,7 @@ void infct_init(int init_infctd, Result *result, Grid *grid,
   }
 }
 
-Result *init_results(int init_infctd, Grid *grid, int T,
-    bool random_seed) {
+Result *init_results(int init_infctd, Grid *grid, int T, bool random_seed) {
   Result *results = (Result *) calloc(T + 1, sizeof(Result));
   results[0].count_i = 0;
   results[0].count_s = grid->N;
@@ -187,41 +186,43 @@ void plot_results(Result *results, int N, int T) {
 int main(int argc, char *argv[]) {
   int init_infctd = 4, L = 7, days_sick = 14, D0 = 2, T = 50, T0 = 0;
   float betaC = 0.25;
-  bool random_seed = false;
+  bool random_seed = false, do_plot_grid = false;
 
-  if (argc > 8) {
+  if (argc > 9) {
     cout << "Usage: " << argv[0] << " L D0 t" << endl;
     return 1;
-  } else if (argc == 8) {
+  } else if (argc == 1) { // If no arguments then do nothing!
+  } else if (8 <= argc && argc <= 9) {
     init_infctd = stoi(argv[1]);
     L             = stoi(argv[2]);
     days_sick     = stoi(argv[3]);
     D0            = stoi(argv[4]);
     T             = stoi(argv[5]);
-    // T0            = stoi(argv[6]);
     betaC         = stof(argv[6]);
     random_seed   = (string(argv[7]).compare("true") == 0)?true:false;
   }
+  if (argc== 9)
+    { do_plot_grid = (string(argv[8]).compare("true") == 0)?true:false; }
   T0 = T;
   float betaD = betaC/((2*D0+1)*(2*D0+1) - 1);
-  cout << "init_infctd = " << init_infctd << " , betaD = " << betaD << endl;
+  cout << "init_infctd = " << init_infctd << " , betaD = " << betaD<< endl;
 
   Grid *grid = create_grid(L);
   Result *results = init_results(init_infctd, grid, T, random_seed);
-  if (L<71) {plot_grid(grid, L);} // The grid BEFORE the simulation.
+  if (L<71 && do_plot_grid) {plot_grid(grid, L);} // BEFORE the simulation.
   plot_result(&results[0], grid->N, 0);
   results = simulate(results, grid, days_sick, betaD, D0, T0, T);
-  if (L<71) plot_grid(grid, L); // The grid AFTER the simulation.
+  if (L<71 && do_plot_grid) plot_grid(grid, L); // AFTER the simulation.
   // plot_results(results, grid->N, T); // Plot results for ALL time steps.
 
   free(results);
   destroy_grid(grid);
   return EXIT_SUCCESS;
 }
-// make clean_binaries && make matrixC19
-// bin/matrixC19 4   5 14 1  50 0.25 true
-// bin/matrixC19 4   7 14 2  60 0.25 true
-// bin/matrixC19 4  51 14 3 150 0.25 true
-// bin/matrixC19 4  51 14 2 180 0.25 true
-// bin/matrixC19 4 100 14 5  90 0.25 true
-// bin/matrixC19 4 100 14 2 120 0.25 true
+/*
+tools/compileAndRun matrixC19
+bin/matrixC19 4  5 14 1 50 0.25 true
+bin/matrixC19 4  7 14 2 60 0.25 true
+bin/matrixC19 4 51 14 2 90 0.25 true
+bin/matrixC19 4 71 14 5 90 0.25 true
+*/
