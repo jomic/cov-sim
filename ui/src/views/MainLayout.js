@@ -5,6 +5,7 @@ import { Layout, Menu, Breadcrumb, Card, Space, Button, Switch} from 'antd';
 import { UserOutlined, LaptopOutlined, NotificationOutlined } from '@ant-design/icons';
 import ForceGraph2D from 'react-force-graph-2d';
 import Dashboard from './Dashboard';
+import SimulationForm from '../components/SimulationForm';
 
 // https://medium.com/@jjsincorporated/how-i-built-conways-game-of-life-with-react-hooks-3bc6c2734aa
 
@@ -115,7 +116,7 @@ function MainLayout() {
                 />
             </Header>
             <Layout>
-                <Layout style={{ padding: '0 24px 24px'}} >
+                <Layout style={{ padding: '64px 24px 24px'}} >
                         <Breadcrumb style={{ margin: '16px 0', textAlign: "left"}}>
                             <Breadcrumb.Item>Home</Breadcrumb.Item>
                             <Breadcrumb.Item>Graph-based</Breadcrumb.Item>
@@ -134,8 +135,8 @@ function MainLayout() {
                                     <h3>Test Data (with states)</h3>
                                     {graphDataRef.current.nodes && (
                                         <ForceGraph2D 
-                                            height='500'
-                                            width='800'
+                                            height={500}
+                                            width={800}
                                             graphData={graphDataRef.current} 
                                             enableZoomPanInteraction={false}
                                             nodeLabel="state"
@@ -152,6 +153,7 @@ function MainLayout() {
                     </Layout>
                 <Sider 
                     width={300} 
+                    theme="light"
                     className="site-layout-background"
                     style={{
                         overflow: 'auto',
@@ -163,41 +165,8 @@ function MainLayout() {
                         // paddingBottom: "64px",
                         paddingTop: "64px",
                       }}>
-                    <Menu
-                        mode="inline"
-                        defaultSelectedKeys={['1']}
-                        defaultOpenKeys={['sub1']}
-                        style={{ height: '100%', borderRight: 0}}
-                    >
-                        <SubMenu key="sub1" icon={<UserOutlined />} title="Simulation setup">
-                            <Menu.Item key="1">Timesteps</Menu.Item>
-                            <Menu.Item key="2">Initial infections</Menu.Item>
-                            <Menu.Item key="3">Graph source type</Menu.Item>
-                        </SubMenu>
-                        <SubMenu key="sub2" icon={<LaptopOutlined />} title="Groups">
-                            <SubMenu key="sub4" title="Base Group Parameters">
-                                <Menu.Item key="4">Base Group Parameters</Menu.Item>
-                            </SubMenu>
-                            <Menu.Item key="5"> <Button block>Add Group</Button></Menu.Item>
-                        </SubMenu>
-                        <SubMenu key="sub3" icon={<LaptopOutlined />} title="Vaccination settings">
-                            
-                            <Menu.Item key="6">Vaccination Strategy Type</Menu.Item>
-                            <Menu.Item key="7">Vaccination Start Time</Menu.Item>
-                            <Menu.Item key="8">Vaccinations available each time step</Menu.Item>
-                            <Menu.Item key="8">Vaccinations available each time step</Menu.Item>
-                            <Menu.Item key="8">Vaccinations available each time step</Menu.Item>
-                            <Menu.Item key="8">Vaccinations available each time step</Menu.Item>
 
-
-                        </SubMenu>
-                        <Space style={{float: 'right', padding: '8px'}}>
-                            <Button type="primary">Save</Button>
-                            <Button>Reset</Button>        
-                        </Space>
-                        <Button onClick={requestData}>Make Request</Button>
-
-                    </Menu>
+                    <SimulationForm />
                 </Sider>
             </Layout>
         </Layout>
