@@ -165,8 +165,8 @@ function MainLayout() {
                         // paddingBottom: "64px",
                         paddingTop: "64px",
                       }}>
-
                     <SimulationForm />
+                    <Button onClick={requestData} style={{marginLeft: "78px"}}>Request Data</Button>
                 </Sider>
             </Layout>
         </Layout>

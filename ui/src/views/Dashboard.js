@@ -67,7 +67,7 @@ export default class Dashboard extends Component {
                             data={newData}
                         />
                     </div>
-                    <Button onClick={this.addChartData}>Add Data 1</Button>
+                    {/* <Button onClick={this.addChartData}>Add Data 1</Button> */}
                 </Space>
             </div>
         )
