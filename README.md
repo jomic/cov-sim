@@ -66,7 +66,12 @@ Note that any value can be omitted, in which case it will be set to a default va
 }
 ```
 
-The vaccination strategy used in the simulation is specified as an object with the mandatory field `"type"`. Currently, the available strategies available are `"nothing"`, which does not distribute vaccines at all, and `"random"`, which distributes the vaccines randomly. For example, the value of `"vaccination_strategy"` could be set as follows.
+The vaccination strategy used in the simulation is specified as an object with the mandatory field `"type"`. Currently, the available strategies available are:
+- `"nothing"`: do not distribute vaccines at all.
+- `"random"`: distribute the vaccines randomly.
+- `"highest_density"`: prioritize agents with the most infected neighbours.
+- `"lowest_density"`: prioritize agents with the least infected neighbours.
+For example, the value of `"vaccination_strategy"` could be set as follows.
 
 ```
 {
