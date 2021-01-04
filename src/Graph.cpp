@@ -171,7 +171,7 @@ void Graph::random_graph(int N, int N0) {
   clog << endl << " N = " << N << " , N0 = " << N0
        << " , Nchk1 = " << Nchk1 << " , Nchk2 = " << Nchk2 << endl;
   if (!(Nchk1 < N)) {
-    clog << endl << "!! Each node must have (a lot) fewer edges than"
+    cerr << endl << "!! Each node must have (a lot) fewer edges than"
          << " there are nodes in the graph !" << endl << endl;
     return;
   }
@@ -197,7 +197,7 @@ void Graph::random_graph(int N, int N0) {
       }
       k++;
       if (k > N) {
-        clog << endl << "  - - !! ERROR ! -"
+        cerr << endl << "  - - !! ERROR ! -"
           << " Stuck in infinite loop !! - -" << endl << endl;
         return;
       }
@@ -233,7 +233,7 @@ void Graph::random_graph(int N, int N0) {
           nebrs2ad.begin()+(j+1)*N0-belowN0[j],nebrs2ad.begin()+(j+1)*N0);
       for (int l = j+1; l < N; l++) { offsets2add[l] -= belowN0[j]; }
     } else {
-      clog << endl << "= = = = = = = = = = = = = = = = = = = ="
+      cerr << endl << "= = = = = = = = = = = = = = = = = = = ="
            << endl << "! Programmer'§ ERROR ! - Go complain!!"
            << endl << "= = = = = = = = = = = = = = = = = = = =" << endl <<endl;
       return;

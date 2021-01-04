@@ -67,7 +67,7 @@ public:
   void infect(int t);
 
   /**
-    Make the individual try to infect all of its neighbours at time t.
+    Return the agent's *id* as a string.
   */
   string to_string();
 
