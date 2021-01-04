@@ -31,6 +31,12 @@ void get_strategy(istream& stream, shared_ptr<VacStrat>& vs) {
     else if (json_strat["type"] == "random") {
       vs = make_shared<RandomStrategy>();
     }
+    else if (json_strat["type"] == "lowest_density") {
+      vs = make_shared<LowestDensityStrategy>();
+    }
+    else if (json_strat["type"] == "highest_density") {
+      vs = make_shared<HighestDensityStrategy>();
+    }
   }
 
   if (json_obj["T_v"].is_number())
