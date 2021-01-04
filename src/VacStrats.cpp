@@ -40,7 +40,7 @@ void NothingStrategy::vaccinate(Graph& graf, int t) {
   return;
 }
 
-void DensityStrategy::vaccinate(Graph& graf, int t) {
+void PriorityStrategy::vaccinate(Graph& graf, int t) {
   if (t < time_deployed)
     return;
   
@@ -61,6 +61,10 @@ void DensityStrategy::vaccinate(Graph& graf, int t) {
   }
 }
 
+int PriorityStrategy::get_priority(Graph& graf, int id, int t) {
+  return 0;
+}
+
 int DensityStrategy::get_density(Graph& graf, int id, int t) {
   int density = 0;
   vector<int> ns = graf.neighbours(id);
@@ -69,10 +73,6 @@ int DensityStrategy::get_density(Graph& graf, int id, int t) {
       density++;
   }
   return density;
-}
-
-int DensityStrategy::get_priority(Graph& graf, int id, int t) {
-  return 0;
 }
 
 int HighestDensityStrategy::get_priority(Graph& graf, int id, int t) {
