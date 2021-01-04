@@ -1,9 +1,9 @@
 {
     "select_all": false,
     "initial_infections": 1,
-    "T": 110,
+    "T": 101,
     "T_v": 20,
-    "n_v": 500,
+    "n_v": 400,
     "groups": [{
         "n_i": 1,
         "n_ai": 3,
@@ -19,19 +19,9 @@
         "a_p": 0.1
     }],
     "graph": [{
-        "type": "nw_small_world",
-        "N": 5000,
-        "k": 15,
-        "p": 0.003
-    },{
-        "type": "nw_small_world",
-        "N": 10000,
-        "k": 10,
-        "p": 0.001 
+        "type": "file_format_advanced",
+        "file_name": "rg-2R-fromFile.txt"
     }],
     "vaccination_strategy": { "type": "random" },
-    "region_connections": [
-        [1],
-        [0]
-    ]
+    "region_connections": [[1],[0]]
 }

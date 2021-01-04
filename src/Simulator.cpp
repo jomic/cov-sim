@@ -35,9 +35,9 @@ void Simulator::iterate(Results& results, Graph& graf, int t) {
       }
       else {
         if (select_all)
-          agent.try_infecting_neighbours(t, graf);
+          agent.try_infecting_neighbors(t, graf);
         else
-          agent.try_infecting_n_neighbours(t, graf);
+          agent.try_infecting_n_neighbors(t, graf);
       }
       agent.update_infection(t);
     }

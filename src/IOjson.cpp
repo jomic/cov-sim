@@ -116,6 +116,10 @@ void initialize_graph(json& json_obj, Graph& graf) {
            && json_obj["k"].is_number()
            && json_obj["p"].is_number())
     graf.nw_small_world(json_obj["N"], json_obj["k"], json_obj["p"]);
+  else if (json_obj["type"] == "random_graph"
+           && json_obj["Npop"].is_number()
+           && json_obj["N0"].is_number())
+    graf.random_graph(json_obj["Npop"], json_obj["N0"]);
   else if (json_obj["type"] == "file_format_advanced"
            && json_obj["file_name"].is_string()) {
     ifstream file;

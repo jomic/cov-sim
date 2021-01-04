@@ -3,26 +3,26 @@ In this project a Covid-19 simulator using a Microscopic Agent-Based Model has b
 
 There is [more extensive documentation](docs/Docs.md).
 
-For the time being, there are **four** source files containing a `main` function, namely `cov-sim.cpp`, `matrixDemo.cpp`, `matrixC19.cpp` and `gen-graph.cpp`.
+For the time being, the source files containing a `main` function are `cov-sim.cpp`, `matrixC19.cpp`, `gen-sw.cpp` and `gen-rw.cpp`.
 
-The `gen-graph.cpp` file is used only for generating graphs and does not run any simulation.
+The `gen-sw.cpp`and `gen-rw.cpp` files are used only for generating graphs and do not run any simulation.
 
 Compile and run with *default values* by doing either of:
 
 ( If you get `Permission denied` try first running `chmod u+x tools/*`. )
 
 - `tools/compileAndRun cov-sim`
-- `tools/compileAndRun matrixDemo`
 - `tools/compileAndRun matrixC19`
-- `tools/compileAndRun gen-graph`
+- `tools/compileAndRun gen-sw`
+- `tools/compileAndRun gen-rg`
 
-Once an executable binary file runs without errors and you don't want to make any more changes to the source code, simply run it as: `bin/cov-sim,` `bin/matrixDemo,` `bin/matrixC19` or `bin/gen-graph` with or without arguments.
+Once an executable binary file runs without errors and you don't want to make any more changes to the source code, simply run it as: `bin/cov-sim`, `bin/matrixC19` or `bin/gen-sw` with or without arguments.
 
 If you want to make a clean compilation (removing **all** binary executables and **all** object files), then do:
 
 - `make clean && make <main-file>`
 
-where you should replace `<main-file>` by `cov-sim`, `matrixDemo` ,`matrixC19` or `gen-graph`.
+where you should replace `<main-file>` by `cov-sim`, `matrixC19`, `gen-sw` or `gen-rg`.
 If you want to leave **all the other** executable binaries intact, but want to remove (and recreate) all the object files, then do:
 
 - `tools/cleanCnR <main-file>`
@@ -114,6 +114,14 @@ The graph setting is a JSON object that depends on the type of graph that should
 
 ```
 {
+    "type": "random_graph", // All agents have the same number of connections
+    "Npop": /* Number of agents (population) */,
+    "N0":   /* Number of connections of almost all agents */
+}
+```
+
+```
+{
     "type": "file_format_simple", // A graph based on a file, simple file format
     "file_name": /* The name of the file being used */
 }
@@ -140,15 +148,17 @@ py/plot_sir.py < output.json
 ```
 It is also possible to pipe the result from `cov-sim` directly. Note that the script is used for plotting the total results, rather than the real-time results. Therefore, the `-t` flag must be inactive:
 ```
-bin/cov-sim -io < settings.json | py/plot_sir.py
+bin/cov-sim -io < sw-2Regions.json | py/plot_sir.py
 ```
-Make sure to make the script runnable with `chmod +x py/plot_sir.py`.
+Make sure the script is runnable with `chmod +x py/plot_sir.py`.
 
 ---
 
 # Graph generator
 
-The `gen-graph` executable can be used to pre-generate Newman-Watts small world graphs, as this can be time-consuming. It has the following flags available:
+#### Newman-Watts small world
+
+The `gen-sw` executable can be used to pre-generate *Newman-Watts small world* graphs, as this can be time-consuming. It has the following flags available:
 
 - `-o` The graph should be put in the standard output stream, in a format readable by the `"file_format_advanced"` option of the settings file.
 - `-r` The input to the program is an already-existing graph, and the graph generated should be added as a region.
@@ -160,9 +170,24 @@ The `gen-graph` executable can be used to pre-generate Newman-Watts small world 
 For example, to generate a *Newman-Watts small world* graph with ***two regions***
 and store it in `sw-2R-fromFile.txt`, you could paste or type:
 
-`bin/gen-graph -o -N 10000 -k 10 -p 0.001 | bin/gen-graph -or -N 5000 -k 15 -p 0.003 > sw-2R-fromFile.txt`
+`bin/gen-sw -o -N 10000 -k 10 -p 0.001 | bin/gen-sw -or -N 5000 -k 15 -p 0.003 > sw-2R-fromFile.txt`
 
 Note the `-r` flag in the command *to the right* of the pipe (`|`) character, which adds the graph generated *to the left* the pipe (`|`) as another region. When the `-r` flag  is used, the input to the executable (on the right side) should be a stream with already-existing graph data. This is the case in this example, since the `-o` flag is active in the command to the left of the pipe. The graph with 10 000 people is thus added as input when generating the graph with 5000 people.
+
+#### "Random" graph - every agent having the same number of connections
+
+The `gen-rg` executable can be used to pre-generate *random* graphs, using the following flags:
+
+- `-o` The graph should be put in the standard output stream, in a format readable by the `"file_format_advanced"` option of the settings file.
+- `-r` The input to the program is an already-existing graph, and the graph generated should be added as a region.
+- `-s` Use a randomized seed for the simulation.
+- `-N` The number of agents. (The population size.)
+- `-c` The number of connected neighbours of an agent.
+
+To generate a corresponding graph with *two regions*, but for a ***random*** graph and store it 
+in `rg-2R-fromFile.txt`, you could paste or type:
+
+`bin/gen-rg -o -N 10000 -c 20 | bin/gen-rg -or -N 5000 -c 30 > rg-2R-fromFile.txt`
 
 ------
 
@@ -201,14 +226,25 @@ where the file `sw-2R-fromFile.json` has the following content:
         "region_connections": [[1],[0]]
     }
 
+Similarly, to use the graph stored in `rg-2R-fromFile.txt`, paste or type:
+
+`bin/cov-sim -ip < rg-2R-fromFile.json`
+
+
 ------
 
 # Simulation examples - graph *not* from a file
 
 If a graph is small enough, you need not generate it first and store it to a file.
-For example, the following generates a graph and runs a simulation with the same parameters as above:
+For example, the following two commands generate *small world* and *random* graphs as above, and run simulations with the same parameters:
 
 `bin/cov-sim -ip < sw-2Regions.json`
+
+`bin/cov-sim -ip < rg-2Regions.json`
+
+and similarly for the matrix model:
+
+`bin/cov-sim -ip < mx-2Regions.json`
 
 Another example generates a graph and runs a simulation for _**three**_ regions:
 
