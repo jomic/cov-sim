@@ -6,7 +6,7 @@
 /**
   Returns a list of strings split by the delimiter
 */
-std::vector<std::string> split (std::string a_string, std::string delimiter);
+std::vector<std::string> split (std::string strng, std::string delimiter);
 
 /**
   Returns n unique random integers between 0 and (excluding) max

@@ -5,19 +5,17 @@
 #include <vector>
 #include "Agent.hpp"
 #include "Group.hpp"
-
 using namespace std;
 
 class Graph {
 public:
-  vector<int> offsets;
-  vector<int> edges;
   vector<Agent> agents;
+  vector<int> neighbrs;
+  vector<int> offsets;
 
   vector<int> region_agent_offsets;
   vector<int> region_connection_offsets;
   vector<int> region_connections;
-
 
   /** Read agent information from file.
      For "file_format_simple" the format of the file should be:
@@ -31,18 +29,22 @@ public:
   */
   void input_from_file(string file_name);
 
-  /** Create a graph with dimensions *size*
-     with same connection as an matrix with
-     distance *distance*.
+  /** Create a graph with population (size·size) with same connections
+     as a matrix with distance *distance*.
   */
   void matrix_graph(int size, int distance);
 
   /**
-    Generate a Newman-Watts small world network
-    from a 1d lattice with length N, neighbourhood
-    radius k, and shortcut probability p
+    Generate a Newman-Watts small world network from a 1d lattice
+    with length N, neighbourhood radius k, and shortcut probability p
    */
   void nw_small_world(int N, int k, float p);
+
+  /**
+    Generate a random network in which (almost) all agents have the same
+    number of connections/neighbours N0 [N0 = (2*D0+1)^2-1] and population N.
+   */
+  void random_graph(int N, int N0);
 
   /**
     Initializes a default graph with no specific
@@ -69,10 +71,10 @@ public:
   int get_agent_region(int id);
 
   /** Get a vector of regions that neighbour a given region*/
-  vector<int> get_neighbouring_regions(int region_id);
+  vector<int> get_neighboring_regions(int region_id);
 
   /** Prints information about the graph */
-  void print_graph();
+  void print_agents_edges_offsets(string model);
 
   /** Print a graph that can be read for generation later on */
   void write_generatable_graph(ostream& stream);
@@ -81,7 +83,7 @@ public:
   void read_generatable_graph(istream& stream);
 
   /** Begins a new region starting after the last created agent */
-  void start_new_region();
+  int start_new_region();
 
   /** Set the connections between regions from a stream input */
   void set_region_connections(istream& stream);
