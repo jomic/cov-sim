@@ -39,3 +39,6 @@ bin/cov-sim -ips < sw,N=2601,k=12,i=4.json
 bin/cov-sim -ips < mx,L=71,D0=5,i=4.json
 bin/cov-sim -ips < rg,N=5041,N0=114,i=4.json
 bin/cov-sim -ips < sw,N=5041,k=57,i=4.json
+bin/cov-sim -ips < rg-vac_strat-high.json
+bin/cov-sim -ips < rg-vac_strat-low.json
+bin/cov-sim -ips < rg-vac_strat-rndm.json
