@@ -30,7 +30,8 @@ void RandomStrategy::vaccinate(Graph& graf, int t) {
   set<int> nums = unique_random_numbers(vaccines, unvaccinated.size());
 
   for (int j : nums) {
-    graf.agents[j].vaccinate(t);
+    int id = unvaccinated[j];
+    graf.agents[id].vaccinate(t);
   }
 
   return;
