@@ -11,16 +11,12 @@ public:
   void vaccinate(Graph& graf, int t);
 };
 
-class PriorityStrategy: public VacStrat {
+class DensityStrategy: public VacStrat {
 protected:
   virtual int get_priority(Graph& graf, int id, int t);
+  int get_density(Graph& graf, int id, int t);
 public:
   void vaccinate(Graph& graf, int t);
-};
-
-class DensityStrategy: public PriorityStrategy {
-protected:
-  int get_density(Graph& graf, int id, int t);
 };
 
 class LowestDensityStrategy: public DensityStrategy {
