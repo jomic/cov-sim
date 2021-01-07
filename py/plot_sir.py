@@ -1,5 +1,9 @@
+#!/usr/bin/env python
+
 import matplotlib.pyplot as plt
 from operator import itemgetter
+import json
+import sys
 
 def read_data():
     f = open("src/data.txt", "r")
@@ -10,15 +14,21 @@ def read_data():
         new_data.append(list(map(int, data_point.split())))
     return new_data
 
+def read_json_stdin():
+    inp = sys.stdin.readlines()[0]
+    data_json = json.loads(inp)
+    return data_json['results']
+    
+
 def main():
 
-    data = read_data()
+    data = read_json_stdin()
 
-    s = list( map(itemgetter(0), data ))
-    a = list( map(itemgetter(1), data ))
-    i = list( map(itemgetter(2), data ))
-    v = list( map(itemgetter(3), data ))
-    r = list( map(itemgetter(4), data ))
+    s = list( map(itemgetter('s'), data ))
+    a = list( map(itemgetter('a'), data ))
+    i = list( map(itemgetter('i'), data ))
+    v = list( map(itemgetter('v'), data ))
+    r = list( map(itemgetter('r'), data ))
 
     t = [i for i in range(len(data))]
     

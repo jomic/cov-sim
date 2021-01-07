@@ -1,0 +1,25 @@
+{
+    "select_all": true,
+    "initial_infections": 4,
+    "T": 71,
+    "T_v": 20,
+    "n_v": 2000,
+    "groups": [{
+        "n_i": 0,
+        "n_ai": 0,
+        "susceptibility": 1.0,
+        "p_i": 0.01,
+        "p_ai": 0,
+        "p_v": 1.0,
+        "d_v": 21,
+        "d_i": 14,
+        "d_ai": 14,
+        "a_p": 0
+    }],
+    "graph": {
+        "type": "random_graph",
+        "Npop": 10000,
+        "N0": 18
+    },
+    "vaccination_strategy": { "type": "random" }
+}

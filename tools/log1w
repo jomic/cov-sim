@@ -3,5 +3,5 @@
 # Uppsala University - 2020 Autumn
 # Copyright (c) 2020 group CovSim2: Henrik Schulze,
 # Christopher Rydell, Jonatan Michalak, Amina Manafli, Wenhao Zhu.
-git fetch; git log origin --since="1 week ago"
+git fetch; git log origin --oneline --since="1 week ago"
 # https://stackoverflow.com/questions/5113425/how-to-make-git-log-show-all-of-todays-commits#31153264

@@ -6,14 +6,14 @@ COMPILER=g++ -c
 COMPILE_FLAGS= -Wall -g -fopenmp -o
 LINKER=g++
 LINK_FLAGS= -fopenmp -lstdc++fs -o
-DEPENDEES = obj/Agent.o obj/Graph.o obj/Results.o obj/Simulator.o obj/IOStreamHandler.o
+DEPENDEES = obj/Agent.o obj/Graph.o obj/IOjson.o obj/Results.o obj/Simulator.o obj/Utils.o obj/VacStrats.o
 
 obj/%.o: src/%.cpp
-	mkdir -p $(@D)
+	@mkdir -p $(@D)
 	$(COMPILER) $? $(COMPILE_FLAGS) $@
 
 bin/%: obj/%.o $(DEPENDEES)
-	mkdir -p $(@D)
+	@mkdir -p $(@D)
 	$(LINKER) $? $(LINK_FLAGS) $@
 
 # Run any program binary:
@@ -35,4 +35,4 @@ clean_binaries:
 
 .PHONY: clean_binaries clean_objects clean
 
-.PRECIOUS: $(DEPENDEES) bin/trivial bin/cov-sim bin/matrix_test bin/matrixC19
+.PRECIOUS: $(DEPENDEES) bin/trivial bin/cov-sim bin/gen-rg bin/gen-sw bin/matrixC19

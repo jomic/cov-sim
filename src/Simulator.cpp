@@ -2,57 +2,70 @@
 #include "Results.hpp"
 #include "Simulator.hpp"
 #include <vector>
-#include <set>
 #include <iostream>
+#include <memory>
+#include "VacStrats.hpp"
+#include "Utils.hpp"
 
-std::set<int> unique_random_numbers(int n, int max) {
-  std::set<int> numbers;
-  if (n > max) {
-    std::cout << "random_numbers: n cant be larger than total\n";
-    return numbers;
+Simulator::Simulator(std::shared_ptr<VacStrat>& vs) {
+  vac_strat = vs;
+}
+
+void Simulator::infect_initial(Graph& graf, int initially_infected) {
+  std::set<int> rand_index
+      = unique_random_numbers(initially_infected, graf.agents_count());
+  for (auto j : rand_index) {
+    graf.agents[j].infect(0);
   }
-  while ((int)numbers.size() < n) {
-      numbers.insert(rand() % max);
+}
+
+void Simulator::iterate(Results& results, Graph& graf, int t) {
+  vac_strat->vaccinate(graf, t);
+  int current_id = 0;
+  int current_region = -1;
+  for (Agent &agent : graf.agents) {
+    if (graf.get_agent_region(current_id++) != current_region) {
+      current_region++;
+      results.prepare_new_region();
     }
-  return numbers;
-}
-
-void Simulator::infect_initial(Graph& edges, int n) {
-  std::set<int> rand_index = unique_random_numbers(n, edges.node_count());
-  for (auto i : rand_index) {
-    edges.node_values[i].infect(0);
-  }
-}
-
-void Simulator::iterate(Results& results, Graph& edges, int t) {
-  for (Agent &node : edges.node_values) {
-    node.update_results(t, results);
-    if (node.is_infected(t)) {
-      if (select_all)
-	node.try_infecting_neighbours(t, edges);
-      else
-	node.try_infecting_n_neighbours(t, edges);
-      node.update_infection(t);
+    agent.update_results(t, results);
+    if (agent.is_infected(t)) {
+      if (agent.is_travelling(t)) {
+        agent.try_infecting_on_travel(t, graf);
+      }
+      else {
+        if (select_all)
+          agent.try_infecting_neighbors(t, graf);
+        else
+          agent.try_infecting_n_neighbors(t, graf);
+      }
+      agent.update_infection(t);
+    }
+    else if (agent.is_vaccinated_susceptible(t)) {
+      agent.update_vaccination(t);
     }
   }
 }
 
-Results Simulator::simulate(Graph& edges) {
+Results Simulator::simulate(Graph& graf, bool print_each_result) {
   Results results;
-  
-  /*
+
+  /**
     Just for now: settings are based on document names,
-    so the variables used in the simulator are assigned 
+    so the variables used in the simulator are assigned
     these values here until we decide which names to use.
   */
-  initial_infections = N;
-  t_end = T;
-  
-  
-  infect_initial(edges, initial_infections);
-  for (int t = 1; t <= t_end; t++) {
+
+  infect_initial(graf, initial_infections);
+  for (int t = 1; t <= (int)T; t++) {
     results.prepare_new_result();
-    iterate(results, edges, t);
+    iterate(results, graf, t);
+    if (print_each_result)
+      results.write_last_to_output(std::cout, true);
   }
   return results;
+}
+
+Results Simulator::simulate(Graph& graf) {
+  return simulate(graf, false);
 }

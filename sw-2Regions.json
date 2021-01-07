@@ -1,0 +1,37 @@
+{
+    "select_all": false,
+    "initial_infections": 1,
+    "T": 110,
+    "T_v": 20,
+    "n_v": 500,
+    "groups": [{
+        "n_i": 1,
+        "n_ai": 3,
+        "susceptibility": 1.0,
+        "p_i": 0.25,
+        "p_ai": 0.35,
+        "p_t": 0.001,
+        "p_at": 0.001,
+        "p_v": 0.9,
+        "d_v": 28,
+        "d_i": 14,
+        "d_ai": 10,
+        "a_p": 0.1
+    }],
+    "graph": [{
+        "type": "nw_small_world",
+        "N": 5000,
+        "k": 15,
+        "p": 0.003
+    },{
+        "type": "nw_small_world",
+        "N": 10000,
+        "k": 10,
+        "p": 0.001 
+    }],
+    "vaccination_strategy": { "type": "random" },
+    "region_connections": [
+        [1],
+        [0]
+    ]
+}

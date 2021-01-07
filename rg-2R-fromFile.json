@@ -1,0 +1,27 @@
+{
+    "select_all": false,
+    "initial_infections": 1,
+    "T": 101,
+    "T_v": 20,
+    "n_v": 400,
+    "groups": [{
+        "n_i": 1,
+        "n_ai": 3,
+        "susceptibility": 1.0,
+        "p_i": 0.25,
+        "p_ai": 0.35,
+        "p_t": 0.001,
+        "p_at": 0.001,
+        "p_v": 0.9,
+        "d_v": 28,
+        "d_i": 14,
+        "d_ai": 10,
+        "a_p": 0.1
+    }],
+    "graph": [{
+        "type": "file_format_advanced",
+        "file_name": "rg-2R-fromFile.txt"
+    }],
+    "vaccination_strategy": { "type": "random" },
+    "region_connections": [[1],[0]]
+}

@@ -1,22 +1,22 @@
 #include <iostream>
-#include <vector>
 #include <memory>
 #include <unistd.h>
+#include <vector>
 #include "Graph.hpp"
+#include "IOjson.hpp"
 #include "Results.hpp"
 #include "Simulator.hpp"
-#include "IOStreamHandler.hpp"
-using namespace std;
 
 int main(int argc, char** argv) {
   bool input_settings = false;
   bool output_results = false;
+  bool realtime_output = false;
   bool randomize_seed = false;
-  bool print_graph = false;
-  
+  bool plot_graph = false;
+
   // Handle flags
   int c;
-  while ((c = getopt(argc, argv, "iorp")) != -1) {
+  while ((c = getopt(argc, argv, "iotps")) != -1) {
     switch (c) {
     case 'i':
       input_settings = true;
@@ -24,46 +24,57 @@ int main(int argc, char** argv) {
     case 'o':
       output_results = true;
       break;
-    case 'r':
-      randomize_seed = true;
+    case 't':
+      realtime_output = true;
       break;
     case 'p':
-      print_graph = true;
+      plot_graph = true;
+      break;
+    case 's':
+      randomize_seed = true;
       break;
     }
   }
-  
+
   // Initialize a seed for the randomizer:
   if (randomize_seed)
     srand(time(NULL));
   else
-    srand(1);
+    srand(5);
 
-  vector<shared_ptr<group_t>> groups;
-  Simulator s;
-  Graph edges;
+  vector<shared_ptr<Group>> groups;
+  Graph graf;
+  shared_ptr<VacStrat> vs = make_shared<NothingStrategy>();
+  Simulator sim(vs);
 
   // Load groups and settings from stream
   if (input_settings) {
-    get_groups_from_stream(cin, groups);
+    get_strategy(cin, vs);
+    sim = Simulator(vs);
     reset_stream(cin);
-    initialize_simulator_from_stream(cin, s);
+    get_groups(cin, groups);
     reset_stream(cin);
-    initialize_graph_from_stream(cin, edges);
+    initialize_simulator(cin, sim);
+    reset_stream(cin);
+    initialize_graph(cin, graf);
   }
   else {
-    edges.default_graph();
+    graf.default_graph();
+    graf.default_region_connections();
   }
 
   // Assign groups to the agents in the graph
-  edges.assign_groups(groups);
+  graf.assign_groups(groups);
 
   // Run the simulation
-  Results results = s.simulate(edges);
+  Results results = sim.simulate(graf, output_results && realtime_output);
 
-  // Output results
-  if (print_graph)
-    results.print(10000);
-  if (output_results)
-    results.write_to_output_stream(cout);
+  // Output results:
+  if (plot_graph) { results.plot(); }
+  else if (!input_settings) {
+    results.plot();
+    graf.print_agents_edges_offsets(" RANDOM graph:");
+  }
+  if (output_results && !realtime_output)
+    results.write_to_output(cout, false);
 }

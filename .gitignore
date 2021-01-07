@@ -12,7 +12,7 @@ bin/*
 obj/*
 
 # Output file:
-data.txt
+*.txt
 
 # Node Modules:
 node_modules
