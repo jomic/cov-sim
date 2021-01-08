@@ -1,6 +1,0 @@
-/home/wezh/workplace/cov-project/cov-sim/backend/build/CMakeFiles/rebuild_cache.dir
-/home/wezh/workplace/cov-project/cov-sim/backend/build/CMakeFiles/edit_cache.dir
-/home/wezh/workplace/cov-project/cov-sim/backend/build/CMakeFiles/backend.dir
-/home/wezh/workplace/cov-project/cov-sim/backend/build/src/CMakeFiles/rebuild_cache.dir
-/home/wezh/workplace/cov-project/cov-sim/backend/build/src/CMakeFiles/edit_cache.dir
-/home/wezh/workplace/cov-project/cov-sim/backend/build/src/CMakeFiles/src.dir

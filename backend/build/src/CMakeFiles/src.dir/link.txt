@@ -1,2 +1,0 @@
-/usr/bin/ar qc libsrc.a  CMakeFiles/src.dir/Agent.cpp.o CMakeFiles/src.dir/cov-sim.cpp.o CMakeFiles/src.dir/gen-graph.cpp.o CMakeFiles/src.dir/Graph.cpp.o CMakeFiles/src.dir/IOjson.cpp.o CMakeFiles/src.dir/Results.cpp.o CMakeFiles/src.dir/Simulator.cpp.o CMakeFiles/src.dir/trivial.cpp.o CMakeFiles/src.dir/Utils.cpp.o CMakeFiles/src.dir/VacStrats.cpp.o
-/usr/bin/ranlib libsrc.a
