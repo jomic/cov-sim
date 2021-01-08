@@ -11,12 +11,13 @@ int main(int argc, char** argv) {
   bool input_settings = false;
   bool output_results = false;
   bool realtime_output = false;
-  bool randomize_seed = false;
+  bool randomize_init = false;
+  bool randomize_sim = false;
   bool plot_graph = false;
 
   // Handle flags
   int c;
-  while ((c = getopt(argc, argv, "iotps")) != -1) {
+  while ((c = getopt(argc, argv, "iotpsz")) != -1) {
     switch (c) {
     case 'i':
       input_settings = true;
@@ -30,14 +31,17 @@ int main(int argc, char** argv) {
     case 'p':
       plot_graph = true;
       break;
+    case 'z':
+      randomize_init = true;
+      break;
     case 's':
-      randomize_seed = true;
+      randomize_sim = true;
       break;
     }
   }
 
   // Initialize a seed for the randomizer:
-  if (randomize_seed)
+  if (randomize_init)
     srand(time(NULL));
   else
     srand(5);
@@ -66,6 +70,11 @@ int main(int argc, char** argv) {
   // Assign groups to the agents in the graph
   graf.assign_groups(groups);
 
+  if (randomize_sim)
+    srand(time(NULL));
+  else
+    srand(5);
+  
   // Run the simulation
   Results results = sim.simulate(graf, output_results && realtime_output);
 
