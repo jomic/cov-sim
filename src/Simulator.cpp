@@ -53,6 +53,8 @@ Results Simulator::simulate(Graph& graf, bool print_each_result, bool randomize_
 
   if (randomize_sim)
     srand(time(NULL));
+  else
+    srand(5);
   
   for (int t = 1; t <= (int)T; t++) {
     results.prepare_new_result();
