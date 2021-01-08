@@ -167,7 +167,8 @@ The `gen-sw` executable can be used to pre-generate *Newman-Watts small world* g
 
 - `-o` The graph should be put in the standard output stream, in a format readable by the `"file_format_advanced"` option of the settings file.
 - `-r` The input to the program is an already-existing graph, and the graph generated should be added as a region.
-- `-s` Use a randomized seed for the simulation.
+- `-z` Use a randomized seed for the initialization of the simulation.
+- `-s` Use a randomized seed for the execution of the simulation.
 - `-N` The number of agents.
 - `-k` The number of connected immediate neighbours on each side of an agent.
 - `-p` The probability of a given non-neighbourhood edge being created.
