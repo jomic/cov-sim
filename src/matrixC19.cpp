@@ -221,8 +221,10 @@ int main(int argc, char *argv[]) {
 }
 /*
 tools/compileAndRun matrixC19
-bin/matrixC19 4  5 14 1 50 0.25 true
-bin/matrixC19 4  7 14 2 60 0.25 true
-bin/matrixC19 4 51 14 2 90 0.25 true
-bin/matrixC19 4 71 14 5 90 0.25 true
+bin/matrixC19 4   5 14 1 50 0.25 true
+bin/matrixC19 4   7 14 2 60 0.25 true
+bin/matrixC19 4  51 14 2 90 0.25 true
+bin/matrixC19 4  71 14 5 90 0.25 true
+bin/matrixC19 4 100 14 2 90 0.25 true
+bin/matrixC19 4 100 14 5 90 0.25 true
 */
