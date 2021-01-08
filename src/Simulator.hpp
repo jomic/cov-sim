@@ -51,7 +51,7 @@ public:
   /**
     Runs a simulation for given settings for the specified graph `graf`.
    */
-  Results simulate(Graph& graf, bool print_each_result);
+  Results simulate(Graph& graf, bool print_each_result, bool randomize_sim);
   Results simulate(Graph& graf);
 
   // Allow the initializer function to access private members

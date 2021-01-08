@@ -47,16 +47,13 @@ void Simulator::iterate(Results& results, Graph& graf, int t) {
   }
 }
 
-Results Simulator::simulate(Graph& graf, bool print_each_result) {
+Results Simulator::simulate(Graph& graf, bool print_each_result, bool randomize_sim) {
   Results results;
-
-  /**
-    Just for now: settings are based on document names,
-    so the variables used in the simulator are assigned
-    these values here until we decide which names to use.
-  */
-
   infect_initial(graf, initial_infections);
+
+  if (randomize_sim)
+    srand(time(NULL));
+  
   for (int t = 1; t <= (int)T; t++) {
     results.prepare_new_result();
     iterate(results, graf, t);
@@ -67,5 +64,5 @@ Results Simulator::simulate(Graph& graf, bool print_each_result) {
 }
 
 Results Simulator::simulate(Graph& graf) {
-  return simulate(graf, false);
+  return simulate(graf, false, false);
 }

@@ -70,13 +70,8 @@ int main(int argc, char** argv) {
   // Assign groups to the agents in the graph
   graf.assign_groups(groups);
 
-  if (randomize_sim)
-    srand(time(NULL));
-  else
-    srand(5);
-  
   // Run the simulation
-  Results results = sim.simulate(graf, output_results && realtime_output);
+  Results results = sim.simulate(graf, output_results && realtime_output, randomize_sim);
 
   // Output results:
   if (plot_graph) { results.plot(); }
