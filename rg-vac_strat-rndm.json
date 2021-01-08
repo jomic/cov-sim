@@ -1,9 +1,9 @@
 {
     "select_all": true,
     "initial_infections": 4,
-    "T": 71,
+    "T": 101,
     "T_v": 20,
-    "n_v": 2000,
+    "n_v": 200,
     "groups": [{
         "n_i": 0,
         "n_ai": 0,
