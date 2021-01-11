@@ -18,7 +18,7 @@
     }],
     "graph": [{
         "type": "file_format_advanced",
-        "file_name": "rg-100k-15-fromFile.txt"
+        "file_name": "rg-1M-15-fromFile.txt"
     }],
-    "vaccination_strategy": { "type": "random" }
+    "vaccination_strategy": { "type": "high_density" }
 }

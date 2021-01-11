@@ -1,7 +1,7 @@
 {
     "select_all": false,
     "initial_infections": 4,
-    "T": 91,
+    "T": 101,
     "T_v": 20,
     "n_v": 2000,
     "groups": [{
