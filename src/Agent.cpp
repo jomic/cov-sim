@@ -3,6 +3,7 @@
 #include "Agent.hpp"
 #include "Graph.hpp"
 #include "Results.hpp"
+#include "Reporter.hpp"
 
 void Agent::try_completing_vaccination() {
   float roll = (float)rand() / (float)RAND_MAX;
@@ -144,18 +145,35 @@ void Agent::update_vaccination(int t) {
 }
 
 void Agent::update_results(int t, Results& results) {
-  if (is_susceptbl || ((is_infectd || is_asymptom) && t == infected_on))
+  int status = 0;
+  if (is_susceptbl || ((is_infectd || is_asymptom) && t == infected_on)) {
     results.add_susceptible();
-  else if (is_asymptom)
+    status = 0;
+  }
+  else if (is_asymptom) {
     results.add_asymptomatic();
-  else if (is_infectd)
+    status = 1;
+  }
+  else if (is_infectd) {
     results.add_infected();
-  else if (is_vaccined)
+    status = 2;
+  }
+  else if (is_vaccined) {
     results.add_vaccinated();
-  else if (is_recovrd)
+    status = 3;
+  }
+  else if (is_recovrd) {
     results.add_removed();
+    status = 4;
+  }
+  report(id, status);
 }
 
 void Agent::vaccinate(int t) {
   vaccinated_on = t;
+}
+
+void Agent::tell_reporter_connections(Graph& graf) {
+  vector<int> neighbors = graf.neighbours(id);
+  report_connections(id, neighbors);
 }

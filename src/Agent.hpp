@@ -108,4 +108,6 @@ public:
     Vaccinate the individual
   */
   void vaccinate(int t);
+
+  void tell_reporter_connections(Graph& graf);
 };

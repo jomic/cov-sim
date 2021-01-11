@@ -3,10 +3,10 @@
 # Copyright (c) 2020 group CovSim2: Henrik Schulze,
 # Christopher Rydell, Jonatan Michalak, Amina Manafli, Wenhao Zhu.
 COMPILER=g++ -c
-COMPILE_FLAGS= -Wall -g -fopenmp -o
+COMPILE_FLAGS= -Wall -g -fopenmp -O3 -o
 LINKER=g++
 LINK_FLAGS= -fopenmp -lstdc++fs -o
-DEPENDEES = obj/Agent.o obj/Graph.o obj/IOjson.o obj/Results.o obj/Simulator.o obj/Utils.o obj/VacStrats.o
+DEPENDEES = obj/Agent.o obj/Graph.o obj/IOjson.o obj/Results.o obj/Simulator.o obj/Utils.o obj/VacStrats.o obj/Reporter.o
 
 obj/%.o: src/%.cpp
 	@mkdir -p $(@D)

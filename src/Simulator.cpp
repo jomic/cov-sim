@@ -6,6 +6,7 @@
 #include <memory>
 #include "VacStrats.hpp"
 #include "Utils.hpp"
+#include "Reporter.hpp"
 
 Simulator::Simulator(std::shared_ptr<VacStrat>& vs) {
   vac_strat = vs;
@@ -62,6 +63,9 @@ Results Simulator::simulate(Graph& graf, bool print_each_result, bool randomize_
     if (print_each_result)
       results.write_last_to_output(std::cout, true);
   }
+  for (auto& agent : graf.agents)
+    agent.tell_reporter_connections(graf);
+  finish_report();
   return results;
 }
 
