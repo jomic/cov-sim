@@ -71,9 +71,6 @@ function MainLayout() {
 
     useEffect(async () => {
         fetchData("/api/simulation", "post");
-        // const request = await fetch("/api/simulation", {method: 'post'});
-        // const response = await request.json();
-        // updateData(response);
     }, []);
 
     const updateData = (response) => {
@@ -102,8 +99,6 @@ function MainLayout() {
         updateData(response);   
     }
 
-    console.log("-- graph ref --", graphDataRef);
-    console.log("-- plot data -- ", plotData);
     return(
         <Layout>
             <Header className="header" style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
@@ -115,24 +110,18 @@ function MainLayout() {
             
                     }}>Covid-19 Simulator</h2>
                 <Menu theme="dark" mode="horizontal"
-                defaultSelectedKeys={['2']}>
-                    <Menu.Item key="1">Home</Menu.Item>
-                    <Menu.Item key="2">Simulator</Menu.Item>
-                    <Menu.Item key="3">About</Menu.Item>
+                defaultSelectedKeys={['simulator']}>
+                    {/* <Menu.Item key="1">Home</Menu.Item> */}
+                    <Menu.Item key="simulator">Simulator</Menu.Item>
+                    <Menu.Item key="about">About</Menu.Item>
                 </Menu>
-                <Switch
-                    checkedChildren='+'
-                    unCheckedChildren='-'
-                    defaultChecked
-                    style={{position: 'absolute', right: '12px'}}
-                />
             </Header>
             <Layout>
                 <Layout style={{ padding: '64px 24px 24px'}} >
                         <Breadcrumb style={{ margin: '16px 0', textAlign: "left"}}>
-                            <Breadcrumb.Item>Home</Breadcrumb.Item>
+                            <Breadcrumb.Item>Simulator</Breadcrumb.Item>
                             <Breadcrumb.Item>Graph-based</Breadcrumb.Item>
-                            <Breadcrumb.Item>Simulation</Breadcrumb.Item>
+                            {/* <Breadcrumb.Item>Simulation</Breadcrumb.Item> */}
                         </Breadcrumb>
                         <Content   
                             className="site-layout-background"
@@ -144,7 +133,7 @@ function MainLayout() {
                         >
                             <Space direction="horizontal">
                                 <Card bordered>
-                                    <h3>Test Data (with states)</h3>
+                                    <h3>Agents Graph</h3>
                                     {graphDataRef.current.nodes && (
                                         <ForceGraph2D 
                                             height={500}
@@ -158,6 +147,7 @@ function MainLayout() {
                                             }}
                                         />
                                     )}
+                                    <h3>Plot</h3>
                                     <Dashboard data={plotData}/>     
                                 </Card>
                             </Space>                            
