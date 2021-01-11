@@ -58,6 +58,12 @@ function MainLayout() {
     });
 
 
+    // function fetchData(endpoint) {
+    //     const request = await fetch("/api/simulation", {method: 'post'});
+    //     const response = await request.json();
+    //     updateData(response);
+    // }
+
     useEffect(async () => {
         const request = await fetch("/api/simulation", {method: 'post'});
         const response = await request.json();

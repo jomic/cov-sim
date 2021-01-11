@@ -3,7 +3,7 @@ const mx_data = require("../src/data/mx_example.json");
 const nw_data = require("../src/data/nw_example.json");
 const test100 = require("../src/data/test_output_gw_sw.json");
 const test100p01 = require("../src/data/test_output_sw100p01.json");
-
+const test100p001 = require("../src/data/test_output_sw100p001.json");
 
 
 function randomState() {
@@ -76,6 +76,24 @@ async function init(port) {
             } 
         };
     })
+
+    server.put("/api/demo/nw-small-world").thenCallback(request => {
+        console.log("demo nw: ", request);
+        return {
+            statusCode: 200,
+            json: {
+                graph: test100,
+                plot: {
+                    s: Math.round(Math.random()*20 + 40),
+                    a: Math.round(Math.random()*10 + 5),
+                    i: Math.round(Math.random()*10 + 1),
+                    v: Math.round(Math.random()*10 + 10),
+                    r: Math.round(Math.random()*10 + 20),
+                }
+            }
+        };
+    })
+
 
     server.put("/api/simulation").thenCallback(request => {
         console.log("post: ", request);

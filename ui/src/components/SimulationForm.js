@@ -37,6 +37,9 @@ const layout = {
       sm: { span: 20, offset: 4 },
     },
   };
+
+
+
 function Region({fields, field, remove}) {
     return(
         <Collapse>
@@ -363,6 +366,23 @@ function SimulationForm() {
         console.log("vaccine is  set to: ", vaccineOnOff)
     }
 
+    const [graphType, setGraphType] = React.useState('default');
+
+    const requestData = async (type) => {
+        const request = await fetch("/api/demo/nw-small-world", {method: 'put'});
+        const response = await request.json();
+        console.log(response);
+        console.log("graph type: ", type);
+        // updateData(response);   
+    }
+
+    const handleSizeChange = e => {
+        console.log(e.target.value);
+        requestData(e.target.value);
+        // setSize(e.target.value);
+    };
+
+
     return(
         <>
             <Form
@@ -396,6 +416,16 @@ function SimulationForm() {
                 onFinishFailed={onFinishFailed}
             > 
                 <Collapse accordion ghost expandIconPosition="right">
+                    <Panel header="Demo" key="demo">
+                        <Radio.Group value={graphType} onChange={handleSizeChange}>
+                            <Radio.Button value="nw-small-world">Newman-Watts Small World Graph</Radio.Button>
+                            <Radio.Button value="mx-graph">Matrix-based Graph</Radio.Button>
+                            <Radio.Button value="random-graph">Randomly Generated Graph</Radio.Button>
+                        </Radio.Group>
+                        <Button type="primary" block>
+                            Run Demo
+                        </Button>
+                    </Panel>
                     <Panel header="General Settings" key="gen-set">
                         <FormItem 
                             label="Timesteps"
