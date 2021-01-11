@@ -138,7 +138,7 @@ function MainLayout() {
                                             height={500}
                                             width={800}
                                             graphData={graphDataRef.current} 
-                                            enableZoomPanInteraction={false}
+                                            enableZoomPanInteraction={true}
                                             nodeLabel="state"
                                             nodeCanvasObject={({ state, x, y }, ctx) => {
                                                 ctx.fillStyle = getStateColor(state);

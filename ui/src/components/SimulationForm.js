@@ -72,6 +72,8 @@ function Region({fields, field, remove}) {
                         <Radio.Group>
                             <Radio.Button value="nw_small_world">Small World</Radio.Button>
                             <Radio.Button value="matrix">Matrix</Radio.Button>
+                            <Radio.Button value="random-graph">Random Graph</Radio.Button>
+
 
                         </Radio.Group>
                     </FormItem>
