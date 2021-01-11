@@ -58,16 +58,22 @@ function MainLayout() {
     });
 
 
-    // function fetchData(endpoint) {
-    //     const request = await fetch("/api/simulation", {method: 'post'});
-    //     const response = await request.json();
-    //     updateData(response);
-    // }
+    async function fetchData(endpoint, method, reset) {
+        const request = await fetch(endpoint, {method: method});
+        const response = await request.json();
+        console.log("response: ", response);
+        if (reset) {
+            graphDataRef.current.nodes = undefined;
+            graphDataRef.current.links = undefined;
+        }
+        updateData(response);
+    }
 
     useEffect(async () => {
-        const request = await fetch("/api/simulation", {method: 'post'});
-        const response = await request.json();
-        updateData(response);
+        fetchData("/api/simulation", "post");
+        // const request = await fetch("/api/simulation", {method: 'post'});
+        // const response = await request.json();
+        // updateData(response);
     }, []);
 
     const updateData = (response) => {
@@ -171,7 +177,7 @@ function MainLayout() {
                         // paddingBottom: "64px",
                         paddingTop: "64px",
                       }}>
-                    <SimulationForm />
+                    <SimulationForm fetchData={fetchData}/>
                     <Button onClick={requestData} style={{marginLeft: "78px"}}>Request Data</Button>
                 </Sider>
             </Layout>

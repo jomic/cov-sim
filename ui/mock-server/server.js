@@ -4,7 +4,35 @@ const nw_data = require("../src/data/nw_example.json");
 const test100 = require("../src/data/test_output_gw_sw.json");
 const test100p01 = require("../src/data/test_output_sw100p01.json");
 const test100p001 = require("../src/data/test_output_sw100p001.json");
-
+const small_graph = 
+    {
+        "nodes": [
+            {"id": 1, "state": 1},
+            {"id": 2, "state": 2},
+            {"id": 3, "state": 3},
+            {"id": 4, "state": 4},
+            {"id": 5, "state": 0},
+            {"id": 6, "state": 0},
+            {"id": 7, "state": 1},
+            {"id": 8, "state": 1},
+            {"id": 9, "state": 2},
+            {"id": 10, "state": 4}
+    
+        ],
+        "links": [
+            {"source": 1, "target": 2, "value": 1},
+            {"source": 1, "target": 3, "value": 1},
+            {"source": 2, "target": 3, "value": 1},
+            {"source": 2, "target": 4, "value": 1},
+            {"source": 2, "target": 5, "value": 1},
+            {"source": 2, "target": 7, "value": 1},
+            {"source": 5, "target": 6, "value": 1},
+            {"source": 6, "target": 7, "value": 1},
+            {"source": 6, "target": 8, "value": 1},
+            {"source": 4, "target": 9, "value": 1},
+            {"source": 5, "target": 10, "value": 1}
+        ]
+    };
 
 function randomState() {
     return Math.floor(Math.random()*4);
@@ -77,24 +105,6 @@ async function init(port) {
         };
     })
 
-    server.put("/api/demo/nw-small-world").thenCallback(request => {
-        console.log("demo nw: ", request);
-        return {
-            statusCode: 200,
-            json: {
-                graph: test100,
-                plot: {
-                    s: Math.round(Math.random()*20 + 40),
-                    a: Math.round(Math.random()*10 + 5),
-                    i: Math.round(Math.random()*10 + 1),
-                    v: Math.round(Math.random()*10 + 10),
-                    r: Math.round(Math.random()*10 + 20),
-                }
-            }
-        };
-    })
-
-
     server.put("/api/simulation").thenCallback(request => {
         console.log("post: ", request);
         const graph = genRandomTree(200);
@@ -143,16 +153,63 @@ async function init(port) {
         };
     })
 
-    server.get("/api/simulation").thenCallback(request => {
-        console.log("request test");
+    // server.get("/api/simulation").thenCallback(request => {
+    //     console.log("request test");
+    //     return {
+    //         statusCode: 200,
+    //         json: {
+    //             hello: "world"
+    //         } 
+    //     };
+    // });
+
+    server.post("/api/demo/nw-small-world").thenCallback(request => {
         return {
             statusCode: 200,
             json: {
-                hello: "world"
-            } 
+                graph: test100p001,
+                plot: {
+                    s: Math.round(Math.random()*20 + 40),
+                    a: Math.round(Math.random()*10 + 5),
+                    i: Math.round(Math.random()*10 + 1),
+                    v: Math.round(Math.random()*10 + 10),
+                    r: Math.round(Math.random()*10 + 20),
+                }
+            }
         };
-    });
+    })
 
+    server.post("/api/demo/random").thenCallback(request => {
+        return {
+            statusCode: 200,
+            json: {
+                graph: test100p01,
+                plot: {
+                    s: Math.round(Math.random()*20 + 40),
+                    a: Math.round(Math.random()*10 + 5),
+                    i: Math.round(Math.random()*10 + 1),
+                    v: Math.round(Math.random()*10 + 10),
+                    r: Math.round(Math.random()*10 + 20),
+                }
+            }
+        };
+    })
+
+    server.post("/api/demo/matrix").thenCallback(request => {
+        return {
+            statusCode: 200,
+            json: {
+                graph: small_graph,
+                plot: {
+                    s: Math.round(Math.random()*20 + 40),
+                    a: Math.round(Math.random()*10 + 5),
+                    i: Math.round(Math.random()*10 + 1),
+                    v: Math.round(Math.random()*10 + 10),
+                    r: Math.round(Math.random()*10 + 20),
+                }
+            }
+        };
+    })
 
 }
 

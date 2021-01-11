@@ -348,7 +348,7 @@ function AgentGroup({fields, field, remove}) {
 
 
 
-function SimulationForm() {
+function SimulationForm({fetchData}) {
     const [vaccineOnOff, setVaccine] = useState(false);
 
     const onFinish = (values) => {
@@ -371,14 +371,15 @@ function SimulationForm() {
     const requestData = async (type) => {
         const request = await fetch("/api/demo/nw-small-world", {method: 'put'});
         const response = await request.json();
-        console.log(response);
-        console.log("graph type: ", type);
+        // console.log(response);
+        // console.log("graph type: ", type);
         // updateData(response);   
     }
 
     const handleSizeChange = e => {
         console.log(e.target.value);
-        requestData(e.target.value);
+        fetchData("/api/demo/" + e.target.value, "post", true);
+        // requestData(e.target.value);
         // setSize(e.target.value);
     };
 
@@ -419,8 +420,8 @@ function SimulationForm() {
                     <Panel header="Demo" key="demo">
                         <Radio.Group value={graphType} onChange={handleSizeChange}>
                             <Radio.Button value="nw-small-world">Newman-Watts Small World Graph</Radio.Button>
-                            <Radio.Button value="mx-graph">Matrix-based Graph</Radio.Button>
-                            <Radio.Button value="random-graph">Randomly Generated Graph</Radio.Button>
+                            <Radio.Button value="matrix">Matrix-based Graph</Radio.Button>
+                            <Radio.Button value="random">Randomly Generated Graph</Radio.Button>
                         </Radio.Group>
                         <Button type="primary" block>
                             Run Demo
