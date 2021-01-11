@@ -12,9 +12,10 @@
 tools/compileAndRun matrixC19
 
 # 2 Regions, matrix, random graph, nw-small-world:
-tools/compileAndRun cov-sim && bin/cov-sim -ip < mx-2Regions.json
-tools/compileAndRun cov-sim && bin/cov-sim -ip < rg-2Regions.json
-tools/compileAndRun cov-sim && bin/cov-sim -ip < sw-2Regions.json
+tools/compileAndRun cov-sim        # This MUST be compiled beforehand.
+bin/cov-sim -ip < mx-2Regions.json
+bin/cov-sim -ip < rg-2Regions.json
+bin/cov-sim -ip < sw-2Regions.json
 
 # Newman-Watts small world network:
 tools/compileAndRun cov-sim && tools/compileAndRun gen-sw
@@ -42,3 +43,11 @@ bin/cov-sim -ips < sw,N=5041,k=57,i=4.json
 bin/cov-sim -ips < rg-vac_strat-high.json
 bin/cov-sim -ips < rg-vac_strat-low.json
 bin/cov-sim -ips < rg-vac_strat-rndm.json
+
+# Random network for 100k agents - each agent has 15 connections:
+tools/compileAndRun cov-sim && tools/compileAndRun gen-rg # Compile first.
+bin/gen-rg -o -N 100000 -c 15 > rg-100k-15-fromFile.txt
+bin/cov-sim -ips < rg-100k-frFile-vs-none.json
+bin/cov-sim -ips < rg-100k-frFile-vs-rndm.json
+bin/cov-sim -ips < rg-100k-frFile-vs-high.json
+bin/cov-sim -ips < rg-100k-frFile-vs-low.json
