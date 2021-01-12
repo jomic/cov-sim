@@ -60,7 +60,7 @@ bin/cov-sim -ips < rg-1M-frFile-vs-low.json
 
 # For the presentation, 10 regions representing the ten largest municipalities of Sweden:
 tools/compileAndRun cov-sim && tools/compileAndRun gen-rg # Compile first.
-bin/gen-rg -o -N 47027 -c 23 | bin/gen-rg -or -N 47723 -c 24 | bin/gen-rg -or -N 49244 -c 25 | bin/gen-rg -or -N 51349 -c 26 | bin/gen-rg -or -N 51898 -c 26 | bin/gen-rg -or -N 54350 -c 28 | bin/gen-rg -or -N 76922 -c 35 | bin/gen-rg -or -N 114722 -c 45 | bin/gen-rg -or -N 193093 -c 56 | bin/gen-rg -or -N 324691 -c 67 > rg_10R_vs-fromFile.txt
+bin/gen-rg -o -N 47027 -c 22 | bin/gen-rg -or -N 47723 -c 23 | bin/gen-rg -or -N 49244 -c 24 | bin/gen-rg -or -N 51349 -c 25 | bin/gen-rg -or -N 51898 -c 26 | bin/gen-rg -or -N 54350 -c 28 | bin/gen-rg -or -N 76922 -c 35 | bin/gen-rg -or -N 114722 -c 45 | bin/gen-rg -or -N 193093 -c 56 | bin/gen-rg -or -N 324691 -c 67 > rg_10R_vs-fromFile.txt
 # ^^ A corresponding graph generation could be done
 # for the Newman-Watts small world as well. See 'sw_10R_vac-none.json'. ^^
 bin/cov-sim -ips < rg_10R_vs-frFile-none.json > rg_10R_vs-RESULT-none.json

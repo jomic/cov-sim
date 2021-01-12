@@ -46,19 +46,19 @@
     },{
         "type": "random_graph",
         "Npop": 51349,
-        "N0": 26
-    },{
-        "type": "random_graph",
-        "Npop": 49244,
         "N0": 25
     },{
         "type": "random_graph",
-        "Npop": 47723,
+        "Npop": 49244,
         "N0": 24
     },{
         "type": "random_graph",
-        "Npop": 47027,
+        "Npop": 47723,
         "N0": 23
+    },{
+        "type": "random_graph",
+        "Npop": 47027,
+        "N0": 22
     }],
     "region_connections": [
         [3, 6, 8],
