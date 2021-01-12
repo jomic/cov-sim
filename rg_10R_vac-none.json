@@ -22,23 +22,23 @@
     "graph": [{
         "type": "random_graph",
         "Npop": 324691,
-        "N0": 325
+        "N0": 67
     },{
         "type": "random_graph",
         "Npop": 193093,
-        "N0": 193
+        "N0": 56
     },{
         "type": "random_graph",
         "Npop": 114722,
-        "N0": 115
+        "N0": 45
     },{
         "type": "random_graph",
         "Npop": 76922,
-        "N0": 38
+        "N0": 35
     },{
         "type": "random_graph",
         "Npop": 54350,
-        "N0": 27
+        "N0": 28
     },{
         "type": "random_graph",
         "Npop": 51898,
@@ -54,11 +54,11 @@
     },{
         "type": "random_graph",
         "Npop": 47723,
-        "N0": 48
+        "N0": 24
     },{
         "type": "random_graph",
         "Npop": 47027,
-        "N0": 47
+        "N0": 23
     }],
     "region_connections": [
         [3, 6, 8],
