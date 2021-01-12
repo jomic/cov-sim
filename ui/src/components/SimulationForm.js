@@ -44,7 +44,7 @@ function Region({fields, field, remove}) {
     return(
         <Collapse>
             <Panel 
-                header={`Region ${field.key}`} 
+                header={`Community ${field.key}`} 
                 key={field.key} 
                 extra={
                     fields.length > 1 ? (
@@ -451,7 +451,7 @@ function SimulationForm({fetchData}) {
                             vaccineOnOff && <Vaccination />
                         }
                     </Panel>
-                    <Panel header="Regions" key="regions-set"> 
+                    <Panel header="Communities" key="regions-set"> 
                         <FormList
                             name="regions"
                         >
