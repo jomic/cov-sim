@@ -165,7 +165,7 @@ void Graph::random_graph(int N, int N0) {
   vector<Agent> agents2add(N);
   for(int j=0; j<N; j++) { agents2add[j]=Agent(j+nr_existing_agents); }
   agents.insert(agents.end(), agents2add.begin(), agents2add.end());
-  int Ne=N*N0, candidateEdge, Nchk1=14*sqrt(sqrt(N));
+  int Ne=N*N0, candidateEdge, Nchk1=17*sqrt(sqrt(N));
   if (N<50) { Nchk1=4*N/5-4; }
   int Nchk2=Nchk1 + 2*N/N0;
   clog << endl << " N = " << N << " , N0 = " << N0
