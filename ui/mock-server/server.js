@@ -4,6 +4,14 @@ const nw_data = require("../src/data/nw_example.json");
 const test100 = require("../src/data/test_output_gw_sw.json");
 const test100p01 = require("../src/data/test_output_sw100p01.json");
 const test100p001 = require("../src/data/test_output_sw100p001.json");
+const testN49 = require("../src/data/swN500VaccineT10.json");
+const rg500 = require("../src/data/rgN500N05p0112.json");
+
+const sw500av = require("../src/data/swN500AsympVaccine.json");
+const sw200av = require("../src/data/swN200k4AsympVaccineNew.json");
+
+
+
 const small_graph = 
     {
         "nodes": [
@@ -54,46 +62,20 @@ async function init(port) {
     console.log("starting server");
     await server.start(port);
     console.log("server started");
+    // console.log("testN49 graph at 10:", testN49.links);
     // mockServer.stop();
     // console.log("server stopped");
 
     server.post("/api/simulation").thenCallback(request => {
         console.log("post: ", request);
-        const graph = genRandomTree(1000);
-        // something 
+        // const graph = genRandomTree(1000);
         return {
             statusCode: 200,
             json: {
-                graph: test100p01, 
-                // {
-                //     "nodes": [
-                //         {"id": 1, "state": 1},
-                //         {"id": 2, "state": 2},
-                //         {"id": 3, "state": 3},
-                //         {"id": 4, "state": 4},
-                //         {"id": 5, "state": 0},
-                //         {"id": 6, "state": 0},
-                //         {"id": 7, "state": 1},
-                //         {"id": 8, "state": 1},
-                //         {"id": 9, "state": 2},
-                //         {"id": 10, "state": 4}
-                
-                //     ],
-                //     "links": [
-                //         {"source": 1, "target": 2, "value": 1},
-                //         {"source": 1, "target": 3, "value": 1},
-                //         {"source": 2, "target": 3, "value": 1},
-                //         {"source": 2, "target": 4, "value": 1},
-                //         {"source": 2, "target": 5, "value": 1},
-                //         {"source": 2, "target": 7, "value": 1},
-                //         {"source": 5, "target": 6, "value": 1},
-                //         {"source": 6, "target": 7, "value": 1},
-                //         {"source": 6, "target": 8, "value": 1},
-                //         {"source": 4, "target": 9, "value": 1},
-                //         {"source": 5, "target": 10, "value": 1}
-                
-                //     ]
-                // },
+                graph: {
+                    "nodes": sw200av.nodes_timeline[0].nodes,
+                    "links": sw200av.links,
+                },
                 plot: {
                     s: 100,
                     a: 10,
@@ -167,7 +149,7 @@ async function init(port) {
         return {
             statusCode: 200,
             json: {
-                graph: test100p001,
+                graph: sw500av,
                 plot: {
                     s: Math.round(Math.random()*20 + 40),
                     a: Math.round(Math.random()*10 + 5),
@@ -183,7 +165,7 @@ async function init(port) {
         return {
             statusCode: 200,
             json: {
-                graph: test100p01,
+                graph: rg500,
                 plot: {
                     s: Math.round(Math.random()*20 + 40),
                     a: Math.round(Math.random()*10 + 5),

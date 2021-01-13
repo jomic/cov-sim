@@ -76,8 +76,6 @@ function Region({fields, field, remove}) {
                             <Radio.Button value="nw_small_world">Small World</Radio.Button>
                             <Radio.Button value="matrix">Matrix</Radio.Button>
                             <Radio.Button value="random-graph">Random Graph</Radio.Button>
-
-
                         </Radio.Group>
                     </FormItem>
                     <FormItem
@@ -98,6 +96,8 @@ function Region({fields, field, remove}) {
                         name={[field.name, 'connections']}
                         fieldKey={[field.fieldKey, 'connections']}
                         label="Connected to"
+                        labelCol={{span: 24}}
+                        // wrapperCol={{span:20}}
                         rules={[
                         {
                             required: false,
@@ -360,10 +360,10 @@ function SimulationForm({fetchData}) {
     };
     
     const onVaccinationSwitch = (checked) => {
-        console.log("vaccine was set to: ", vaccineOnOff)
-        console.log(`switch to ${checked}`);
+        // console.log("vaccine was set to: ", vaccineOnOff)
+        // console.log(`switch to ${checked}`);
         setVaccine(checked);
-        console.log("vaccine is  set to: ", vaccineOnOff)
+        // console.log("vaccine is  set to: ", vaccineOnOff)
     }
 
     const [graphType, setGraphType] = React.useState('default');
@@ -377,7 +377,7 @@ function SimulationForm({fetchData}) {
     }
 
     const handleSizeChange = e => {
-        console.log(e.target.value);
+        // console.log(e.target.value);
         fetchData("/api/demo/" + e.target.value, "post", true);
         // requestData(e.target.value);
         // setSize(e.target.value);
@@ -420,12 +420,9 @@ function SimulationForm({fetchData}) {
                     <Panel header="Demo" key="demo">
                         <Radio.Group value={graphType} onChange={handleSizeChange}>
                             <Radio.Button value="nw-small-world">Newman-Watts Small World Graph</Radio.Button>
-                            <Radio.Button value="matrix">Matrix-based Graph</Radio.Button>
+                            {/* <Radio.Button value="matrix">Matrix-based Graph</Radio.Button> */}
                             <Radio.Button value="random">Randomly Generated Graph</Radio.Button>
                         </Radio.Group>
-                        <Button type="primary" block>
-                            Run Demo
-                        </Button>
                     </Panel>
                     <Panel header="General Settings" key="gen-set">
                         <FormItem 

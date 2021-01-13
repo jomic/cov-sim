@@ -40,7 +40,7 @@ function App() {
         return '#33b2ff';
     }
   } 
-  console.log(testData);
+  // console.log(testData);
   const { useRef } = React;
   const fgRef = useRef();
 

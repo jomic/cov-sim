@@ -7,15 +7,15 @@ import { Button, Space } from 'antd';
 const getLineColor = (n) => {
     switch (n) {
       case 's':
-        return '#03c4a1';
+        return '#ecb01f';
       case 'a':
-        return '#590995';
+        return '#d85218';
       case 'i':
-        return '#c62a88';
+        return '#0071bc';
       case 'v':
-        return '#61b15a';
+        return '#7d2e8d';
       case 'r':
-        return '#150485';
+        return '#76ab2f';
       default:
         return '#33b2ff';
     }
