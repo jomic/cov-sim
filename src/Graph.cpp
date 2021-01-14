@@ -3,6 +3,7 @@
 #include <fstream>
 #include <iostream>
 #include <memory>
+#include <random>
 #include <set>
 #include <string>
 #include <vector>
@@ -26,6 +27,18 @@ string to_string(vector<T> vctr) {
   return to_string;
 }
 
+void construct_csr(vector<unique_ptr<vector<int>>>& adjacencies,
+		   vector<int>& offsets,
+		   vector<int>& neighbors) {
+  int offset = 0;
+  for (auto& adjacency : adjacencies) {
+    offsets.push_back(offset);
+    offset += adjacency->size();
+    for (auto& neighbor : *adjacency)
+      neighbors.push_back(neighbor);
+  }
+}
+
 void Graph::print_agents_edges_offsets(string model) {
   clog << endl << model << endl
     << " agents = " << to_string(agents) << endl
@@ -34,6 +47,20 @@ void Graph::print_agents_edges_offsets(string model) {
     << " agents.size() = " << std::to_string(agents.size()) << endl
     << " neighbrs.size() = " << std::to_string(neighbrs.size()) << endl
     << " offsets.size() = " << std::to_string(offsets.size()) << endl;
+}
+
+void Graph::append_region(vector<int> new_offsets, vector<int> new_neighbors) {
+  int n_existing_neighbors = neighbrs.size();
+  int n_existing_agents = agents.size();
+  int id = n_existing_agents;
+  
+  region_agent_offsets.push_back(n_existing_agents);  
+  for (auto& offset : new_offsets) {
+    offsets.push_back(offset + n_existing_neighbors);
+    agents.push_back(Agent(id++));
+  }
+  for (auto& neighbor : new_neighbors)
+    neighbrs.push_back(neighbor + n_existing_agents);
 }
 
 void Graph::input_from_file(string file_name) {
@@ -98,9 +125,6 @@ bool roll(float p) {
 }
 
 void Graph::nw_small_world(int N, int k, float p) {
-  int nr_existing_agents = start_new_region();
-
-  // Vector for storing connection vectors
   vector<unique_ptr<vector<int>>> adjacencies;
 
   // Create the initial adjacencies
@@ -112,31 +136,24 @@ void Graph::nw_small_world(int N, int k, float p) {
     }
   }
 
-  // Create random adjacencies
+  // Randomize the number of connections
+  std::default_random_engine generator;
   for (int i = 0; i < N; i++) {
-    for (int j = i + k + 1; j < N; j++) {
-      if (j < i + N - k && roll(p)) {
-        adjacencies[i]->push_back(j);
-        adjacencies[j]->push_back(i);
-      }
+    int possible = std::max(0, N - (i + k + 1));
+    std::binomial_distribution<int> distribution(possible, p);
+    int n_connections = distribution(generator);
+    std::set<int> connections = unique_random_numbers(n_connections, possible);
+    for (auto c : connections) {
+      int target = c + i + k + 1;
+      adjacencies[i]->push_back(target);
+      adjacencies[target]->push_back(i);
     }
   }
 
-  // Sort each adjacency list
-#pragma omp parallel for
-  for (int j = 0; j < (int) adjacencies.size(); j++)
-    sort(adjacencies[j]->begin(), adjacencies[j]->end());
-
-  // Store all adjacencies in the compressed row vectors
-  int id = 0;
-  int nr_existing_connections = neighbrs.size();
-  for (auto& adjacency : adjacencies) {
-    agents.push_back(Agent(id++ + nr_existing_agents));
-    offsets.push_back(nr_existing_connections);
-    nr_existing_connections += adjacency->size();
-    for (auto edge : *adjacency)
-      neighbrs.push_back(edge + nr_existing_agents);
-  }
+  vector<int> offsets;
+  vector<int> neighbors;
+  construct_csr(adjacencies, offsets, neighbors);
+  append_region(offsets, neighbors);
 }
 
 vector<int> init_offsets(int N, int N0, int nr_existing_connections) {
@@ -160,6 +177,7 @@ string to_string(set<T> set_) {
   return to_string;
 }
 
+/*
 void Graph::random_graph(int N, int N0) {
   int nr_existing_agents = start_new_region();
   vector<Agent> agents2add(N);
@@ -253,6 +271,44 @@ void Graph::random_graph(int N, int N0) {
   }
   neighbrs.insert(neighbrs.end(), nebrs2ad.begin(), nebrs2ad.end());
   offsets.insert(offsets.end(), offsets2add.begin(), offsets2add.end());
+}
+*/
+
+
+void Graph::random_graph(int N, int N0) {
+  vector<unique_ptr<vector<int>>> adjacencies;
+  vector<int> unfilled;
+  vector<int> degrees;
+  for (int i = 0; i < N; i++) {
+    adjacencies.push_back(make_unique<vector<int>>());
+    unfilled.push_back(i);
+    degrees.push_back(0);
+  }
+
+  int source_id;
+  while (unfilled.size() > 1) {
+    source_id = unfilled.back();
+    unfilled.pop_back();
+    int n_needed = N0 - degrees[source_id];
+    int n_available = unfilled.size();
+    int n_added = min(n_needed, n_available);
+    set<int> targets_set = unique_random_numbers(n_added, n_available);
+    vector<int> targets(targets_set.rbegin(), targets_set.rend());
+
+    for (auto& target : targets) {
+      int target_id = unfilled[target];
+      adjacencies[source_id]->push_back(target_id);
+      adjacencies[target_id]->push_back(source_id);
+      degrees[source_id]++;
+      if (++degrees[target_id] >= N0)
+	unfilled.erase(unfilled.begin() + target);
+    }
+  }
+
+  vector<int> offsets;
+  vector<int> neighbors;
+  construct_csr(adjacencies, offsets, neighbors);
+  append_region(offsets, neighbors);
 }
 
 void Graph::default_graph() {
