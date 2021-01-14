@@ -20,6 +20,11 @@ set<int> unique_random_numbers(int numbr, int max);
 int sum(vector<int> vctr);
 
 /**
+   Sample the generator used for random samples
+ */
+void seed_generator(int seed);
+
+/**
    Sample a bernoulli distribution with success probability p
  */
 bool sample_bernoulli(float p);
@@ -28,3 +33,13 @@ bool sample_bernoulli(float p);
    Sample a binomial distribution with n attempts of probability p 
  */
 int sample_binomial(int n, float p);
+
+/**
+   Sample an integet in the uniform range [a, b]
+ */
+int sample_uniform_int(int a, int b);
+
+/**
+   Sample an integer in the uniform range [0, max)
+ */
+int sample_nonnegative(int max);

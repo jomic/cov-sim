@@ -62,7 +62,7 @@ void Graph::append_region(vector<int> new_offsets, vector<int> new_neighbors) {
 void Graph::assign_groups(vector<shared_ptr<Group>>& groups) {
   if (groups.size() > 0) {
     for (Agent& agent : agents) {
-      int j = rand() % groups.size();
+      int j = sample_nonnegative(groups.size());
       agent.assign_group(groups[j]);
     }
   }

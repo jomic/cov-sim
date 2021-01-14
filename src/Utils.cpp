@@ -14,7 +14,8 @@ set<int> unique_random_numbers(int count, int max) {
   }
   
   while ((int)numbers.size() < count) {
-    numbers.insert(rand() % max);
+    int number = sample_nonnegative(max);
+    numbers.insert(number);
   }
   return numbers;
 }
@@ -54,4 +55,13 @@ bool sample_bernoulli(float p) {
 int sample_binomial(int n, float p) {
   binomial_distribution<int> distribution(n, p);
   return distribution(generator);
+}
+
+int sample_uniform_int(int a, int b) {
+  uniform_int_distribution<int> distribution(a, b);
+  return distribution(generator);
+}
+
+int sample_nonnegative(int max) {
+  return sample_uniform_int(0, max - 1);
 }

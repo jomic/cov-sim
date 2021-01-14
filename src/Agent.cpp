@@ -3,11 +3,11 @@
 #include "Agent.hpp"
 #include "Graph.hpp"
 #include "Results.hpp"
+#include "Utils.hpp"
 
 void Agent::try_completing_vaccination() {
-  float roll = (float)rand() / (float)RAND_MAX;
-  float risk = group->p_v;
-  if (roll < risk) {
+  bool success = sample_bernoulli(group->p_v);
+  if (success) {
     is_vaccined = true;
     is_susceptbl = false;
   }
@@ -16,14 +16,14 @@ void Agent::try_completing_vaccination() {
 void Agent::try_infecting_neighbor(int t, int target_id, Graph& graf) {
   Agent& agent = graf.agents[target_id];
   if (agent.is_susceptible(t)) {
-    float roll = (float)rand() / (float)RAND_MAX;
     float risk;
     if (is_infectd) {
       risk = group->p_i * agent.group->susceptibility;
     } else {
       risk = group->p_ai * agent.group->susceptibility;
     }
-    if (roll < risk)
+    bool success = sample_bernoulli(risk);
+    if (success)
       agent.infect(t);
   }
 }
@@ -69,13 +69,13 @@ bool Agent::is_vaccinated_susceptible(int t) {
 
 bool Agent::is_travelling(int t) {
   float p = is_infectd ? group->p_t : group->p_at;
-  return p > (float) rand() / (float) RAND_MAX;
+  return sample_bernoulli(p);
 }
 
 void Agent::infect(int t) {
   if (is_susceptbl) {
-    float roll = (float)rand() / (float)RAND_MAX;
-    if (roll >= group->a_p) {
+    bool success = sample_bernoulli(group->a_p);
+    if (!success) {
       is_infectd = true;
     } else {
       is_asymptom = true;
@@ -101,7 +101,7 @@ void Agent::try_infecting_n_neighbors(int t, Graph& graf) {
   std::vector<int> n_ids = graf.neighbours(id);
   int attempts = is_infectd ? group->n_i : group->n_ai;
   for (int j = 0; j < attempts; j++) {
-    int target = rand() % n_ids.size();
+    int target = sample_nonnegative(n_ids.size());
     try_infecting_neighbor(t, n_ids[target], graf);
   }
 }
@@ -110,7 +110,7 @@ void Agent::try_infecting_on_travel(int t, Graph& graf) {
   int region = graf.get_agent_region(id);
   std::vector<int> candidate_regions = graf.get_neighboring_regions(region);
   if (candidate_regions.size() > 0) {
-    int destination_index = rand() % candidate_regions.size();
+    int destination_index = sample_nonnegative(candidate_regions.size());
     int destination = candidate_regions[destination_index];
     int dst_start = graf.region_agent_offsets[destination];
     int dst_end;
@@ -121,7 +121,7 @@ void Agent::try_infecting_on_travel(int t, Graph& graf) {
     int n_potential_targets = dst_end - dst_start;
     int n_attempts = is_infectd ? group->n_i : group->n_ai;
     for (int j = 0; j < n_attempts; j++) {
-      int target_id = rand() % n_potential_targets + dst_start;
+      int target_id = sample_nonnegative(n_potential_targets + dst_start);
       try_infecting_neighbor(t, target_id, graf);
     }
   }
