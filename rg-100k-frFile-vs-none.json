@@ -1,0 +1,24 @@
+{
+    "select_all": false,
+    "initial_infections": 4,
+    "T": 101,
+    "T_v": 20,
+    "n_v": 2000,
+    "groups": [{
+        "n_i": 1,
+        "n_ai": 0,
+        "susceptibility": 1.0,
+        "p_i": 0.25,
+        "p_ai": 0.0,
+        "p_v": 1.0,
+        "d_v": 21,
+        "d_i": 14,
+        "d_ai": 14,
+        "a_p": 0.0
+    }],
+    "graph": [{
+        "type": "file_format_advanced",
+        "file_name": "rg-100k-15-fromFile.txt"
+    }],
+    "vaccination_strategy": { "type": "nothing" }
+}

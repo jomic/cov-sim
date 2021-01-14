@@ -1,0 +1,85 @@
+{
+    "select_all": false,
+    "initial_infections": 4,
+    "T": 400,
+    "T_v": 50,
+    "n_v": 10000,
+    "vaccination_strategy": { "type": "nothing" },
+    "groups": [{
+        "n_i": 1,
+        "n_ai": 2,
+        "s": 1.0,
+        "p_i": 0.15,
+        "p_ai": 0.2,
+        "p_t": 0.000001,
+        "p_at": 0.001,
+        "p_v": 0.9,
+        "d_v": 20,
+        "d_i": 14,
+        "d_ai": 12,
+        "a_p": 0.1
+    }],
+    "graph": [{
+        "type": "nw_small_world",
+        "N": 324691,
+        "k": 20,
+        "p": 0.001
+    },{
+        "type": "nw_small_world",
+        "N": 193093,
+        "k": 18,
+        "p": 0.001
+    },{
+        "type": "nw_small_world",
+        "N": 114722,
+        "k": 16,
+        "p": 0.001
+    },{
+        "type": "nw_small_world",
+        "N": 76922,
+        "k": 15,
+        "p": 0.0005
+    },{
+        "type": "nw_small_world",
+        "N": 54350,
+        "k": 15,
+        "p": 0.0005
+    },{
+        "type": "nw_small_world",
+        "N": 51898,
+        "k": 15,
+        "p": 0.0005
+    },{
+        "type": "nw_small_world",
+        "N": 51349,
+        "k": 15,
+        "p": 0.0005
+    },{
+        "type": "nw_small_world",
+        "N": 49244,
+        "k": 15,
+        "p": 0.0005
+    },{
+        "type": "nw_small_world",
+        "N": 47723,
+        "k": 10,
+        "p": 0.001
+    },{
+        "type": "nw_small_world",
+        "N": 47027,
+        "k": 15,
+        "p": 0.001
+    }],
+    "region_connections": [
+        [3, 6, 8],
+        [5, 7, 9],
+        [7, 9],
+        [0, 6],
+        [8, 9],
+        [1, 6],
+        [0, 3, 5],
+        [1, 2],
+        [0, 4],
+        [1, 2, 4]
+    ]
+}
