@@ -63,5 +63,8 @@ int sample_uniform_int(int a, int b) {
 }
 
 int sample_nonnegative(int max) {
-  return sample_uniform_int(0, max - 1);
+  if (max <= 0)
+    return 0;
+  else
+    return sample_uniform_int(0, max - 1);
 }

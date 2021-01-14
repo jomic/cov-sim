@@ -40,6 +40,6 @@ int sample_binomial(int n, float p);
 int sample_uniform_int(int a, int b);
 
 /**
-   Sample an integer in the uniform range [0, max)
+   Sample an integer in the uniform range [0, max), or 0 if max <= 0
  */
 int sample_nonnegative(int max);
