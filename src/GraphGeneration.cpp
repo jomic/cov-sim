@@ -10,14 +10,12 @@
 #include "Utils.hpp"
 
 void construct_csr(vector<unique_ptr<vector<int>>>& adjacencies,
-		   vector<int>& offsets,
-		   vector<int>& neighbors) {
+                   vector<int>& offsets, vector<int>& neighbors) {
   int offset = 0;
   for (auto& adjacency : adjacencies) {
     offsets.push_back(offset);
     offset += adjacency->size();
-    for (auto& neighbor : *adjacency)
-      neighbors.push_back(neighbor);
+    for (auto& neighbor : *adjacency) { neighbors.push_back(neighbor); }
   }
 }
 
@@ -135,7 +133,7 @@ void Graph::random_graph(int N, int N0) {
       adjacencies[target_id]->push_back(source_id);
       degrees[source_id]++;
       if (++degrees[target_id] >= N0)
-	unfilled.erase(unfilled.begin() + target);
+      unfilled.erase(unfilled.begin() + target);
     }
   }
 
