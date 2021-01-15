@@ -6,6 +6,7 @@
 #include "IOjson.hpp"
 #include "Results.hpp"
 #include "Simulator.hpp"
+#include "Utils.hpp"
 
 int main(int argc, char** argv) {
   bool input_settings = false;
@@ -42,9 +43,9 @@ int main(int argc, char** argv) {
 
   // Initialize a seed for the randomizer:
   if (randomize_init)
-    srand(time(NULL));
+    seed_generator(time(NULL));
   else
-    srand(5);
+    seed_generator(5);
 
   vector<shared_ptr<Group>> groups;
   Graph graf;

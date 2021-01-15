@@ -17,6 +17,14 @@ public:
   vector<int> region_connection_offsets;
   vector<int> region_connections;
 
+  /**
+    Append a region to the existing ones. The provided new_offsets 
+    and new_neighbors are shifted to take existing agents into 
+    account, appended to the existing ones, and appropriate additons 
+    are made to the regions.
+   */
+  void append_region(vector<int> new_offsets, vector<int> new_neighbors);
+  
   /** Read agent information from file.
      For "file_format_simple" the format of the file should be:
      NODE_ID CONNECTED_TO_1 CONNECTED_TO_2 ...
@@ -67,7 +75,7 @@ public:
 
   Agent get_agent(int id);
 
-  /** Get the id of the region region the agent with a given id belongs to */
+  /** Get the id of the region the agent with a given id belongs to */
   int get_agent_region(int id);
 
   /** Get a vector of regions that neighbour a given region*/

@@ -52,7 +52,7 @@ bin/cov-sim -ips < rg-100k-frFile-vs-rndm.json
 bin/cov-sim -ips < rg-100k-frFile-vs-high.json
 bin/cov-sim -ips < rg-100k-frFile-vs-low.json
 
-bin/gen-rg -o -N 10000000 -c 15 > rg-1M-15-fromFile.txt
+bin/gen-rg -o -N 1000000 -c 15 > rg-1M-15-fromFile.txt
 bin/cov-sim -ips < rg-1M-frFile-vs-none.json
 bin/cov-sim -ips < rg-1M-frFile-vs-rndm.json
 bin/cov-sim -ips < rg-1M-frFile-vs-high.json

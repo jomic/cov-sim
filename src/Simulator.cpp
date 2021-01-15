@@ -52,9 +52,9 @@ Results Simulator::simulate(Graph& graf, bool print_each_result, bool randomize_
   infect_initial(graf, initial_infections);
 
   if (randomize_sim)
-    srand(time(NULL));
+    seed_generator(time(NULL));
   else
-    srand(5);
+    seed_generator(5);
   
   for (int t = 1; t <= (int)T; t++) {
     results.prepare_new_result();
