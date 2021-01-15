@@ -108,8 +108,7 @@ void Graph::nw_small_world(int N, int k, float p) {
 }
 
 void Graph::random_graph(int N, int N0) {
-  clog << endl << " N = " << N << " , N0 = " << N0
-       << " , Nchk1 = " << Nchk1 << " , Nchk2 = " << Nchk2 << endl;
+  clog << endl << " N = " << N << " , N0 = " << N0 << endl;
   vector<unique_ptr<vector<int>>> adjacencies;
   vector<int> unfilled;
   vector<int> degrees;
