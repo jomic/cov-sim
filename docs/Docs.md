@@ -1,20 +1,19 @@
 
 ## COVID-19 Simulation Model
- -- by Christopher Rydell
 
-This document describes the discrete, agent-based SAIVR model we will implement for our COVID-19 simulation. The first section describes the fundamental model required for the simulation to do something useful, while the second section describes different extensions that could be made to the model. This document does not describe the generation of the graphs used for the simulation.
+This document describes the discrete, agent-based SAIVR model we have implemented for our COVID-19 simulation. The first section describes the fundamental model required for the simulation to do something useful, while the second section describes different extensions that could be made to the model. This document does not describe the generation of the graphs used for the simulation.
 
 
-## Fundamental Model
-The model we will implement is an extension of the SIR model described by Kaxiras and Neofotistos. Our model adds two additional compartments: asymptomatic and vaccinated, and moves from a matrix approach to a graph-based approach. This section describes how this model needs to work to achieve its minimal goals.
+## Current Model
+The model we will implement is an extension of the SIR model described by Kaxiras and Neofotistos[1]. Our model adds two additional compartments: asymptomatic and vaccinated, and moves from a matrix approach to a graph-based approach. This section describes how this model works in order to achieve its minimal goals.
 
 
 ### Model Goals
-Our model should be able to describe how the disease spreads through a population, and should also be able to be used for investigating different vaccination deployment strategies. The basic strategies that could be tried would involve deploying to highly infected areas first, deploying to areas with few infections first, or deploying randomly. We would also like to model asymptomatic behaviour, and according to Kronbichler et al., “Among other factors, age has been described as a risk factor for a more severe disease course, while younger people seem to have mild or even asymptomatic presentations and thus might be crucial in further spreading of the disease”.
+Our model was to be able to describe how the disease spreads through a population, and should also be able to be used for investigating different vaccination deployment strategies. The basic strategies that could be tried would involve deploying to highly infected areas first, deploying to areas with few infections first, or deploying randomly. We would also like to model asymptomatic behaviour, and according to Kronbichler et al.[2], “among other factors, age has been described as a risk factor for a more severe disease course, while younger people seem to have mild or even asymptomatic presentations and thus might be crucial in further spreading of the disease”.
 
 
 ### Model Overview
-Based on the goals for the fundamental model, we need to represent the five different compartments of SAIVR, regions of populations, and age groups. The agents will be connected in an undirected graph, where the edges represent any type of contact between two agents that could transmit the disease. Agents in the same region will have more connections between each other than to agents in other regions, but some cross-region connections will be needed.
+Based on the goals for the model, we needed to represent the five different compartments of SAIVR, regions of populations, and age groups. The agents are connected in an undirected graph, where the edges represent any type of contact between two agents that could transmit the disease. Agents in the same region will have connections between each other, and infection across regions is done through a different mechanic.
 
 
 #### Compartments
@@ -22,8 +21,8 @@ An agent is at any time within one of the compartments **S**usceptible, **A**sym
 
 
 *  Susceptible agents represent people who have not been infected yet, and are able to become asymptomatic, infected or vaccinated.
-*  Asymptomatic agents can infect susceptible agents much like infected agents can, become removed after some time, but are counted separately, have a different infection risk, and are otherwise treated as susceptible.
-*  Infected agents can transmit the infection to susceptible agents and become removed after some time.
+*  Asymptomatic agents can infect susceptible agents much like infected agents can, become recovered after some time, but are counted separately, and can have their parameters set separately.
+*  Infected agents can transmit the infection to susceptible agents and become recovered after some time.
 *  Vaccinated agents can neither spread the disease nor be infected.
 *  Recovered agents can neither spread the disease nor be infected.
 
@@ -45,7 +44,7 @@ Upon being infected, the susceptible agent has some probability of instead becom
 
 
 #### Selecting infection targets
-As mentioned, we will have two methods for selecting neighbours to infect. The first method, from our original model, simply tries to infect all neighbouring agents. The second method, from the other group’s model, selects only a subset of neighbours. Originally, each agent only selected a single random neighbour each time-step. We could add a parameter for this, such that the agent will select n random neighbours to try to infect instead.
+As mentioned, we have two methods for selecting neighbours to infect. The first method simply tries to infect all neighbouring agents. The second method selects only a subset of neighbours, by sampling with replacement. In the original model, each agent only selected a single random neighbour each time step. We have added a parameter for this, such that the agent will select n random neighbours to try to infect instead.
 
 
 #### Age groups
@@ -55,21 +54,17 @@ Each agent belongs to an age group, which lets us model things like e.g. having 
 ![alt_text](3-age-groups.png "Age groups and their parameters.")
 
 
-One set of age groups we could use could be the ones used by Guan et. al., i.e. 0-14, 15-49, 50-64 and >=65.
+One set of age groups that could be used could be the ones used by Guan et. al.[3], i.e. 0-14, 15-49, 50-64 and >=65. The current implementation assigns age groups randomly among all agents, with equal probability for all groups.
 
 
 #### Regions
-Each agent will belong to a specific region, which can represent things like countries, municipalities, or towns. This can be used to model different vaccination strategies by looking at the current compartment counts for each city. The structuring and generation of the regions has more to do with the graph generation than this model description, but we can assume that agents in the same region will have more connections between each other than to other regions. At each time step, the number of agents in each compartment should be counted for each region. This will be useful both for vaccine deployment and visualization of the simulation.
-
-In practice, the regions could simply be represented by an array of offset values. If agents in the same region are always adjacent in the matrix format we use, we can check this array to see which region’s results we should update.
+Each agent will belong to a specific region, which can represent things like countries, municipalities, or towns. Agents in different communities are not connected directly to each other. However, infected agents can travel to neighbouring regions. At each time step, infected and asymptomatic agents sample a Bernoulli distribution to see whether or not they will travel. If they do not travel, they simply try to infect neighbours in their own region as previously described. If they do travel, a random connected region will be selected, and the agent will try to infect random targets in that region.
 
 
 #### Vaccination
-At a certain time step in the simulation, vaccinations will begin to deploy to susceptible and asymptomatic agents. After a certain amount of time, susceptible agents that have been vaccinated will enter the Vaccinated compartment with a given probability. If they do not succeed in being vaccinated, they stay susceptible.
+At a certain time step in the simulation, vaccinations will begin to deploy to susceptible agents. After a certain amount of time, susceptible agents that have been vaccinated will enter the Vaccinated compartment with a given probability. If they do not succeed in being vaccinated, they stay susceptible. If susceptible agents are infected before they succeed in vaccination, vaccination will no longer be possible.
 
-Only a certain amount of vaccines will be available each day, to represent the fact that production takes time. Vaccine deployment can follow different strategies. To begin with, we could use three different strategies. The first one would start by vaccinating regions with high rates of infected and recovered agents. The second one would start by vaccinating regions with low rates. The last one would be to vaccinate arbitrarily throughout the population.
-
-When implementing this, it would make sense to have it be quite modular from the rest of the code, since it seems like something that we might want to extend with more methods.
+Only a certain amount of vaccines will be available each day, to represent the fact that production takes time. Vaccine deployment can follow different strategies. The currently implemented strategies are a random strategy, where every agent has the same probability of being vaccinated, the low density strategy, where agents with few infected neighbours are infected first, and the high density strategy, where agents with many infected neighbours are vaccinated first.
 
 
 #### Parameters
@@ -77,7 +72,7 @@ General parameters:
 
 Selection type - A value that simply tells us whether we should use method (1) or method (2) when selecting neighbours to try to infect.
 
-Vaccine deployment type - Which strategy should be used for deploying the vaccine.
+Vaccination strategy - Which strategy should be used for deploying the vaccine.
 
 T (simulation duration) - The total number of time steps in the simulation
 
@@ -133,34 +128,10 @@ We could do something similar to what the matrix model did with a shrinking valu
 ### Different types of edges
 We could try to integrate something similar to the edges module written earlier in the project in order to represent different types of contact between two agents. This would however probably add a lot of complexity to the graph generation.
 
-(Some unorganized sources I’ve been looking at, some more relevant than others. Leaving them here for quick access)
 
-[https://www.nejm.org/doi/full/10.1056/NEJMoa2002032](https://www.nejm.org/doi/full/10.1056/NEJMoa2002032)
+# References
+[1] Kaxiras, Efthimios, and Georgios Neofotistos. "Multiple epidemic wave model of the covid-19 pandemic: Modeling study." *Journal of Medical Internet Research* 22.7 (2020): e20912.
 
-[https://www.medrxiv.org/content/medrxiv/early/2020/09/24/2020.09.22.20194183.1.full.pdf](https://www.medrxiv.org/content/medrxiv/early/2020/09/24/2020.09.22.20194183.1.full.pdf)
+[2] Kronbichler, Andreas, et al. "Asymptomatic patients as a source of COVID-19 infections: A systematic review and meta-analysis." *International journal of infectious diseases* 98 (2020): 180-186.
 
-[https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7270890/](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7270890/)
-
-[https://link.springer.com/article/10.1007/s11071-020-05704-5](https://link.springer.com/article/10.1007/s11071-020-05704-5)
-
-[https://arxiv.org/pdf/cond-mat/0106096.pdf](https://arxiv.org/pdf/cond-mat/0106096.pdf)
-
-[https://www.researchgate.net/profile/Qaisar_Badshah/publication/280446242_Global_stability_of_SEIVR_epidemic_model_with_generalized_incidence_and_preventive_vaccination/links/562f47b208ae04c2aeb6e74b.pdf](https://www.researchgate.net/profile/Qaisar_Badshah/publication/280446242_Global_stability_of_SEIVR_epidemic_model_with_generalized_incidence_and_preventive_vaccination/links/562f47b208ae04c2aeb6e74b.pdf)
-
-[https://pdfs.semanticscholar.org/cdc7/91e96a0859ae3b78a55064e6526013ad5edf.pdf](https://pdfs.semanticscholar.org/cdc7/91e96a0859ae3b78a55064e6526013ad5edf.pdf)
-
-[https://www.medrxiv.org/content/medrxiv/early/2020/09/24/2020.09.22.20194183.1.full.pdf](https://www.medrxiv.org/content/medrxiv/early/2020/09/24/2020.09.22.20194183.1.full.pdf)
-
-[https://journals.plos.org/plosntds/article?id=10.1371/journal.pntd.0004802](https://journals.plos.org/plosntds/article?id=10.1371/journal.pntd.0004802)
-
-[https://www.researchgate.net/profile/Bryan_Grenfell/publication/7267382_Optimal_reactive_vaccination_strategies_for_a_foot-and-mouth_outbreak_in_the_UK/links/0912f506991d468aff000000/Optimal-reactive-vaccination-strategies-for-a-foot-and-mouth-outbreak-in-the-UK.pdf](https://www.researchgate.net/profile/Bryan_Grenfell/publication/7267382_Optimal_reactive_vaccination_strategies_for_a_foot-and-mouth_outbreak_in_the_UK/links/0912f506991d468aff000000/Optimal-reactive-vaccination-strategies-for-a-foot-and-mouth-outbreak-in-the-UK.pdf)
-
-[https://www.sciencedirect.com/science/article/pii/S1201971220304872#bib0025](https://www.sciencedirect.com/science/article/pii/S1201971220304872#bib0025)
-
-[https://www.nejm.org/doi/full/10.1056/NEJMc2001468](https://www.nejm.org/doi/full/10.1056/NEJMc2001468)
-
-[https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7270890/](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7270890/)
-
-[https://jamanetwork.com/journals/jama/fullarticle/2762028](https://jamanetwork.com/journals/jama/fullarticle/2762028)
-
-[https://barabasi.com/f/67.pdf](https://barabasi.com/f/67.pdf)
+[3] Guan, Wei-jie, et al. "Clinical characteristics of coronavirus disease 2019 in China." *New England journal of medicine* 382.18 (2020): 1708-1720.
