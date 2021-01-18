@@ -39,7 +39,8 @@ The `cov-sim` executable can be run using a JSON-formatted settings stream for i
 - `-t` If the `-o` flag is active, results are outputted in real-time as they become available.
             (If the `-t` flag is not used with `-o`, the results are all outputted when the simulation ends as a single JSON object).
 - `-p` Plot the results in the terminal - along with the SAIVR values.
-- `-s` Use a non-deterministic seed for the simulation.
+- `-z` Use a randomized seed for the initialization of the simulation.
+- `-s` Use a randomized seed for the execution of the simulation.
 
 For example, to run the program with settings from `matrix,L=100,D0=5.json`, a random seed, and output in `resultsMatrix.json`, you can run:
 
@@ -163,12 +164,11 @@ Make sure the script is runnable with `chmod +x py/plot_sir.py`.
 
 #### Newman-Watts small world
 
-The `gen-sw` executable can be used to pre-generate *Newman-Watts small world* graphs, as this can be time-consuming. It has the following flags available:
+The `gen-sw` executable can be used to pre-generate *Newman-Watts small world*[1, 2] graphs, as this can be time-consuming. It has the following flags available:
 
 - `-o` The graph should be put in the standard output stream, in a format readable by the `"file_format_advanced"` option of the settings file.
 - `-r` The input to the program is an already-existing graph, and the graph generated should be added as a region.
-- `-z` Use a randomized seed for the initialization of the simulation.
-- `-s` Use a randomized seed for the execution of the simulation.
+- `-s` Use a randomized seed for generation of the graph.
 - `-N` The number of agents.
 - `-k` The number of connected immediate neighbours on each side of an agent.
 - `-p` The probability of a given non-neighbourhood edge being created.
@@ -257,3 +257,7 @@ Another example generates a graph and runs a simulation for _**three**_ regions:
 `bin/cov-sim -ip < sw-3Regions.json`
 
 ------
+
+# References
+[1] Newman, Mark EJ, and Duncan J. Watts. "Renormalization group analysis of the small-world network model." *Physics Letters A* 263.4-6 (1999): 341-346.
+[2] Wang, Xiao Fan, and Guanrong Chen. "Complex networks: small-world, scale-free and beyond." *IEEE circuits and systems magazine* 3.1 (2003): 6-20.
