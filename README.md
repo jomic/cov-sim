@@ -260,4 +260,5 @@ Another example generates a graph and runs a simulation for _**three**_ regions:
 
 # References
 [1] Newman, Mark EJ, and Duncan J. Watts. "Renormalization group analysis of the small-world network model." *Physics Letters A* 263.4-6 (1999): 341-346.
+
 [2] Wang, Xiao Fan, and Guanrong Chen. "Complex networks: small-world, scale-free and beyond." *IEEE circuits and systems magazine* 3.1 (2003): 6-20.
