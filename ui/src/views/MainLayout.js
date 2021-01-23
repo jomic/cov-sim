@@ -93,19 +93,19 @@ function MainLayout() {
         }
         const plot = response.plot;
         
-        if (resetPlot) {
-            console.log("resetting plot");
-            setPlotData({
-                data: {
-                    s: [plot.s],
-                    a: [plot.a],
-                    i: [plot.i],
-                    v: [plot.v],
-                    r: [plot.r],
-                },
-                labels: [0]
-            });
-        } else {
+        // if (resetPlot) {
+        //     console.log("resetting plot");
+        //     setPlotData({
+        //         data: {
+        //             s: [plot.s],
+        //             a: [plot.a],
+        //             i: [plot.i],
+        //             v: [plot.v],
+        //             r: [plot.r],
+        //         },
+        //         labels: [0]
+        //     });
+        // } else {
             // console.log("plotData s ", plotData.data.s);
             // console.log("plot", plot);
             const state = {
@@ -127,7 +127,7 @@ function MainLayout() {
             // state.data.r = [...state.data.r, plot.r];
             // state.labels = [...state.labels, state.labels.length];    
             // setPlotData(state);
-        }
+        // }
         
     }, [plotData]);
 

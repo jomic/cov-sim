@@ -126,8 +126,12 @@ function Vaccination() {
                 name="vaccination_strategy"
             >
                 <Radio.Group>
-                    <Radio.Button value="none">None</Radio.Button>
                     <Radio.Button value="random">Random</Radio.Button>
+                    <Radio.Button value="uniform">Uniform</Radio.Button>
+                    <Radio.Button value="high-density">High Density</Radio.Button>
+                    <Radio.Button value="low-density">Low Density</Radio.Button>
+
+
                 </Radio.Group>
             </FormItem>
             <FormItem
@@ -231,7 +235,7 @@ function AgentGroup({fields, field, remove}) {
                     </FormItem>
                     <FormItem
                         {...field}
-                        label="Infectiousness Asymptomatic"
+                        label="Infectiousness (Asymptomatic)"
                         labelCol={{span: 24}}
                         // wrapperCol={{span:26}}                        
                         name={[field.name, 'p_ai']}
